@@ -62,6 +62,11 @@
 
 <body>
 
+  <!-- Animated Background Orbs -->
+  <div class="animated-orb orb-1"></div>
+  <div class="animated-orb orb-2"></div>
+  <div class="animated-orb orb-3"></div>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBL4CXVK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
@@ -716,8 +721,8 @@
       if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 80;
-        const connectionDistance = 150;
+        const particleCount = 120;
+        const connectionDistance = 180;
         
         function resizeCanvas() {
           canvas.width = window.innerWidth;
@@ -730,9 +735,11 @@
             particles.push({
               x: Math.random() * canvas.width,
               y: Math.random() * canvas.height,
-              vx: (Math.random() - 0.5) * 0.5,
-              vy: (Math.random() - 0.5) * 0.5,
-              radius: Math.random() * 2 + 1
+              vx: (Math.random() - 0.5) * 1.5,
+              vy: (Math.random() - 0.5) * 1.5,
+              radius: Math.random() * 2.5 + 1,
+              color: ['rgba(102, 126, 234, 0.6)', 'rgba(240, 147, 251, 0.5)', 'rgba(79, 172, 254, 0.6)'][Math.floor(Math.random() * 3)],
+              pulse: Math.random() * Math.PI * 2
             });
           }
         }
@@ -740,7 +747,7 @@
         function drawParticles() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           
-          // Draw connections
+          // Draw connections with gradient effect
           for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
               const dx = particles[i].x - particles[j].x;
@@ -748,10 +755,17 @@
               const distance = Math.sqrt(dx * dx + dy * dy);
               
               if (distance < connectionDistance) {
-                const opacity = (1 - distance / connectionDistance) * 0.15;
+                const opacity = (1 - distance / connectionDistance) * 0.25;
+                
+                // Create gradient lines
+                const gradient = ctx.createLinearGradient(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                gradient.addColorStop(0, `rgba(102, 126, 234, ${opacity})`);
+                gradient.addColorStop(0.5, `rgba(240, 147, 251, ${opacity * 0.8})`);
+                gradient.addColorStop(1, `rgba(79, 172, 254, ${opacity})`);
+                
                 ctx.beginPath();
-                ctx.strokeStyle = `rgba(22, 163, 74, ${opacity})`;
-                ctx.lineWidth = 0.5;
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 1;
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
                 ctx.stroke();
@@ -759,20 +773,36 @@
             }
           }
           
-          // Draw particles
-          particles.forEach(p => {
+          // Draw particles with pulsing effect
+          particles.forEach((p, idx) => {
+            // Add pulsing animation
+            p.pulse += 0.03;
+            const pulseSize = Math.sin(p.pulse) * 0.5 + 0.5;
+            const particleRadius = p.radius * (0.8 + pulseSize * 0.4);
+            
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(22, 163, 74, 0.4)';
+            ctx.arc(p.x, p.y, particleRadius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            
+            // Add glow effect
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, particleRadius * 2, 0, Math.PI * 2);
+            ctx.fillStyle = p.color.replace('0.6', '0.1').replace('0.5', '0.1');
             ctx.fill();
             
             // Update position
             p.x += p.vx;
             p.y += p.vy;
             
-            // Bounce off edges
-            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            // Bounce off edges with smooth deceleration
+            if (p.x < 0) { p.vx = Math.abs(p.vx) * 0.8; p.x = 0; }
+            if (p.x > canvas.width) { p.vx = -Math.abs(p.vx) * 0.8; p.x = canvas.width; }
+            if (p.y < 0) { p.vy = Math.abs(p.vy) * 0.8; p.y = 0; }
+            if (p.y > canvas.height) { p.vy = -Math.abs(p.vy) * 0.8; p.y = canvas.height; }
+            
+            // Add subtle gravity
+            p.vy += 0.05;
           });
           
           requestAnimationFrame(drawParticles);
