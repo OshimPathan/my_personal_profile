@@ -76,26 +76,15 @@ body {
 }
 
 /* ============================================
-   THEME VARIABLES - LIGHT MODE (iOS 26 Glass)
+   THEME VARIABLES - CLEAN ACADEMIC STYLE
    ============================================ */
 :root {
-  --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 50%, #dfe6ee 100%);
-  --card-bg: rgba(255, 255, 255, 0.45);
-  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --text-color: #1f2937;
-  --link-color: #16a34a;
-  --link-hover: #22c55e;
-  --heading-color: #16a34a;
-  --border-color: rgba(255, 255, 255, 0.5);
-  
-  /* iOS 26 Glass Effect Variables */
-  --glass-bg: rgba(255, 255, 255, 0.35);
-  --glass-bg-hover: rgba(255, 255, 255, 0.5);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  --glass-blur: blur(20px);
-  --glass-blur-heavy: blur(40px);
-  --glass-highlight: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --link-color: #1772d0;
+  --link-hover: #f09228;
+  --heading-color: #111111;
+  --border-color: #eeeeee;
 }
 
 /* ============================================
@@ -121,9 +110,11 @@ body {
 
 /* Apply theme variables */
 body {
-  background: var(--bg-gradient);
-  background-attachment: fixed;
+  background: var(--bg-color);
   color: var(--text-color);
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 a {
@@ -135,6 +126,11 @@ a:focus,
 a:hover {
   color: var(--link-hover);
   text-decoration: none;
+}
+
+/* Main Container */
+.main-container {
+  padding: 20px 10px;
 }
 
 /* ============================================
@@ -1640,36 +1636,22 @@ strong {
    ============================================ */
 heading {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   display: block;
   text-align: left;
   margin-bottom: 15px;
-  padding-bottom: 12px;
-  border-bottom: 3px solid transparent;
-  border-image: linear-gradient(90deg, #22c55e, #4ade80, #86efac) 1;
-  position: relative;
-  color: #22c55e;
+  padding-bottom: 8px;
+  border-bottom: none;
+  color: #111111;
 }
 
 heading::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #22c55e, #4ade80);
-  border-radius: 2px;
+  display: none;
 }
 
 [data-theme="dark"] heading {
-  color: #22c55e;
-  border-image: linear-gradient(90deg, #22c55e, #4ade80, #86efac) 1;
-}
-
-[data-theme="dark"] heading::before {
-  background: linear-gradient(90deg, #22c55e, #4ade80);
+  color: #ffffff;
 }
 
 /* Section container styling */
@@ -1712,14 +1694,14 @@ table[style*="max-width:800px"] tbody tr + tr {
 
 papertitle {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
-  color: #22c55e;
+  color: #1772d0;
   transition: color 0.3s ease;
 }
 
 papertitle:hover {
-  color: #4ade80;
+  color: #f09228;
 }
 
 [data-theme="dark"] papertitle {
@@ -1734,17 +1716,11 @@ name {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
   font-weight: 700;
-  background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #111111;
 }
 
 [data-theme="dark"] name {
-  background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
 }
 
 /* Sidebar removed - using top header now */
