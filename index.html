@@ -751,9 +751,9 @@
 
   <!-- Theme Toggle & Sidebar Script -->
   <script>
-    // Check for saved theme preference or default to light
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    // Force light theme and clear any old saved preference
+    localStorage.removeItem('theme');
+    document.documentElement.setAttribute('data-theme', 'light');
 
     // Mobile menu toggle
     function toggleMobileMenu() {
