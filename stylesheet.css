@@ -79,18 +79,18 @@ body {
    THEME VARIABLES - GLASS ACADEMIC STYLE
    ============================================ */
 :root {
-  --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 50%, #dfe6ee 100%);
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
   --bg-color: #ffffff;
-  --text-color: #333333;
-  --link-color: #1772d0;
-  --link-hover: #f09228;
-  --heading-color: #111111;
-  --border-color: #eeeeee;
+  --text-color: #1a1a2e;
+  --link-color: #667eea;
+  --link-hover: #764ba2;
+  --heading-color: #667eea;
+  --border-color: rgba(102, 126, 234, 0.2);
   
   /* Glass Effect Variables */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
   --glass-blur: blur(20px);
 }
 
@@ -98,21 +98,21 @@ body {
    DARK MODE (iOS 26 Glass - optional)
    ============================================ */
 [data-theme="dark"] {
-  --bg-gradient: linear-gradient(135deg, #0a0f1a 0%, #0d1421 50%, #0a1018 100%);
+  --bg-gradient: linear-gradient(135deg, #1a1a3e 0%, #16213e 25%, #0f3460 50%, #1a2d4d 75%, #16213e 100%);
   --card-bg: rgba(30, 35, 45, 0.4);
-  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  --text-color: #e0e0e0;
-  --link-color: #22c55e;
-  --link-hover: #4ade80;
-  --heading-color: #22c55e;
-  --border-color: rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+  --text-color: #e8e8ff;
+  --link-color: #667eea;
+  --link-hover: #f093fb;
+  --heading-color: #764ba2;
+  --border-color: rgba(102, 126, 234, 0.3);
   
   /* iOS 26 Glass Effect Variables - Dark */
-  --glass-bg: rgba(30, 35, 45, 0.35);
-  --glass-bg-hover: rgba(40, 45, 55, 0.5);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --glass-highlight: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
+  --glass-bg: rgba(30, 35, 60, 0.45);
+  --glass-bg-hover: rgba(40, 50, 80, 0.6);
+  --glass-border: 1px solid rgba(102, 126, 234, 0.3);
+  --glass-shadow: 0 8px 32px rgba(102, 126, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --glass-highlight: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.1) 50%, transparent 100%);
 }
 
 /* Apply theme variables */
