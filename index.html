@@ -38,7 +38,7 @@
   <meta name="description"
     content="Software engineer from Nepal and VIT Vellore graduate, aiming to join Google or a top MAANG company while building scalable AI and cloud platforms.">
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=4.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=5.0">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
 
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -749,6 +749,57 @@
     <a href="https://jonbarron.info/">page template</a>
   </p> -->
 
+  <!-- AI Chatbot Widget -->
+  <div class="chatbot-container" id="chatbot">
+    <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open chat">
+      <svg class="chat-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        <circle cx="8" cy="10" r="1.5"/>
+        <circle cx="12" cy="10" r="1.5"/>
+        <circle cx="16" cy="10" r="1.5"/>
+      </svg>
+      <svg class="close-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" style="display:none">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+      <span class="chat-pulse"></span>
+    </button>
+    
+    <div class="chatbot-window" id="chatbotWindow">
+      <div class="chatbot-header">
+        <div class="chatbot-avatar">
+          <img src="images/profile.png" alt="Oshim" onerror="this.innerHTML='🤖'">
+        </div>
+        <div class="chatbot-info">
+          <h4>Oshim's Assistant</h4>
+          <span class="chatbot-status"><span class="status-dot"></span> Online</span>
+        </div>
+        <button class="chatbot-close" onclick="toggleChatbot()">&times;</button>
+      </div>
+      
+      <div class="chatbot-messages" id="chatMessages">
+        <div class="chat-message bot">
+          <div class="message-content">
+            <p>👋 Hi! I'm Oshim's AI assistant. Ask me anything about:</p>
+            <div class="quick-actions">
+              <button class="quick-btn" onclick="sendQuickMessage('skills')">💻 Skills</button>
+              <button class="quick-btn" onclick="sendQuickMessage('experience')">💼 Experience</button>
+              <button class="quick-btn" onclick="sendQuickMessage('projects')">🚀 Projects</button>
+              <button class="quick-btn" onclick="sendQuickMessage('education')">🎓 Education</button>
+              <button class="quick-btn" onclick="sendQuickMessage('contact')">📧 Contact</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chatbot-input">
+        <input type="text" id="chatInput" placeholder="Ask me anything..." onkeypress="handleChatKeypress(event)">
+        <button class="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Theme Toggle & Sidebar Script -->
   <script>
     // Force light theme and clear any old saved preference
@@ -981,6 +1032,209 @@
     
     // Start typing animation
     setTimeout(typeRole, 1500);
+
+    // ============================================
+    // CHATBOT FUNCTIONALITY
+    // ============================================
+    
+    // Oshim's information database
+    const oshimData = {
+      name: "Oshim Pathan",
+      location: "Devdaha, Rupandehi, Nepal",
+      email: "work.oshimkhan@gmail.com",
+      linkedin: "linkedin.com/in/oshim7786",
+      github: "github.com/OshimPathan",
+      education: {
+        degree: "B.Tech in Computer Science and Engineering",
+        university: "VIT Vellore, India",
+        year: "2021 - 2025",
+        gpa: "8.5+ CGPA"
+      },
+      skills: {
+        languages: ["Python", "JavaScript", "TypeScript", "Java", "C++", "SQL"],
+        frontend: ["React.js", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
+        backend: ["Node.js", "Express.js", "FastAPI", "Django"],
+        cloud: ["AWS", "Google Cloud", "Firebase", "Docker", "Kubernetes"],
+        ai_ml: ["TensorFlow", "PyTorch", "Scikit-learn", "OpenAI API", "LangChain"],
+        databases: ["MongoDB", "PostgreSQL", "MySQL", "Redis"],
+        tools: ["Git", "GitHub", "VS Code", "Postman", "Figma"]
+      },
+      projects: [
+        { name: "HealthSync AI", desc: "Cloud-connected health platform with real-time vital monitoring and AI analysis" },
+        { name: "AeroStream", desc: "Contactless disease screening using breath signal analysis" },
+        { name: "MediCare Plus", desc: "Full-stack healthcare platform with AI-powered chatbot" },
+        { name: "Nike Store Clone", desc: "E-commerce platform with React and modern UI/UX" }
+      ],
+      experience: [
+        { role: "Software Engineering Intern", company: "Tech Company", duration: "2024" },
+        { role: "Full Stack Developer", company: "Freelance Projects", duration: "2022-Present" }
+      ],
+      goals: "Aiming to join Google or top MAANG companies while building scalable AI and cloud platforms",
+      availability: "Open to Software Engineering, AI/ML, and Cloud Development opportunities"
+    };
+
+    function toggleChatbot() {
+      const window = document.getElementById('chatbotWindow');
+      const toggle = document.getElementById('chatbotToggle');
+      const chatIcon = toggle.querySelector('.chat-icon');
+      const closeIcon = toggle.querySelector('.close-icon');
+      
+      window.classList.toggle('open');
+      
+      if (window.classList.contains('open')) {
+        chatIcon.style.display = 'none';
+        closeIcon.style.display = 'block';
+      } else {
+        chatIcon.style.display = 'block';
+        closeIcon.style.display = 'none';
+      }
+    }
+
+    document.getElementById('chatbotToggle').addEventListener('click', toggleChatbot);
+
+    function handleChatKeypress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+      
+      addMessage(message, 'user');
+      input.value = '';
+      
+      // Show typing indicator
+      showTyping();
+      
+      // Generate response after delay
+      setTimeout(() => {
+        hideTyping();
+        const response = generateResponse(message);
+        addMessage(response, 'bot');
+      }, 800 + Math.random() * 700);
+    }
+
+    function sendQuickMessage(topic) {
+      const questions = {
+        skills: "What are Oshim's technical skills?",
+        experience: "Tell me about Oshim's work experience",
+        projects: "What projects has Oshim worked on?",
+        education: "What is Oshim's educational background?",
+        contact: "How can I contact Oshim?"
+      };
+      
+      addMessage(questions[topic], 'user');
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        const response = generateResponse(questions[topic]);
+        addMessage(response, 'bot');
+      }, 800 + Math.random() * 700);
+    }
+
+    function addMessage(text, sender) {
+      const messagesDiv = document.getElementById('chatMessages');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `chat-message ${sender}`;
+      messageDiv.innerHTML = `<div class="message-content"><p>${text}</p></div>`;
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function showTyping() {
+      const messagesDiv = document.getElementById('chatMessages');
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'chat-message bot typing-indicator';
+      typingDiv.id = 'typingIndicator';
+      typingDiv.innerHTML = '<div class="message-content"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+      messagesDiv.appendChild(typingDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function hideTyping() {
+      const typing = document.getElementById('typingIndicator');
+      if (typing) typing.remove();
+    }
+
+    function generateResponse(query) {
+      const q = query.toLowerCase();
+      
+      // Skills
+      if (q.includes('skill') || q.includes('technology') || q.includes('tech stack') || q.includes('know')) {
+        return `🛠️ <strong>Oshim's Tech Stack:</strong><br><br>
+          <strong>Languages:</strong> ${oshimData.skills.languages.join(', ')}<br>
+          <strong>Frontend:</strong> ${oshimData.skills.frontend.join(', ')}<br>
+          <strong>Backend:</strong> ${oshimData.skills.backend.join(', ')}<br>
+          <strong>Cloud:</strong> ${oshimData.skills.cloud.join(', ')}<br>
+          <strong>AI/ML:</strong> ${oshimData.skills.ai_ml.join(', ')}`;
+      }
+      
+      // Education
+      if (q.includes('education') || q.includes('study') || q.includes('university') || q.includes('degree') || q.includes('college')) {
+        return `🎓 <strong>Education:</strong><br><br>
+          <strong>${oshimData.education.degree}</strong><br>
+          📍 ${oshimData.education.university}<br>
+          📅 ${oshimData.education.year}<br>
+          ⭐ ${oshimData.education.gpa}`;
+      }
+      
+      // Projects
+      if (q.includes('project') || q.includes('work') || q.includes('built') || q.includes('portfolio')) {
+        let projectList = oshimData.projects.map(p => `<strong>${p.name}:</strong> ${p.desc}`).join('<br>');
+        return `🚀 <strong>Featured Projects:</strong><br><br>${projectList}<br><br>Check out the Projects section for more details!`;
+      }
+      
+      // Experience
+      if (q.includes('experience') || q.includes('job') || q.includes('intern') || q.includes('company')) {
+        let expList = oshimData.experience.map(e => `<strong>${e.role}</strong> at ${e.company} (${e.duration})`).join('<br>');
+        return `💼 <strong>Experience:</strong><br><br>${expList}<br><br>${oshimData.availability}`;
+      }
+      
+      // Contact
+      if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire') || q.includes('connect')) {
+        return `📧 <strong>Get in Touch:</strong><br><br>
+          <strong>Email:</strong> ${oshimData.email}<br>
+          <strong>LinkedIn:</strong> ${oshimData.linkedin}<br>
+          <strong>GitHub:</strong> ${oshimData.github}<br>
+          <strong>Location:</strong> ${oshimData.location}<br><br>
+          Feel free to send a message via the contact form below! ⬇️`;
+      }
+      
+      // About / Who
+      if (q.includes('who') || q.includes('about') || q.includes('yourself') || q.includes('oshim')) {
+        return `👋 <strong>About Oshim:</strong><br><br>
+          I'm ${oshimData.name}, a software engineer from ${oshimData.location}. 
+          Currently pursuing ${oshimData.education.degree} at ${oshimData.education.university}.<br><br>
+          🎯 ${oshimData.goals}`;
+      }
+      
+      // Goals / Future
+      if (q.includes('goal') || q.includes('future') || q.includes('aim') || q.includes('dream')) {
+        return `🎯 <strong>Oshim's Goals:</strong><br><br>${oshimData.goals}<br><br>Currently ${oshimData.availability.toLowerCase()}.`;
+      }
+      
+      // Location
+      if (q.includes('where') || q.includes('location') || q.includes('from') || q.includes('live')) {
+        return `📍 Oshim is from <strong>${oshimData.location}</strong> and studied at <strong>${oshimData.education.university}</strong>.`;
+      }
+      
+      // Greeting
+      if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
+        return `👋 Hello! I'm Oshim's AI assistant. I can tell you about his skills, projects, education, experience, and how to contact him. What would you like to know?`;
+      }
+      
+      // Thanks
+      if (q.includes('thank') || q.includes('thanks')) {
+        return `😊 You're welcome! Feel free to ask anything else about Oshim, or use the contact form to reach out directly!`;
+      }
+      
+      // Default
+      return `🤔 I can help you learn about Oshim's <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, or <strong>contact info</strong>. Try asking about any of these topics!`;
+    }
   </script>
 </body>
 
