@@ -72,6 +72,11 @@
     <div class="binary-column" id="binaryCol1"></div>
     <div class="binary-column" id="binaryCol2"></div>
     <div class="binary-column" id="binaryCol3"></div>
+    <div class="binary-column" id="binaryCol4"></div>
+    <div class="binary-column" id="binaryCol5"></div>
+    <div class="binary-column" id="binaryCol6"></div>
+    <div class="binary-column" id="binaryCol7"></div>
+    <div class="binary-column" id="binaryCol8"></div>
   </div>
 
   <!-- Google Tag Manager (noscript) -->
@@ -1078,7 +1083,7 @@
     // HACKER STYLE BINARY DISPLAY
     // ============================================
     function initBinaryDisplay() {
-      const columns = ['binaryCol1', 'binaryCol2', 'binaryCol3'];
+      const columns = ['binaryCol1', 'binaryCol2', 'binaryCol3', 'binaryCol4', 'binaryCol5', 'binaryCol6', 'binaryCol7', 'binaryCol8'];
       
       function generateBinaryDigits(count) {
         let binary = '';
@@ -1092,7 +1097,7 @@
         const column = document.getElementById(columnId);
         if (!column) return;
         
-        const digits = generateBinaryDigits(20);
+        const digits = generateBinaryDigits(40);
         
         // Clear current content with fade animation
         column.innerHTML = '';
@@ -1102,7 +1107,7 @@
           const charSpan = document.createElement('span');
           charSpan.className = 'binary-char';
           charSpan.textContent = digit;
-          charSpan.style.animationDelay = `${index * 0.05}s`;
+          charSpan.style.animationDelay = `${index * 0.02}s`;
           column.appendChild(charSpan);
         });
       }
@@ -1110,25 +1115,26 @@
       // Initialize all columns
       columns.forEach(col => updateBinaryColumn(col));
       
-      // Update columns at different intervals for cascading effect
-      setInterval(() => updateBinaryColumn('binaryCol1'), 3000);
-      setInterval(() => updateBinaryColumn('binaryCol2'), 3500);
-      setInterval(() => updateBinaryColumn('binaryCol3'), 4000);
+      // Update columns at staggered intervals for cascading effect
+      const intervals = [3000, 3500, 4000, 4500, 3200, 3800, 4200, 2800];
+      columns.forEach((col, index) => {
+        setInterval(() => updateBinaryColumn(col), intervals[index]);
+      });
       
-      // Add some random flicker effect for authenticity
+      // Subtle flicker effect for authenticity - less frequent
       setInterval(() => {
         columns.forEach(columnId => {
-          if (Math.random() > 0.7) {
+          if (Math.random() > 0.85) {
             const column = document.getElementById(columnId);
             if (column) {
-              column.style.opacity = '0.3';
+              column.style.opacity = '0.15';
               setTimeout(() => {
-                column.style.opacity = '0.9';
-              }, 100);
+                column.style.opacity = '0.35';
+              }, 30 + Math.random() * 70);
             }
           }
         });
-      }, 2000);
+      }, 2500);
     }
     
     // Initialize binary display when DOM is ready
