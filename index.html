@@ -67,6 +67,13 @@
   <div class="animated-orb orb-2"></div>
   <div class="animated-orb orb-3"></div>
 
+  <!-- Hacker Style Binary Display -->
+  <div class="binary-hacker">
+    <div class="binary-column" id="binaryCol1"></div>
+    <div class="binary-column" id="binaryCol2"></div>
+    <div class="binary-column" id="binaryCol3"></div>
+  </div>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBL4CXVK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
@@ -1065,6 +1072,70 @@
       
       // Default
       return `🤔 I can help you learn about Oshim's <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, or <strong>contact info</strong>. Try asking about any of these topics!`;
+    }
+
+    // ============================================
+    // HACKER STYLE BINARY DISPLAY
+    // ============================================
+    function initBinaryDisplay() {
+      const columns = ['binaryCol1', 'binaryCol2', 'binaryCol3'];
+      
+      function generateBinaryDigits(count) {
+        let binary = '';
+        for (let i = 0; i < count; i++) {
+          binary += Math.random() > 0.5 ? '1' : '0';
+        }
+        return binary;
+      }
+      
+      function updateBinaryColumn(columnId) {
+        const column = document.getElementById(columnId);
+        if (!column) return;
+        
+        const digits = generateBinaryDigits(20);
+        
+        // Clear current content with fade animation
+        column.innerHTML = '';
+        
+        // Add each digit with staggered animation
+        digits.split('').forEach((digit, index) => {
+          const charSpan = document.createElement('span');
+          charSpan.className = 'binary-char';
+          charSpan.textContent = digit;
+          charSpan.style.animationDelay = `${index * 0.05}s`;
+          column.appendChild(charSpan);
+        });
+      }
+      
+      // Initialize all columns
+      columns.forEach(col => updateBinaryColumn(col));
+      
+      // Update columns at different intervals for cascading effect
+      setInterval(() => updateBinaryColumn('binaryCol1'), 3000);
+      setInterval(() => updateBinaryColumn('binaryCol2'), 3500);
+      setInterval(() => updateBinaryColumn('binaryCol3'), 4000);
+      
+      // Add some random flicker effect for authenticity
+      setInterval(() => {
+        columns.forEach(columnId => {
+          if (Math.random() > 0.7) {
+            const column = document.getElementById(columnId);
+            if (column) {
+              column.style.opacity = '0.3';
+              setTimeout(() => {
+                column.style.opacity = '0.9';
+              }, 100);
+            }
+          }
+        });
+      }, 2000);
+    }
+    
+    // Initialize binary display when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBinaryDisplay);
+    } else {
+      initBinaryDisplay();
     }
   </script>
 </body>

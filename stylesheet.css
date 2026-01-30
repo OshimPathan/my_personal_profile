@@ -200,6 +200,104 @@ body {
   animation: orbitParticle 18s ease-in-out infinite;
 }
 
+/* ============================================
+   HACKER STYLE BINARY DISPLAY
+   ============================================ */
+.binary-hacker {
+  position: fixed;
+  top: 0;
+  right: 30px;
+  height: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  padding-top: 80px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.binary-column {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  line-height: 1.3;
+  color: #00ff41;
+  text-shadow: 0 0 10px #00ff41, 0 0 20px rgba(0, 255, 65, 0.3);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  word-wrap: break-word;
+  max-width: 50px;
+  overflow: hidden;
+  animation: codeGlow 3s ease-in-out infinite;
+}
+
+.binary-column:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.binary-column:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.binary-column:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.binary-char {
+  display: block;
+  height: 23px;
+  width: 20px;
+  text-align: center;
+  animation: digitFlip 0.3s ease-in-out;
+}
+
+@keyframes digitFlip {
+  0% {
+    opacity: 0.3;
+    transform: scaleY(0.5);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes codeGlow {
+  0%, 100% {
+    opacity: 0.6;
+    text-shadow: 0 0 10px #00ff41, 0 0 20px rgba(0, 255, 65, 0.3);
+  }
+  50% {
+    opacity: 0.9;
+    text-shadow: 0 0 20px #00ff41, 0 0 40px rgba(0, 255, 65, 0.5);
+  }
+}
+
+/* Responsive binary display */
+@media (max-width: 1024px) {
+  .binary-hacker {
+    right: 15px;
+    gap: 8px;
+  }
+  
+  .binary-column {
+    font-size: 14px;
+    letter-spacing: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .binary-hacker {
+    display: none;
+  }
+}
+
 a {
   color: var(--link-color);
   text-decoration: none;
