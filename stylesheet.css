@@ -78,31 +78,47 @@ body {
 }
 
 /* ============================================
-   THEME VARIABLES - LIGHT MODE
+   THEME VARIABLES - LIGHT MODE (iOS 26 Glass)
    ============================================ */
 :root {
-  --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
-  --card-bg: rgba(255, 255, 255, 0.95);
-  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 0 40px rgba(34, 197, 94, 0.05);
+  --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 50%, #dfe6ee 100%);
+  --card-bg: rgba(255, 255, 255, 0.45);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   --text-color: #1f2937;
   --link-color: #16a34a;
   --link-hover: #22c55e;
   --heading-color: #16a34a;
-  --border-color: rgba(0, 0, 0, 0.1);
+  --border-color: rgba(255, 255, 255, 0.5);
+  
+  /* iOS 26 Glass Effect Variables */
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-hover: rgba(255, 255, 255, 0.5);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --glass-blur: blur(20px);
+  --glass-blur-heavy: blur(40px);
+  --glass-highlight: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%);
 }
 
 /* ============================================
-   DARK MODE (optional)
+   DARK MODE (iOS 26 Glass - optional)
    ============================================ */
 [data-theme="dark"] {
   --bg-gradient: linear-gradient(135deg, #0a0f1a 0%, #0d1421 50%, #0a1018 100%);
-  --card-bg: rgba(30, 35, 45, 0.95);
-  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.1);
+  --card-bg: rgba(30, 35, 45, 0.4);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --text-color: #e0e0e0;
   --link-color: #22c55e;
   --link-hover: #4ade80;
   --heading-color: #22c55e;
-  --border-color: #333;
+  --border-color: rgba(255, 255, 255, 0.1);
+  
+  /* iOS 26 Glass Effect Variables - Dark */
+  --glass-bg: rgba(30, 35, 45, 0.35);
+  --glass-bg-hover: rgba(40, 45, 55, 0.5);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --glass-highlight: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
 }
 
 /* Apply theme variables */
@@ -148,6 +164,13 @@ a:hover {
   position: fixed;
   right: 30px;
   top: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 30px;
+  padding: 15px 10px;
+  box-shadow: var(--glass-shadow);
   transform: translateY(-50%);
   z-index: 999;
   display: flex;
@@ -218,15 +241,29 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: transparent;
-  transition: all 0.3s ease;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 15px 0;
 }
 
+.top-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-highlight);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
 .top-header.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  background: var(--glass-bg-hover);
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   padding: 10px 0;
 }
 
@@ -333,14 +370,19 @@ a:hover {
   .header-nav {
     position: fixed;
     top: 60px;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.98);
+    left: 10px;
+    right: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur-heavy);
+    -webkit-backdrop-filter: var(--glass-blur-heavy);
+    border: var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
     padding: 20px;
-    transform: translateY(-100%);
+    transform: translateY(-20px);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .header-nav.open {
@@ -422,9 +464,11 @@ a:hover {
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid rgba(22, 163, 74, 0.5);
-  background: #f8fafc;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(22, 163, 74, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 0 30px rgba(22, 163, 74, 0.1), inset 0 2px 0 rgba(255, 255, 255, 0.5);
   position: relative;
   z-index: 2;
   animation: avatarFloat 4s ease-in-out infinite;
@@ -448,25 +492,27 @@ a:hover {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Status Badge */
+/* Status Badge - iOS 26 Glass */
 .status-badge {
   position: absolute;
   bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 600;
   color: #1f2937;
   white-space: nowrap;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--glass-shadow);
   display: flex;
   align-items: center;
   gap: 6px;
   z-index: 3;
-  border: 1px solid rgba(22, 163, 74, 0.3);
+  border: var(--glass-border);
 }
 
 .status-dot {
@@ -483,7 +529,7 @@ a:hover {
 }
 
 [data-theme="dark"] .status-badge {
-  background: rgba(30, 35, 45, 0.95);
+  background: var(--glass-bg);
   color: #e0e0e0;
 }
 
@@ -793,12 +839,23 @@ a:hover {
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
   gap: 8px;
   white-space: nowrap;
   min-width: fit-content;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-highlight);
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 .cta-button svg {
@@ -810,28 +867,35 @@ a:hover {
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.85) 0%, rgba(22, 163, 74, 0.9) 100%);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: #fff;
-  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 8px 32px rgba(34, 197, 94, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 35px rgba(34, 197, 94, 0.5);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(34, 197, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   color: #fff;
 }
 
 .cta-button.secondary {
-  background: transparent;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   color: #1f2937;
-  border: 2px solid rgba(22, 163, 74, 0.5);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 .cta-button.secondary:hover {
-  background: rgba(22, 163, 74, 0.1);
-  border-color: #16a34a;
-  transform: translateY(-3px);
+  background: var(--glass-bg-hover);
+  border-color: rgba(22, 163, 74, 0.5);
+  transform: translateY(-3px) scale(1.02);
   color: #16a34a;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 [data-theme="dark"] .cta-button.primary {
@@ -854,7 +918,7 @@ a:hover {
   background: rgba(34, 197, 94, 0.1);
 }
 
-/* Professional Mouse Scroll Indicator */
+/* Professional Mouse Scroll Indicator - iOS 26 Glass */
 .scroll-indicator {
   position: absolute;
   bottom: 35px;
@@ -867,14 +931,22 @@ a:hover {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 30px;
+  padding: 15px 20px;
+  box-shadow: var(--glass-shadow);
 }
 
 .mouse {
   width: 26px;
   height: 40px;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(34, 197, 94, 0.5);
   border-radius: 15px;
   position: relative;
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .wheel {
@@ -1486,16 +1558,34 @@ table[style*="max-width:800px"] {
   box-sizing: border-box;
 }
 
-/* Section content container */
+/* Section content container - iOS 26 Glass Card */
 .section-content {
   flex: 0 1 auto;
   width: 100%;
   max-width: 900px;
-  padding: 20px;
+  padding: 30px;
   overflow-y: auto;
   max-height: calc(100vh - 180px);
   scrollbar-width: thin;
   scrollbar-color: rgba(34, 197, 94, 0.3) transparent;
+  
+  /* iOS 26 Glass Effect */
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow);
+  position: relative;
+}
+
+.section-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-highlight);
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 .section-content::-webkit-scrollbar {
