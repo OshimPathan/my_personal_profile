@@ -61,42 +61,48 @@
 </head>
 
 <body>
-  <!-- Theme Toggle Button -->
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-    <span class="moon-icon">🌙</span>
-    <span class="sun-icon">☀️</span>
-  </button>
-
-  <!-- Sidebar Navigation -->
-  <nav class="sidebar" id="sidebar">
-    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">
-      <span class="hamburger"></span>
-    </button>
-    <ul class="sidebar-menu">
-      <li><a href="#top" class="sidebar-link active">Home</a></li>
-      <li><a href="#research" class="sidebar-link">Projects</a></li>
-      <li><a href="#teaching" class="sidebar-link">Certifications</a></li>
-      <li><a href="#leadership" class="sidebar-link">Leadership</a></li>
-      <li><a href="#education" class="sidebar-link">Education</a></li>
-      <li><a href="#talks" class="sidebar-link">Links</a></li>
-      <li><a href="#contact" class="sidebar-link">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- Top Header Navigation -->
+  <header class="top-header" id="topHeader">
+    <div class="header-container">
+      <a href="#top" class="header-logo">&lt;OP /&gt;</a>
+      <nav class="header-nav">
+        <ul class="nav-menu">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#education" class="nav-link">Education</a></li>
+          <li><a href="#leadership" class="nav-link">Experience</a></li>
+          <li><a href="#research" class="nav-link">Projects</a></li>
+          <li><a href="#teaching" class="nav-link">Certifications</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
 
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBL4CXVK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <!-- Animated Background Particles -->
-  <div class="particles-bg">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
+  <!-- Network Background -->
+  <div class="network-bg">
+    <canvas id="networkCanvas"></canvas>
   </div>
+
+  <!-- Section Navigation Dots -->
+  <nav class="section-nav-dots" id="sectionNavDots">
+    <a href="#top" class="nav-dot active" data-section="top" title="Home"></a>
+    <a href="#about" class="nav-dot" data-section="about" title="About"></a>
+    <a href="#research" class="nav-dot" data-section="research" title="Projects"></a>
+    <a href="#teaching" class="nav-dot" data-section="teaching" title="Certifications"></a>
+    <a href="#leadership" class="nav-dot" data-section="leadership" title="Experience"></a>
+    <a href="#education" class="nav-dot" data-section="education" title="Education"></a>
+    <a href="#contact" class="nav-dot" data-section="contact" title="Contact"></a>
+  </nav>
 
   <!-- Hero Welcome Section -->
   <section class="hero-section" id="top">
@@ -176,96 +182,89 @@
     </div>
   </section>
 
-  <table
-    style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-    <tbody>
-      <tr style="padding:0px">
-        <td style="padding:0px">
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-              <tr style="padding:0px">
-                <td style="padding:2.5%;width:63%;vertical-align:middle">
-                  <p style="text-align:center">
-                    <name>OSHIM PATHAN</name>
-                    <!-- <br> -->
-                    <!-- <em> Principal Researcher, Microsoft </em> -->
-                    <!-- </br> -->
-                  </p>
+  <!-- About Section -->
+  <section class="section-wrapper" id="about">
+    <div class="section-content">
+      <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+        <tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>OSHIM PATHAN</name>
+              </p>
 
-                  <p>
-                  <section class="research-focus">
-                    <p>
-                      My work focuses on building integrated systems at the intersection of
-                      <strong>AI/ML and Cloud Computing</strong> to bring
-                      <strong>real-time health intelligence</strong> into everyday life,
-                      with the aim of improving human health outcomes and enabling early disease prevention.
-                    </p>
+              <div class="research-focus">
+                <p>
+                  My work focuses on building integrated systems at the intersection of
+                  <strong>AI/ML and Cloud Computing</strong> to bring
+                  <strong>real-time health intelligence</strong> into everyday life,
+                  with the aim of improving human health outcomes and enabling early disease prevention.
+                </p>
 
-                    <p>
-                      Toward this vision, I lead
-                      <em>
-                        <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank">
-                          Project AeroStream
-                        </a>
-                      </em>,
-                      a cloud-connected health platform that captures and analyzes
-                      <strong>nasal breathing patterns in real time</strong>
-                      to support precision respiratory diagnostics and remote patient monitoring.
-                      I developed and filed a <strong>patent in India</strong> for this system under
-                      the guidance of <strong>Prof. Yokesh Babu Sundaresan</strong>.
-                    </p>
-                  </section>
+                <p>
+                  Toward this vision, I lead
+                  <em>
+                    <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank">
+                      Project AeroStream
+                    </a>
+                  </em>,
+                  a cloud-connected health platform that captures and analyzes
+                  <strong>nasal breathing patterns in real time</strong>
+                  to support precision respiratory diagnostics and remote patient monitoring.
+                  I developed and filed a <strong>patent in India</strong> for this system under
+                  the guidance of <strong>Prof. Yokesh Babu Sundaresan</strong>.
+                </p>
+              </div>
 
+              <p style="text-align:center">
+                <a href="#research">Projects</a> &nbsp/&nbsp
+                <a href="#teaching">Certifications</a> &nbsp/&nbsp
+                <a href="#leadership">Experience</a>
+              </p>
+              <p style="text-align:center">
+                <a href="mailto:work.oshimkhan@gmail.com">Email</a> &nbsp/&nbsp
+                <a href="data/Update_Resume(7).pdf">Resume</a> &nbsp/&nbsp
+                <a href="https://github.com/OshimPathan">GitHub</a> &nbsp/&nbsp
+                <a href="https://www.linkedin.com/in/oshim7786">Linkedin</a>
+              </p>
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <a href="images/profile.png"><img style="width:100%;max-width:100%" alt="profile photo"
+                  src="images/profile.png" class="hoverZoomLink"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll-down-hint">
+      <span>Scroll for Projects</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-                  <p style="text-align:center">
-                    <a href="#research">Projects</a> &nbsp/&nbsp
-                    <a href="#teaching">Leadership</a>
-                  </p>
-                  <p style="text-align:center">
-                    <a href="mailto:work.oshimkhan@gmail.com">Email</a> &nbsp/&nbsp
-                    <a href="data/Update_Resume(7).pdf">Resume</a> &nbsp/&nbsp
-                    <a href="https://github.com/OshimPathan">GitHub</a> &nbsp/&nbsp
-                    <a href="https://www.linkedin.com/in/oshim7786">Linkedin</a>&nbsp/&nbsp
-                    <a href="">Twitter</a>
-                  </p>
-                </td>
-                <td style="padding:2.5%;width:40%;max-width:40%">
-                  <a href="images/profile.png"><img style="width:100%;max-width:100%" alt="profile photo"
-                      src="images/profile.png" class="hoverZoomLink"></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Section Divider -->
-          <hr class="section-divider">
-
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
-
-
-
-              <tr>
-                <td style="padding:20px;width:100%;vertical-align:middle">
-                  <heading id="research">Projects</heading>
-                  <p>
-                    My work focuses on developing new AI methods to understand and engineer health systems, with the
-                    goal of enabling early disease prevention and fostering collaborative approaches in education to
-                    improve quality life. By bridging computation with experimental validation, I aim to create novel
-                    technologies for early detection of life-threatening conditions such as cancer makers, early stage
-                    infections and to advance educational tools that make learning more accessible and impactful.
-                  </p>
-                  <strong>All of these projects are my original work, and I retain full ownership and authorship of
-                    each. <sup>&#8224;</sup></strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table
-            style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
-            <tbody>
+  <!-- Projects Section -->
+  <section class="section-wrapper" id="research">
+    <div class="section-content">
+      <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+        <tbody>
+          <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Projects</heading>
+              <p>
+                My work focuses on developing new AI methods to understand and engineer health systems, with the
+                goal of enabling early disease prevention and fostering collaborative approaches in education to
+                improve quality life. By bridging computation with experimental validation, I aim to create novel
+                technologies for early detection of life-threatening conditions such as cancer makers, early stage
+                infections and to advance educational tools that make learning more accessible and impactful.
+              </p>
+              <strong>All of these projects are my original work, and I retain full ownership and authorship of
+                each. <sup>&#8224;</sup></strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+        <tbody>
 
               <tr>
                 <td style="padding:20px;width:25%;vertical-align:middle">
@@ -423,11 +422,17 @@
       
             </tbody>
           </table>
+    </div>
+    <div class="scroll-down-hint">
+      <span>Scroll for Certifications</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-          <!-- Section Divider -->
-          <hr class="section-divider">
-
-          <!-- Badges and Certifications -->
+  <!-- Certifications Section -->
+  <section class="section-wrapper" id="teaching">
+    <div class="section-content">
+      <!-- Badges and Certifications -->
           <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
             <tbody>
               <tr>
@@ -520,153 +525,225 @@
 
             </tbody>
           </table>
+    </div>
+    <div class="scroll-down-hint">
+      <span>Scroll for Experience</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-          <!-- Section Divider -->
-          <hr class="section-divider">
+  <!-- Experience Section -->
+  <section class="section-wrapper" id="leadership">
+    <div class="section-content">
+      <table style="width:100%;max-width:800px;" align="center" border="0" cellspacing="0" cellpadding="20">
+        <tbody>
+          <tr>
+            <td>
+              <heading>Experience</heading>
+              <p>
+                I gained hands-on industry experience through structured internships, where I worked on
+                real-world development and machine learning tasks. These roles strengthened my technical
+                foundation, problem-solving ability, and professional discipline while working under
+                industry-aligned expectations.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table style="width:100%;max-width:800px;" align="center" border="0" cellpadding="20">
+        <tbody>
+          <tr onmouseout="p_deep_learning_stop()" onmouseover="p_deep_learning_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <img src="images/codalpha.png" width="150px" height="150px">
+              </div>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://drive.google.com/file/d/1ZwmpxrAxTgpsPfb5z93HsQZsmJAVAsZU/view?usp=sharing">
+                <papertitle>App Development Intern — CodeAlpha</papertitle>
+              </a>
+              <p>
+                During my internship at <strong>CodeAlpha</strong>, I worked as an App Development Intern,
+                focusing on hands-on application development and feature implementation.
+                This experience provided practical exposure to real-world development workflows,
+                task ownership, and industry-standard practices.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table style="width:100%;max-width:800px;" align="center" border="0" cellpadding="20">
+        <tbody>
+          <tr onmouseout="p_deep_learning_stop()" onmouseover="p_deep_learning_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <img src="images/codsoft.png" width="150px" height="150px">
+              </div>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://drive.google.com/file/d/17IC9eu7IiS3yGlnFnE8V1B_zN592NpQ9/view?usp=sharing">
+                <papertitle>Machine Learning Intern — CodSoft</papertitle>
+              </a>
+              <p>
+                As a Machine Learning Intern at <strong>CodSoft</strong>, I worked on ML-based tasks involving
+                data analysis, model building, and algorithmic problem-solving.
+                The internship strengthened my understanding of applied machine learning workflows
+                and independent project execution.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll-down-hint">
+      <span>Scroll for Education</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
 
-          <!-- Leadership -->
-<table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
-  <tbody>
-    <tr>
-      <td>
-        <heading id="leadership">Leadership</heading>
-        <p>
-          I gained hands-on industry experience through structured internships, where I worked on
-          real-world development and machine learning tasks. These roles strengthened my technical
-          foundation, problem-solving ability, and professional discipline while working under
-          industry-aligned expectations.
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<table width="100%" align="center" border="0" cellpadding="20">
-  <tbody>
-    <tr onmouseout="p_deep_learning_stop()" onmouseover="p_deep_learning_start()">
-      <td style="padding:20px;width:25%;vertical-align:middle">
-        <div class="one">
-          <img src="images/codalpha.png" width="150px" height="150px">
+  <!-- Education Section -->
+  <section class="section-wrapper" id="education">
+    <div class="section-content">
+      <table style="width:100%;max-width:800px;" align="center" border="0" cellspacing="0" cellpadding="20">
+        <tbody>
+          <tr>
+            <td>
+              <heading>Education</heading>
+              <p>
+                My education has been driven by a deep curiosity for technology, innovation, and real-world
+                impact. I've focused on building a strong foundation in computer science while actively applying
+                my skills through research, projects, and interdisciplinary learning that bridges engineering,
+                healthcare, and entrepreneurship. Looking ahead, I aspire to expand my knowledge and grow
+                through opportunities at some of the world's leading institutions.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table style="width:100%;max-width:800px;" align="center" border="0" cellpadding="20">
+        <tbody>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <img src="images/vit.png" width="150px" height="150px">
+            </td>
+            <td width="75%" valign="center">
+              <p>
+                <a href="https://vit.ac.in//">Vellore Institute Of Technology</a><br>
+                Bachelor of Technology, <br>
+                Computer Science and Engineering [2022 - 2026] <br>
+                CGPA : 8.76 / 10 (Up to 7th Semester) <br>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scroll-down-hint">
+      <span>Scroll for Contact</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer-section" id="contact">
+    <div class="footer-particles">
+      <div class="footer-particle"></div>
+      <div class="footer-particle"></div>
+      <div class="footer-particle"></div>
+      <div class="footer-particle"></div>
+      <div class="footer-particle"></div>
+      <div class="footer-particle"></div>
+    </div>
+    
+    <div class="footer-content">
+      <div class="footer-header">
+        <h2 class="footer-title">Get In Touch</h2>
+        <p class="footer-subtitle">Have a question or want to work together? Feel free to reach out!</p>
+      </div>
+      
+      <div class="footer-main">
+        <!-- Contact Information -->
+        <div class="contact-info-card">
+          <h3>Contact Information</h3>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Email</span>
+              <a href="mailto:work.oshimkhan@gmail.com">work.oshimkhan@gmail.com</a>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Name</span>
+              <span>Oshim Pathan</span>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Location</span>
+              <span>Devdaha, Rupandehi, Nepal</span>
+            </div>
+          </div>
+          
+          <div class="availability-note">
+            <span class="typing-cursor">&gt;</span> Currently open to Software Engineering, AI/ML, and Cloud Development opportunities.
+          </div>
         </div>
-      </td>
-
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://drive.google.com/file/d/1ZwmpxrAxTgpsPfb5z93HsQZsmJAVAsZU/view?usp=sharing">
-          <papertitle>App Development Intern — CodeAlpha</papertitle>
-        </a>
-        <p>
-          During my internship at <strong>CodeAlpha</strong>, I worked as an App Development Intern,
-          focusing on hands-on application development and feature implementation.
-          This experience provided practical exposure to real-world development workflows,
-          task ownership, and industry-standard practices.
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<table width="100%" align="center" border="0" cellpadding="20">
-  <tbody>
-    <tr onmouseout="p_deep_learning_stop()" onmouseover="p_deep_learning_start()">
-      <td style="padding:20px;width:25%;vertical-align:middle">
-        <div class="one">
-          <img src="images/codsoft.png" width="150px" height="150px">
+        
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+          <form action="https://formspree.io/f/work.oshimkhan@gmail.com" method="POST" class="contact-form">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Your message..." rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              Send Message
+            </button>
+          </form>
         </div>
-      </td>
-
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://drive.google.com/file/d/17IC9eu7IiS3yGlnFnE8V1B_zN592NpQ9/view?usp=sharing">
-          <papertitle>Machine Learning Intern — CodSoft</papertitle>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <p class="copyright">&copy; 2026 Oshim Pathan.</p>
+      <div class="footer-links">
+        <a href="mailto:work.oshimkhan@gmail.com">work.oshimkhan@gmail.com</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://github.com/OshimPathan" target="_blank" title="GitHub">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         </a>
-        <p>
-          As a Machine Learning Intern at <strong>CodSoft</strong>, I worked on ML-based tasks involving
-          data analysis, model building, and algorithmic problem-solving.
-          The internship strengthened my understanding of applied machine learning workflows
-          and independent project execution.
-        </p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-              <!-- Section Divider -->
-              <hr class="section-divider">
-
-              <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
-                <tbody>
-                  <tr>
-                    <td>
-                      <heading id="education">Education</heading>
-                      <p>
-                        My education has been driven by a deep curiosity for technology, innovation, and real-world
-                        impact. I’ve focused on building a strong foundation in computer science while actively applying
-                        my skills through research, projects, and interdisciplinary learning that bridges engineering,
-                        healthcare, and entrepreneurship. Looking ahead, I aspire to expand my knowledge and grow
-                        through opportunities at some of the world’s leading institutions.
-                      </p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table width="100%" align="center" border="0" cellpadding="20">
-                <tbody>
-                  <tr>
-                    <td style="padding:20px;width:25%;vertical-align:middle"><img src="images/vit.png" width="150px"
-                        height="150px"></td>
-                    <td width="75%" valign="center">
-                      <p>
-                        <a href="https://vit.ac.in//">Vellore Institute Of Technology</a><br>
-                        Bachelor of Technology, <br>
-                        Computer Science and Engineering [2022 - 2026] <br>
-                        CGPA : 8.76 / 10 (Up to 7th Semester) <br>
-                      </p>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-
-              <!-- Section Divider -->
-              <hr class="section-divider">
-
-              <tr>
-                <td style="padding:20px;width:100%;vertical-align:middle">
-                  <heading id="talks">Select Publicly-Available Links</heading>
-                  <ul>
-                    <li> <strong><a href="https://www.linkedin.com/in/oshim7786">Linkedin</a></strong></li>
-                    <li><strong><a href="https://github.com/OshimPathan">GitHub</a></strong></li>
-                    <li><strong><a href="mailto:work.oshimkhan@gmail.com">Email</a></strong></li>
-
-                  </ul>
-                </td>
-              </tr>
-
-              <!-- Section Divider -->
-              <hr class="section-divider">
-
-              <!-- Contact Form Section -->
-              <tr>
-                <td style="padding:20px;width:100%;vertical-align:middle">
-                  <heading id="contact">Get In Touch</heading>
-                  <p style="margin-top:10px;">Have a question or want to work together? Send me a message!</p>
-                  
-                  <form action="https://formspree.io/f/work.oshimkhan@gmail.com" method="POST" class="contact-form">
-                    <div class="form-group">
-                      <input type="text" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                      <input type="email" name="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                  </form>
-                </td>
-              </tr>
-
-
-        </td>
-      </tr>
-  </table>
+        <a href="https://www.linkedin.com/in/oshim7786" target="_blank" title="LinkedIn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href="mailto:work.oshimkhan@gmail.com" title="Email">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
 
   <!-- <p>
     <a href="https://jonbarron.info/">page template</a>
@@ -678,24 +755,31 @@
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const nav = document.querySelector('.header-nav');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      nav.classList.toggle('open');
+      toggle.classList.toggle('open');
     }
 
-    // Sidebar toggle for mobile
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('open');
-    }
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('topHeader');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
 
     // Active section tracking on scroll
     document.addEventListener('DOMContentLoaded', function() {
-      const sections = ['top', 'research', 'teaching', 'leadership', 'education', 'talks', 'contact'];
-      const sidebarLinks = document.querySelectorAll('.sidebar-link');
+      const sections = ['top', 'about', 'research', 'teaching', 'leadership', 'education', 'contact'];
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      // Navigation dots
+      const navDots = document.querySelectorAll('.nav-dot');
 
       function updateActiveLink() {
         let currentSection = 'top';
@@ -710,10 +794,19 @@
           }
         });
 
-        sidebarLinks.forEach(link => {
+        // Update header nav links
+        navLinks.forEach(link => {
           link.classList.remove('active');
           if (link.getAttribute('href') === '#' + currentSection) {
             link.classList.add('active');
+          }
+        });
+
+        // Update navigation dots
+        navDots.forEach(dot => {
+          dot.classList.remove('active');
+          if (dot.getAttribute('data-section') === currentSection) {
+            dot.classList.add('active');
           }
         });
       }
@@ -721,8 +814,8 @@
       // Update on scroll
       window.addEventListener('scroll', updateActiveLink);
       
-      // Smooth scroll for sidebar links
-      sidebarLinks.forEach(link => {
+      // Smooth scroll for nav links
+      navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           const targetId = this.getAttribute('href').substring(1);
@@ -731,15 +824,117 @@
           if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
-            // Close sidebar on mobile after clicking
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('open');
+            // Close mobile menu after clicking
+            const nav = document.querySelector('.header-nav');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            nav.classList.remove('open');
+            toggle.classList.remove('open');
+          }
+        });
+      });
+
+      // Smooth scroll for navigation dots
+      navDots.forEach(dot => {
+        dot.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const target = document.getElementById(targetId);
+          
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Make scroll hints clickable
+      document.querySelectorAll('.scroll-down-hint').forEach(hint => {
+        hint.addEventListener('click', function() {
+          const parent = this.closest('section') || this.closest('.hero-section');
+          if (parent && parent.nextElementSibling) {
+            parent.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
       });
 
       // Initial check
       updateActiveLink();
+
+      // Network Canvas Animation
+      const canvas = document.getElementById('networkCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 80;
+        const connectionDistance = 150;
+        
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        
+        function createParticles() {
+          particles = [];
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              vx: (Math.random() - 0.5) * 0.5,
+              vy: (Math.random() - 0.5) * 0.5,
+              radius: Math.random() * 2 + 1
+            });
+          }
+        }
+        
+        function drawParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw connections
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              if (distance < connectionDistance) {
+                const opacity = (1 - distance / connectionDistance) * 0.15;
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(22, 163, 74, ${opacity})`;
+                ctx.lineWidth = 0.5;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+              }
+            }
+          }
+          
+          // Draw particles
+          particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(22, 163, 74, 0.4)';
+            ctx.fill();
+            
+            // Update position
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            // Bounce off edges
+            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+          });
+          
+          requestAnimationFrame(drawParticles);
+        }
+        
+        resizeCanvas();
+        createParticles();
+        drawParticles();
+        
+        window.addEventListener('resize', () => {
+          resizeCanvas();
+          createParticles();
+        });
+      }
     });
 
     // Typed Role Animation
