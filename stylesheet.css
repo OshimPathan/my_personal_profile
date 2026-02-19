@@ -2325,9 +2325,9 @@ body {
 }
 
 [data-theme="light"] .tech-tag {
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--text-secondary);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.06);
+  color: #1e293b !important;
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .tech-tag:hover {
