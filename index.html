@@ -60,35 +60,46 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBL4CXVK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
 
-  <!-- Matrix Rain Canvas Background -->
-  <canvas id="matrixCanvas"></canvas>
+  <!-- Animated Mesh Gradient Background -->
+  <div class="mesh-gradient-bg">
+    <div class="mesh-blob blob-1"></div>
+    <div class="mesh-blob blob-2"></div>
+    <div class="mesh-blob blob-3"></div>
+    <div class="mesh-blob blob-4"></div>
+  </div>
 
-  <!-- Particle Network Canvas -->
-  <canvas id="particleCanvas"></canvas>
 
-  <!-- Gradient Pulse Overlay -->
-  <div class="gradient-pulse"></div>
 
-  <!-- Animated Floating Orbs -->
-  <div class="animated-orb orb-1"></div>
-  <div class="animated-orb orb-2"></div>
-  <div class="animated-orb orb-3"></div>
-  <div class="animated-orb orb-4"></div>
-  <div class="animated-orb orb-5"></div>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
 
   <!-- ═══════════════════════════════════════════
-       STICKY GLASS NAVBAR
+       FLOATING PILL NAVBAR
        ═══════════════════════════════════════════ -->
   <header class="glass-navbar" id="navbar">
     <div class="navbar-inner">
       <a href="#hero" class="nav-logo">&lt;OP /&gt;</a>
       <nav class="nav-links-container" id="navLinks">
+        <div class="nav-indicator" id="navIndicator"></div>
         <a href="#hero" class="nav-item active">Home</a>
         <a href="#projects" class="nav-item">Projects</a>
         <a href="#skills" class="nav-item">Skills</a>
         <a href="#experience" class="nav-item">Experience</a>
-        <a href="#education" class="nav-item">Education</a>
         <a href="#contact" class="nav-item">Contact</a>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5" />
+            <path
+              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
       </nav>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -167,7 +178,32 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       PROJECTS SECTION
+       STATS SECTION
+       ═══════════════════════════════════════════ -->
+  <section class="stats-section reveal" id="stats">
+    <div class="stats-container">
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="8">0</h3>
+        <span class="stat-symbol">+</span>
+        <p class="stat-label">Projects</p>
+      </div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="2">0</h3>
+        <p class="stat-label">Internships</p>
+      </div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="1">0</h3>
+        <p class="stat-label">Patent</p>
+      </div>
+      <div class="stat-item">
+        <h3 class="stat-number" data-target="8.78">0</h3>
+        <p class="stat-label">CGPA</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PROJECTS SECTION (Blog-Style Grid)
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="projects">
     <div class="section-inner">
@@ -177,218 +213,175 @@
         <strong>†</strong>
       </p>
 
-      <div class="projects-grid">
+      <!-- Category Filter Tabs -->
+      <div class="project-filters reveal" id="projectFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ai-health">AI / Health</button>
+        <button class="filter-btn" data-filter="enterprise">Enterprise</button>
+        <button class="filter-btn" data-filter="web-apps">Web Apps</button>
+        <button class="filter-btn" data-filter="tools">Tools</button>
+      </div>
 
-        <!-- Project 1: MedAssist AI -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/AI-Hospital.png" alt="MedAssist AI">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🏥 MedAssist AI</h3>
-            <p class="project-tech">Python, TypeScript, Next.js, Firebase, Socket.io, Docker, RAG</p>
-            <p class="project-desc">Real-time multi-channel intelligent hospital communication and emergency
-              orchestration system with safety-constrained AI triage, multi-role dashboards, and GDPR compliance.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/MedAssist-AI" target="_blank" class="proj-link">Code</a>
-            </div>
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projectsGrid">
+
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health</span>
+          <h3>🏥 MedAssist AI</h3>
+          <p class="project-tech">Python · TypeScript · Next.js · Firebase · Socket.io · Docker · RAG</p>
+          <p>Real-time multi-channel intelligent hospital communication and emergency orchestration system with
+            safety-constrained AI triage, multi-role dashboards, and GDPR compliance.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/MedAssist-AI" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 2: AeroStream -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/AeroStream.jpeg" alt="AeroStream">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">AeroStream <em>(Patent-Published)</em></h3>
-            <p class="project-tech">Next.js, Azure, Tailwind, Supabase, Twilio, Custom ML, GPT</p>
-            <p class="project-desc">Contactless disease screening pipeline analyzing breath signals using LLMs,
-              achieving early detection of respiratory and metabolic conditions without increasing hardware cost.</p>
-            <div class="project-links">
-              <a href="https://aero-stream.vercel.app/" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank"
-                class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health · Patent</span>
+          <h3>🩺 AeroStream</h3>
+          <p class="project-tech">Next.js · Azure · Tailwind · Supabase · Twilio · Custom ML · GPT</p>
+          <p>Contactless disease screening pipeline analyzing breath signals using LLMs, achieving early detection
+            of
+            respiratory and metabolic conditions.</p>
+          <div class="project-links">
+            <a href="https://aero-stream.vercel.app/" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank"
+              class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 3: Smart Hospital AI System -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/AI-Hospital.png" alt="Smart Hospital AI">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🏥 Smart Hospital AI System</h3>
-            <p class="project-tech">Next.js 14, TypeScript, Tailwind, Firebase, Zustand, Socket.io, Framer Motion</p>
-            <p class="project-desc">Full-stack healthcare platform with AI chatbot, real-time queue tracking, multi-role
-              dashboards, emergency SOS, and multi-language chat (English, Hindi, Nepali, Tamil).</p>
-            <div class="project-links">
-              <a href="https://smart-hospital-ai-system.vercel.app" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/smart-hospital-ai-system.git" target="_blank"
-                class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health</span>
+          <h3>🏥 Smart Hospital AI System</h3>
+          <p class="project-tech">Next.js 14 · TypeScript · Tailwind · Firebase · Zustand · Socket.io</p>
+          <p>Full-stack healthcare platform with AI chatbot, real-time queue tracking, multi-role dashboards,
+            emergency
+            SOS, and multi-language chat.</p>
+          <div class="project-links">
+            <a href="https://smart-hospital-ai-system.vercel.app" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/smart-hospital-ai-system.git" target="_blank"
+              class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 4: WorkSphere -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="🌐">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🌐 WorkSphere ERP</h3>
-            <p class="project-tech">React (Vite), TypeScript, Tailwind, Node.js, Express, PostgreSQL, Prisma, JWT</p>
-            <p class="project-desc">Comprehensive enterprise resource planning and team collaboration platform
-              integrating project management, HR, finance, and support ticketing into a unified multi-tenant
-              application.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/WorkSphere" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="enterprise">
+          <span class="project-tag">Enterprise</span>
+          <h3>🌐 WorkSphere ERP</h3>
+          <p class="project-tech">React (Vite) · TypeScript · Tailwind · Node.js · PostgreSQL · Prisma · JWT</p>
+          <p>Comprehensive enterprise resource planning and team collaboration platform integrating project
+            management,
+            HR, finance, and support ticketing.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/WorkSphere" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 5: TaskFlow Pro -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="📱">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">📱 TaskFlow Pro</h3>
-            <p class="project-tech">React, Firebase, Capacitor, AI Chatbot, Stripe, Glassmorphism UI</p>
-            <p class="project-desc">Smart task management app with AI assistant ("Add meeting tomorrow at 3pm"),
-              calendar integration, offline-first sync, drag-and-drop, subscription tiers, and dark/light mode.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/taskflow-pro" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="enterprise">
+          <span class="project-tag">Enterprise</span>
+          <h3>📱 TaskFlow Pro</h3>
+          <p class="project-tech">React · Firebase · Capacitor · AI Chatbot · Stripe · Glassmorphism UI</p>
+          <p>Smart task management app with AI assistant, calendar integration, offline-first sync, drag-and-drop,
+            subscription tiers, and dark/light mode.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/taskflow-pro" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 6: Rebirth -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/Rebirth.png" alt="Rebirth">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🧠 Rebirth (Mental Health AI)</h3>
-            <p class="project-tech">Flutter, Dart, Google Gemini, Custom Orchestrator, Firebase</p>
-            <p class="project-desc">Flutter-based iOS mental health intelligence system detecting behavioral and
-              emotional patterns to generate personalized guidance using the Gemini API for real-time analysis.</p>
-            <div class="project-links">
-              <a href="https://capstone-project-report.vercel.app" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/rebirth-frontend.git" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health</span>
+          <h3>🧠 Rebirth (Mental Health AI)</h3>
+          <p class="project-tech">Flutter · Dart · Google Gemini · Custom Orchestrator · Firebase</p>
+          <p>Flutter-based iOS mental health intelligence system detecting behavioral and emotional patterns to
+            generate
+            personalized guidance using Gemini API.</p>
+          <div class="project-links">
+            <a href="https://capstone-project-report.vercel.app" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/rebirth-frontend.git" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 7: HealthMate AI -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="💊">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">💊 HealthMate AI (RAG Chatbot)</h3>
-            <p class="project-tech">Python, Flask, Pinecone, LangChain, OpenAI, AWS CI/CD, Docker</p>
-            <p class="project-desc">End-to-end medical chatbot leveraging RAG (Retrieval Augmented Generation) to
-              provide accurate answers from medical documentation with chat history and resource management.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/End-to-end-Medical-chatbot-Generative-AI" target="_blank"
-                class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health</span>
+          <h3>💊 HealthMate AI (RAG Chatbot)</h3>
+          <p class="project-tech">Python · Flask · Pinecone · LangChain · OpenAI · AWS CI/CD · Docker</p>
+          <p>End-to-end medical chatbot leveraging RAG to provide accurate answers from medical documentation with
+            chat
+            history and resource management.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/End-to-end-Medical-chatbot-Generative-AI" target="_blank"
+              class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 8: MediAssist AI (medi-advisor) -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="🩺">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🩺 MediAssist AI</h3>
-            <p class="project-tech">TypeScript, Supabase, Google OAuth, Gemini AI, Vercel</p>
-            <p class="project-desc">AI-powered chatbot that interacts with users to understand symptoms and recommends
-              which medical department (Cardiology, Dermatology, etc.) to consult, with full auth and chat history.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/medi-advisor" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health</span>
+          <h3>🩺 MediAssist AI</h3>
+          <p class="project-tech">TypeScript · Supabase · Google OAuth · Gemini AI · Vercel</p>
+          <p>AI-powered chatbot that recommends which medical department to consult based on symptom analysis, with
+            full
+            authentication and chat history.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/medi-advisor" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 9: GIF Search Engine -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/Giphy.png" alt="GIF Search Engine">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🎬 GIF Search Engine</h3>
-            <p class="project-tech">React.js, Vite, Tailwind CSS, Giphy API, React Hooks</p>
-            <p class="project-desc">Optimized GIF search engine handling 100+ requests/sec with infinite scrolling for
-              seamless content discovery. Fully responsive UI with 30% faster load times.</p>
-            <div class="project-links">
-              <a href="https://react-giphy-azure.vercel.app" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/react-giphy.git" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="web-apps">
+          <span class="project-tag">Web Apps</span>
+          <h3>🎬 GIF Search Engine</h3>
+          <p class="project-tech">React.js · Vite · Tailwind CSS · Giphy API · React Hooks</p>
+          <p>Optimized GIF search engine handling 100+ requests/sec with infinite scrolling for seamless content
+            discovery and 30% faster load times.</p>
+          <div class="project-links">
+            <a href="https://react-giphy-azure.vercel.app" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/react-giphy.git" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 10: URL Shortener -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/urlshort.png" alt="URL Shortener">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🔗 URL Shortener SaaS</h3>
-            <p class="project-tech">React, Node.js, MongoDB, Stripe, Vercel, Multi-language</p>
-            <p class="project-desc">High-availability serverless URL shortener with Stripe payments, multi-language
-              support, optimized for low-latency redirection and infinite horizontal scalability.</p>
-            <div class="project-links">
-              <a href="https://urlshort-saas.vercel.app" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/urlshort-saas.git" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="web-apps">
+          <span class="project-tag">Web Apps</span>
+          <h3>🔗 URL Shortener SaaS</h3>
+          <p class="project-tech">React · Node.js · MongoDB · Stripe · Vercel · Multi-language</p>
+          <p>High-availability serverless URL shortener with Stripe payments, multi-language support, optimized for
+            low-latency redirection and infinite scalability.</p>
+          <div class="project-links">
+            <a href="https://urlshort-saas.vercel.app" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/urlshort-saas.git" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 11: Hand Gesture Math Solver -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="✋">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">✋ Hand Gesture Math Solver</h3>
-            <p class="project-tech">Python, OpenCV, cvzone, Gemini AI, NumPy, Pillow</p>
-            <p class="project-desc">Real-time hand gesture recognition system allowing users to solve math problems by
-              drawing in the air. Integrated with Gemini AI for solving math from gestures.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/Hand-Gesture-Math-Solver-Using-Python" target="_blank"
-                class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="tools">
+          <span class="project-tag">Tools</span>
+          <h3>✋ Hand Gesture Math Solver</h3>
+          <p class="project-tech">Python · OpenCV · cvzone · Gemini AI · NumPy · Pillow</p>
+          <p>Real-time hand gesture recognition system allowing users to solve math problems by drawing in the air,
+            integrated with Gemini AI.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/Hand-Gesture-Math-Solver-Using-Python" target="_blank"
+              class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 12: Flashcard Quiz -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image placeholder-img" data-emoji="🃏">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">🃏 Flashcard Quiz App</h3>
-            <p class="project-tech">React, Vite, Local Storage, CSS Animations</p>
-            <p class="project-desc">Interactive quiz application with multi-user system, topic selection, timed quizzes,
-              and local storage persistence. Features blur reveal effects and responsive UI.</p>
-            <div class="project-links">
-              <a href="https://github.com/OshimPathan/flashcard_quiz" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="tools">
+          <span class="project-tag">Tools</span>
+          <h3>🃏 Flashcard Quiz App</h3>
+          <p class="project-tech">React · Vite · Local Storage · CSS Animations</p>
+          <p>Interactive quiz application with multi-user system, topic selection, timed quizzes, and local storage
+            persistence with blur reveal effects.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/flashcard_quiz" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
-        <!-- Project 13: Nike Store -->
-        <div class="glass-card project-card reveal">
-          <div class="project-image">
-            <img src="images/papers/sneaker.png" alt="Nike Store">
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">👟 Nike Store E-commerce</h3>
-            <p class="project-tech">HTML5, CSS3, JavaScript</p>
-            <p class="project-desc">Responsive e-commerce website with product catalog, detail views, cart
-              functionality, and checkout process. User-friendly interface with modern design.</p>
-            <div class="project-links">
-              <a href="https://oshimpathan.github.io/Nike_Store/" target="_blank" class="proj-link">Demo</a>
-              <a href="https://github.com/OshimPathan/Nike_Store.git" target="_blank" class="proj-link">Code</a>
-            </div>
+        <div class="glass-card project-card reveal" data-category="web-apps">
+          <span class="project-tag">Web Apps</span>
+          <h3>👟 Nike Store E-commerce</h3>
+          <p class="project-tech">HTML5 · CSS3 · JavaScript</p>
+          <p>Responsive e-commerce website with product catalog, detail views, cart functionality, and checkout
+            process
+            with modern design.</p>
+          <div class="project-links">
+            <a href="https://oshimpathan.github.io/Nike_Store/" target="_blank" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/Nike_Store.git" target="_blank" class="proj-link">Code</a>
           </div>
         </div>
 
@@ -413,7 +406,8 @@
           <div class="cert-info">
             <h3><a href="https://drive.google.com/file/d/1lxNWDIfXorl9sJge0Q5iZR9zJ1uVZ3Hv/view?usp=sharing"
                 target="_blank">🏅 IBM — GEN AI</a></h3>
-            <p>Completed intensive GEN AI credit course (May–Jul 2025) by IBM Career Education Program for Developers.
+            <p>Completed intensive GEN AI credit course (May–Jul 2025) by IBM Career Education Program for
+              Developers.
               Focused on building and deploying ML models for scalable AI systems.</p>
           </div>
         </div>
@@ -423,9 +417,11 @@
             <img src="images/HackerRank.png" alt="HackerRank">
           </div>
           <div class="cert-info">
-            <h3><a href="https://www.hackerrank.com/certificates/bb7bec6bc4e9" target="_blank">🏅 HackerRank — Advanced
+            <h3><a href="https://www.hackerrank.com/certificates/bb7bec6bc4e9" target="_blank">🏅 HackerRank —
+                Advanced
                 SQL & Python <em>(2+ Badges)</em></a></h3>
-            <p>Earned certifications in Advanced SQL (joins, subqueries, window functions) and Python (data structures,
+            <p>Earned certifications in Advanced SQL (joins, subqueries, window functions) and Python (data
+              structures,
               problem-solving, efficient scalable code).</p>
           </div>
         </div>
@@ -488,7 +484,8 @@
   <section class="content-section" id="education">
     <div class="section-inner">
       <h2 class="section-title reveal"><span class="title-accent"></span>Education</h2>
-      <p class="section-subtitle reveal">Driven by deep curiosity for technology, innovation, and real-world impact.</p>
+      <p class="section-subtitle reveal">Driven by deep curiosity for technology, innovation, and real-world impact.
+      </p>
 
       <div class="glass-card edu-card reveal">
         <div class="edu-image">
@@ -583,14 +580,16 @@
           <span class="blog-tag">January 2026 · Career</span>
           <h3>My Journey from Nepal to VIT Vellore</h3>
           <p>Growing up in Devdaha, Rupandehi, I never imagined I'd be studying at one of India's top engineering
-            institutes. The journey wasn't easy — countless late nights preparing for entrance exams and adapting to a
+            institutes. The journey wasn't easy — countless late nights preparing for entrance exams and adapting to
+            a
             new country...</p>
         </div>
         <div class="glass-card blog-card reveal">
           <span class="blog-tag">December 2025 · AI/ML</span>
           <h3>Why I Chose AI for Healthcare</h3>
           <p>Healthcare in Nepal faces massive challenges — limited access to specialists, delayed diagnoses. This
-            reality inspired me to focus on AI for healthcare. When I built HealthSync AI, I wasn't just completing a
+            reality inspired me to focus on AI for healthcare. When I built HealthSync AI, I wasn't just completing
+            a
             project...</p>
         </div>
         <div class="glass-card blog-card reveal">
@@ -602,7 +601,8 @@
         <div class="glass-card blog-card reveal">
           <span class="blog-tag">October 2025 · Learning</span>
           <h3>What I Learned from 50+ Rejected Applications</h3>
-          <p>Job hunting is brutal. After 50 rejections, I wanted to give up. But each "no" was feedback. I rewrote my
+          <p>Job hunting is brutal. After 50 rejections, I wanted to give up. But each "no" was feedback. I rewrote
+            my
             resume 12 times, rebuilt my portfolio, and practiced DSA for 200+ hours...</p>
         </div>
         <div class="glass-card blog-card reveal">
@@ -615,7 +615,8 @@
           <span class="blog-tag">August 2025 · Future</span>
           <h3>My Vision: Software That Saves Lives</h3>
           <p>In 10 years, I see myself leading a team that builds life-saving software. I dream of AI systems that
-            predict heart attacks before they happen and apps that bring specialist consultations to remote villages...
+            predict heart attacks before they happen and apps that bring specialist consultations to remote
+            villages...
           </p>
         </div>
       </div>
@@ -657,12 +658,65 @@
   <!-- ═══════════════════════════════════════════
        FOOTER / CONTACT
        ═══════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════
+       TESTIMONIALS SECTION
+       ═══════════════════════════════════════════ -->
+  <section class="content-section" id="testimonials">
+    <div class="section-inner">
+      <h2 class="section-title reveal"><span class="title-accent"></span>Feedback</h2>
+      <p class="section-subtitle reveal">
+        What mentors and colleagues say about my work.
+      </p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card glass-card reveal">
+          <div class="quote-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z" />
+            </svg>
+          </div>
+          <p class="testimonial-text">"Oshim demonstrates exceptional problem-solving skills and a deep
+            understanding of
+            cloud architecture. His work on Project Aero Stream was truly innovative."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MJ</div>
+            <div class="author-info">
+              <h4>Dr. M. Johnson</h4>
+              <span>Professor, VIT Vellore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card glass-card reveal">
+          <div class="quote-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z" />
+            </svg>
+          </div>
+          <p class="testimonial-text">"One of the most driven interns we've had. He picked up new tech stacks
+            rapidly
+            and delivered high-quality code for our core product."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: var(--accent);">ST</div>
+            <div class="author-info">
+              <h4>Sarah Thompson</h4>
+              <span>Tech Lead, CodeAlpha</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer-section" id="contact">
     <!-- CTA Banner -->
     <div class="footer-cta reveal">
       <div class="cta-content">
         <h2>Looking for a Software Engineer who ships?</h2>
-        <p>I'm actively seeking full-time SDE, AI/ML, or Cloud Engineering roles. Let's talk about how I can contribute
+        <p>I'm actively seeking full-time SDE, AI/ML, or Cloud Engineering roles. Let's talk about how I can
+          contribute
           to your team.</p>
         <div class="cta-buttons">
           <a href="mailto:work.oshimkhan@gmail.com" class="cta-btn primary">
@@ -686,7 +740,8 @@
     <div class="footer-grid">
       <div class="footer-col footer-about">
         <a href="#hero" class="footer-logo">&lt;OP /&gt;</a>
-        <p>Software engineer from Nepal specializing in AI-powered health systems, cloud infrastructure, and full-stack
+        <p>Software engineer from Nepal specializing in AI-powered health systems, cloud infrastructure, and
+          full-stack
           development. VIT Vellore '26.</p>
       </div>
 
@@ -811,196 +866,19 @@
     </div>
   </div>
 
+  <!-- Back to Top Button -->
+  <button id="backToTop" aria-label="Back to Top">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6" />
+    </svg>
+  </button>
+
   <!-- ═══════════════════════════════════════════
        ALL JAVASCRIPT
        ═══════════════════════════════════════════ -->
   <script>
-    // ============================================
-    // MATRIX RAIN BACKGROUND (coder theme)
-    // ============================================
-    // ============================================
-    // ENHANCED MATRIX RAIN (variable speed & glow)
-    // ============================================
-    (function initMatrix() {
-      const canvas = document.getElementById('matrixCanvas');
-      const ctx = canvas.getContext('2d');
-      let columns, drops, speeds;
 
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const fontSize = 14;
-        columns = Math.floor(canvas.width / fontSize);
-        drops = Array(columns).fill(0).map(() => Math.random() * canvas.height / fontSize);
-        speeds = Array(columns).fill(0).map(() => 0.3 + Math.random() * 1.2);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const fontSize = 14;
-      const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン<>{}[]();:=/>_|~#$%&*';
-
-      function draw() {
-        ctx.fillStyle = 'rgba(10, 14, 23, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = fontSize + 'px "Fira Code", monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-          const char = chars[Math.floor(Math.random() * chars.length)];
-          const x = i * fontSize;
-          const y = drops[i] * fontSize;
-
-          const brightness = Math.random();
-          if (brightness > 0.97) {
-            ctx.fillStyle = '#fff';
-            ctx.shadowColor = '#00ff41';
-            ctx.shadowBlur = 20;
-          } else if (brightness > 0.92) {
-            ctx.fillStyle = '#00ff41';
-            ctx.shadowColor = '#00ff41';
-            ctx.shadowBlur = 12;
-          } else if (brightness > 0.75) {
-            ctx.fillStyle = 'rgba(0, 255, 65, 0.7)';
-            ctx.shadowBlur = 0;
-          } else {
-            ctx.fillStyle = 'rgba(0, 255, 65, 0.18)';
-            ctx.shadowBlur = 0;
-          }
-
-          ctx.fillText(char, x, y);
-          ctx.shadowBlur = 0;
-
-          if (y > canvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-            speeds[i] = 0.3 + Math.random() * 1.2;
-          }
-          drops[i] += speeds[i];
-        }
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-
-    // ============================================
-    // PARTICLE NETWORK (interactive constellation)
-    // ============================================
-    (function initParticles() {
-      const canvas = document.getElementById('particleCanvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let mouse = { x: -1000, y: -1000 };
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      document.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-
-      const PARTICLE_COUNT = Math.min(80, Math.floor(window.innerWidth / 18));
-      const CONNECTION_DIST = 150;
-      const MOUSE_DIST = 200;
-
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.vx = (Math.random() - 0.5) * 0.4;
-          this.vy = (Math.random() - 0.5) * 0.4;
-          this.size = Math.random() * 1.5 + 0.5;
-          this.opacity = Math.random() * 0.3 + 0.1;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-          // mouse repulsion
-          const dx = this.x - mouse.x;
-          const dy = this.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MOUSE_DIST) {
-            const force = (MOUSE_DIST - dist) / MOUSE_DIST * 0.02;
-            this.vx += dx * force;
-            this.vy += dy * force;
-          }
-          // speed limit
-          const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-          if (speed > 1.5) { this.vx *= 0.95; this.vy *= 0.95; }
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0, 255, 65, ${this.opacity})`;
-          ctx.fill();
-        }
-      }
-
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push(new Particle());
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < CONNECTION_DIST) {
-              const opacity = (1 - dist / CONNECTION_DIST) * 0.12;
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(0, 255, 65, ${opacity})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-          // connect mouse
-          const mdx = particles[i].x - mouse.x;
-          const mdy = particles[i].y - mouse.y;
-          const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mDist < MOUSE_DIST) {
-            const opacity = (1 - mDist / MOUSE_DIST) * 0.25;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(0, 255, 65, ${opacity})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-
-    // ============================================
-    // MOUSE PARALLAX ON ORBS
-    // ============================================
-    (function initParallax() {
-      const orbs = document.querySelectorAll('.animated-orb');
-      const factors = [0.02, -0.015, 0.018, -0.012, 0.01];
-      document.addEventListener('mousemove', e => {
-        const cx = e.clientX - window.innerWidth / 2;
-        const cy = e.clientY - window.innerHeight / 2;
-        orbs.forEach((orb, i) => {
-          const f = factors[i] || 0.01;
-          orb.style.transform = `translate(${cx * f}px, ${cy * f}px)`;
-        });
-      });
-    })();
 
     // ============================================
     // NAVBAR SCROLL EFFECT & ACTIVE SECTION
@@ -1008,10 +886,40 @@
     const navbar = document.getElementById('navbar');
     const navItems = document.querySelectorAll('.nav-item');
     const sections = document.querySelectorAll('.content-section, .hero-section');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const navIndicator = document.getElementById('navIndicator');
+
+    // --- Sliding Nav Indicator ---
+    function moveIndicator(el) {
+      if (!el || !navIndicator || window.innerWidth <= 768) return;
+      const container = el.parentElement;
+      const containerRect = container.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      navIndicator.style.width = elRect.width + 'px';
+      navIndicator.style.left = (elRect.left - containerRect.left) + 'px';
+      navIndicator.style.top = (elRect.top - containerRect.top) + 'px';
+      navIndicator.style.opacity = '1';
+    }
+
+    // Move indicator on hover
+    navItems.forEach(item => {
+      item.addEventListener('mouseenter', () => moveIndicator(item));
+    });
+    // Return to active on mouse leave
+    document.querySelector('.nav-links-container').addEventListener('mouseleave', () => {
+      const active = document.querySelector('.nav-item.active');
+      if (active) moveIndicator(active);
+    });
 
     window.addEventListener('scroll', () => {
       // Shrink nav
       navbar.classList.toggle('scrolled', window.scrollY > 60);
+
+      // Scroll progress bar
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = scrollPercent + '%';
 
       // Active section
       let current = 'hero';
@@ -1022,6 +930,16 @@
         link.classList.remove('active');
         if (link.getAttribute('href') === '#' + current) link.classList.add('active');
       });
+
+      // Update indicator position on scroll
+      const active = document.querySelector('.nav-item.active');
+      if (active) moveIndicator(active);
+    });
+
+    // Initial indicator position
+    requestAnimationFrame(() => {
+      const active = document.querySelector('.nav-item.active');
+      if (active) moveIndicator(active);
     });
 
     // Smooth scroll for nav links
@@ -1087,6 +1005,137 @@
       setTimeout(typeRole, typingSpeed);
     }
     setTimeout(typeRole, 1500);
+
+    // ============================================
+    // PROJECTS GRID FILTER
+    // ============================================
+    (function initProjectFilter() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const allCards = Array.from(document.querySelectorAll('.project-card'));
+
+      function filterProjects(category) {
+        filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
+
+        allCards.forEach(card => {
+          const match = category === 'all' || card.dataset.category === category;
+          if (match) {
+            card.classList.remove('filter-hidden');
+            card.classList.add('filter-show');
+          } else {
+            card.classList.remove('filter-show');
+            card.classList.add('filter-hidden');
+          }
+        });
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => filterProjects(btn.dataset.filter));
+      });
+    })();
+
+    // ============================================
+    // THEME TOGGLE
+    // ============================================
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const sunIcon = themeToggle.querySelector('.sun-icon');
+    const moonIcon = themeToggle.querySelector('.moon-icon');
+
+    // Check saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+      if (theme === 'dark') {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+
+    // ============================================
+    // STATS COUNTER ANIMATION
+    // ============================================
+    const statsSection = document.getElementById('stats');
+    const statNumbers = document.querySelectorAll('.stat-number');
+    let started = false;
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !started) {
+        started = true;
+        statNumbers.forEach(num => {
+          const target = +num.getAttribute('data-target');
+          const isFloat = target % 1 !== 0;
+          const duration = 2000;
+          const start = 0;
+          const startTime = performance.now();
+
+          function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease out quart
+            const ease = 1 - Math.pow(1 - progress, 4);
+
+            let current = start + (target - start) * ease;
+
+            if (isFloat) {
+              num.innerText = current.toFixed(2);
+            } else {
+              num.innerText = Math.floor(current);
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            } else {
+              num.innerText = target; // Ensure final value
+            }
+          }
+          requestAnimationFrame(update);
+        });
+      }
+    }, { threshold: 0.5 });
+
+    if (statsSection) statsObserver.observe(statsSection);
+
+    // ============================================
+    // BACK TO TOP BUTTON
+    // ============================================
+    const backToTopBtn = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ============================================
+    // PAGE LOAD ANIMATIONS
+    // ============================================
+    window.addEventListener('load', () => {
+      const heroElements = document.querySelectorAll('#hero > div > *');
+      heroElements.forEach((el, index) => {
+        el.classList.add('fade-in-up');
+        el.style.animationDelay = `${index * 150}ms`;
+      });
+    });
 
     // ============================================
     // CHATBOT FUNCTIONALITY
@@ -1218,39 +1267,7 @@
       return `🤔 I can help with <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, or <strong>contact info</strong>. Try asking about any of these!`;
     }
 
-    // ============================================
-    // STATS COUNTER ANIMATION
-    // ============================================
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const counters = entry.target.querySelectorAll('.stat-number');
-          counters.forEach(counter => {
-            const target = parseFloat(counter.getAttribute('data-count'));
-            const isDecimal = counter.getAttribute('data-decimal') === 'true';
-            const duration = 2000;
-            const startTime = performance.now();
 
-            function animate(currentTime) {
-              const elapsed = currentTime - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-              const current = eased * target;
-
-              counter.textContent = isDecimal ? current.toFixed(2) : Math.floor(current);
-
-              if (progress < 1) requestAnimationFrame(animate);
-              else counter.textContent = isDecimal ? target.toFixed(2) : target;
-            }
-            requestAnimationFrame(animate);
-          });
-          statsObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    const statsBar = document.querySelector('.stats-bar');
-    if (statsBar) statsObserver.observe(statsBar);
   </script>
 
 </body>
