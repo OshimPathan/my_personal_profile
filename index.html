@@ -711,6 +711,33 @@
   </section>
 
   <footer class="footer-section" id="contact">
+
+    <!-- VISITOR DASHBOARD -->
+    <div class="visitor-dashboard reveal">
+      <div class="glass-card visitor-card">
+        <div class="visitor-header">
+          <div class="live-indicator">
+            <span class="pulse-dot"></span>
+            LIVE
+          </div>
+          <h3>Visitor Insights</h3>
+        </div>
+        <div class="visitor-stats">
+          <div class="v-stat">
+            <span class="v-label">Total Visits</span>
+            <span class="v-value" id="totalVisits">...</span>
+          </div>
+          <div class="v-stat">
+            <span class="v-label">Current Viewers</span>
+            <span class="v-value" id="liveViewers">1</span>
+          </div>
+          <div class="v-stat">
+            <span class="v-label">Last Visit From</span>
+            <span class="v-value" id="lastVisitLoc">...</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- CTA Banner -->
     <div class="footer-cta reveal">
       <div class="cta-content">
@@ -974,7 +1001,7 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     // ============================================
-    // TYPED ROLE ANIMATION
+    // TYPED ROLE ANIMATION (TERMINAL STYLE)
     // ============================================
     const roles = ['Software Engineer', 'AI Developer', 'Cloud Architect', 'Full Stack Developer', 'ML Engineer'];
     let roleIndex = 0, charIndex = 0, isDeleting = false, typingSpeed = 100;
@@ -1005,6 +1032,38 @@
       setTimeout(typeRole, typingSpeed);
     }
     setTimeout(typeRole, 1500);
+
+    // ============================================
+    // TILT EFFECT (Vanilla JS)
+    // ============================================
+    function initTilt() {
+      const cards = document.querySelectorAll('.project-card');
+
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          const rotateX = ((y - centerY) / centerY) * -5; // Max tilt 5deg
+          const rotateY = ((x - centerX) / centerX) * 5;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        });
+      });
+    }
+
+    // Initialize after DOM load
+    document.addEventListener('DOMContentLoaded', initTilt);
+    // Also init immediately in case DOM is already ready
+    initTilt();
 
     // ============================================
     // PROJECTS GRID FILTER
@@ -1196,8 +1255,17 @@
       const input = document.getElementById('chatInput');
       const message = input.value.trim();
       if (!message) return;
+
+      // UI Update
       addMessage(message, 'user');
       input.value = '';
+
+      // Firebase Logging
+      if (window.sendToFirebase) {
+        window.sendToFirebase(message, 'user');
+      }
+
+      // Auto-Response
       showTyping();
       setTimeout(() => { hideTyping(); addMessage(generateResponse(message), 'bot'); }, 800 + Math.random() * 700);
     }
@@ -1270,6 +1338,90 @@
 
   </script>
 
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDzCS94BsbvY54-s_JhbiInlYr8LsxJ-B0",
+      authDomain: "oshim-portfolio.firebaseapp.com",
+      projectId: "oshim-portfolio",
+      storageBucket: "oshim-portfolio.firebasestorage.app",
+      messagingSenderId: "1031031002125",
+      appId: "1:1031031002125:web:023835e14c29f0ec477144",
+      measurementId: "G-WQWSGS0BBS"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    // ============================================
+    // VISITOR COUNTER
+    // ============================================
+    async function initVisitorCounter() {
+      // Simple IP-based tracking (simulated for now, would need backend for real IP)
+      // Here we just increment a global counter in Firestore
+
+      const statsDocRef = doc(db, "stats", "visitors");
+      const visitorsEl = document.getElementById('totalVisits');
+      const liveEl = document.getElementById('liveViewers');
+
+      try {
+        // Listen for real-time updates
+        onSnapshot(statsDocRef, (doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            visitorsEl.textContent = data.count || 0;
+            liveEl.textContent = Math.floor(Math.random() * 3) + 1; // Simulated live users
+          } else {
+            // Create initial doc if missing
+            setDoc(statsDocRef, { count: 1 });
+            visitorsEl.textContent = 1;
+          }
+        });
+
+        // Increment on load (simplified)
+        // Check local storage to prevent double counting on refresh
+        if (!sessionStorage.getItem('visited')) {
+          await updateDoc(statsDocRef, {
+            count: increment(1)
+          });
+          sessionStorage.setItem('visited', 'true');
+        }
+      } catch (e) {
+        console.error("Firebase Visitor Config missing or error", e);
+        visitorsEl.textContent = "Demo";
+      }
+    }
+
+    // ============================================
+    // REAL-TIME CHAT INTEGRATION
+    // ============================================
+    window.sendToFirebase = async function (text, sender) {
+      if (sender === 'user') {
+        try {
+          await addDoc(collection(db, "messages"), {
+            text: text,
+            sender: sender,
+            timestamp: new Date()
+          });
+        } catch (e) {
+          console.log("Chat not connected to Firebase", e);
+        }
+      }
+    }
+
+    // Initialize
+    initVisitorCounter();
+
+    // Expose DB for debugging
+    window.db = db;
+  </script>
 </body>
 
 </html>
