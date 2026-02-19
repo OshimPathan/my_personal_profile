@@ -2427,6 +2427,17 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme="light"] .tech-category {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .tech-category:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
 [data-theme="light"] .tech-tag {
   background: rgba(0, 0, 0, 0.06);
   color: #1e293b !important;
