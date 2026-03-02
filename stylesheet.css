@@ -1596,8 +1596,25 @@ img { max-width: 100%; }
   line-height: 1.6;
   font-style: italic;
   margin: 0;
+  padding-bottom: 4px;
+}
+
+.patent-idf-title {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.patent-idf-title em {
+  color: var(--accent);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .patent-meta {
