@@ -753,6 +753,17 @@
           <p class="edu-meta">2022 – 2026 &nbsp;·&nbsp; CGPA: 8.78 / 10 (Up to 7th Semester)</p>
         </div>
       </div>
+
+      <div class="glass-card edu-card reveal">
+        <div class="edu-image">
+          <img src="images/trinity.png" alt="Trinity International College" loading="lazy">
+        </div>
+        <div class="edu-info">
+          <h3><a href="https://www.trinity.edu.np" target="_blank" rel="noopener noreferrer">Trinity International SS &amp; College</a></h3>
+          <p class="edu-degree">Higher Secondary (11 &amp; 12) — Computer Science (PCM)</p>
+          <p class="edu-meta">Dillibazar Height, Kathmandu, Nepal &nbsp;·&nbsp; GPA: 3.66 / 4</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1883,7 +1894,10 @@
       email: "work.oshimkhan@gmail.com",
       linkedin: "linkedin.com/in/oshim7786",
       github: "github.com/OshimPathan",
-      education: { degree: "B.Tech in Computer Science and Engineering", university: "VIT Vellore, India", year: "2022 - 2026", gpa: "8.78 CGPA" },
+      education: [
+        { degree: "B.Tech in Computer Science and Engineering", university: "VIT Vellore, India", year: "2022 - 2026", gpa: "8.78 CGPA" },
+        { degree: "Higher Secondary (11 & 12) — Computer Science (PCM)", university: "Trinity International SS & College, Kathmandu, Nepal", year: "Completed", gpa: "3.66 / 4 GPA" }
+      ],
       skills: {
         languages: ["Python", "JavaScript", "TypeScript", "Java", "C++", "SQL", "Dart"],
         frontend: ["React.js", "Next.js", "Flutter", "Tailwind CSS", "HTML5", "CSS3"],
@@ -1987,7 +2001,8 @@
         return `🛠️ <strong>Oshim's Tech Stack:</strong><br><br><strong>Languages:</strong> ${oshimData.skills.languages.join(', ')}<br><strong>Frontend:</strong> ${oshimData.skills.frontend.join(', ')}<br><strong>Backend:</strong> ${oshimData.skills.backend.join(', ')}<br><strong>Cloud:</strong> ${oshimData.skills.cloud.join(', ')}<br><strong>AI/ML:</strong> ${oshimData.skills.ai_ml.join(', ')}<br><strong>Databases:</strong> ${oshimData.skills.databases.join(', ')}`;
       }
       if (q.includes('education') || q.includes('study') || q.includes('university') || q.includes('degree') || q.includes('college')) {
-        return `🎓 <strong>Education:</strong><br><br><strong>${oshimData.education.degree}</strong><br>📍 ${oshimData.education.university}<br>📅 ${oshimData.education.year}<br>⭐ ${oshimData.education.gpa}`;
+        let eduList = oshimData.education.map(e => `<strong>${e.degree}</strong><br>📍 ${e.university}<br>📅 ${e.year}<br>⭐ ${e.gpa}`).join('<br><br>');
+        return `🎓 <strong>Education:</strong><br><br>${eduList}`;
       }
       if (q.includes('patent') || q.includes('research') || q.includes('publication')) {
         let list = oshimData.patents.map(p => `<strong>${p.name}:</strong> ${p.title}<br>👤 <em>Inventors:</em> ${p.inventors}<br>📋 <em>Status:</em> ${p.status}${p.appId ? '<br>🔢 <em>App ID:</em> ' + p.appId : ''}${p.filedDate ? '<br>📅 <em>Filed:</em> ' + p.filedDate : ''}${p.publishedDate ? '<br>📰 <em>Published:</em> ' + p.publishedDate : ''}`).join('<br><br>');
@@ -2009,13 +2024,13 @@
         return `📧 <strong>Get in Touch:</strong><br><br><strong>Email:</strong> ${oshimData.email}<br><strong>LinkedIn:</strong> ${oshimData.linkedin}<br><strong>GitHub:</strong> ${oshimData.github}<br><strong>Location:</strong> ${oshimData.location}`;
       }
       if (q.includes('who') || q.includes('about') || q.includes('yourself') || q.includes('oshim')) {
-        return `👋 <strong>About Oshim:</strong><br><br>I'm ${oshimData.name}, a software engineer from ${oshimData.location}. Currently pursuing ${oshimData.education.degree} at ${oshimData.education.university}.<br><br>🚀 Founder of <strong>${oshimData.startup.name}</strong> — ${oshimData.startup.desc}<br>📜 <strong>${oshimData.patents.length} Patents</strong> (B-SAFE.AI published, Rebirth filed)<br><br>🎯 ${oshimData.goals}`;
+        return `👋 <strong>About Oshim:</strong><br><br>I'm ${oshimData.name}, a software engineer from ${oshimData.location}. Currently pursuing ${oshimData.education[0].degree} at ${oshimData.education[0].university}.<br><br>🚀 Founder of <strong>${oshimData.startup.name}</strong> — ${oshimData.startup.desc}<br>📜 <strong>${oshimData.patents.length} Patents</strong> (B-SAFE.AI published, Rebirth filed)<br><br>🎯 ${oshimData.goals}`;
       }
       if (q.includes('goal') || q.includes('future') || q.includes('aim') || q.includes('dream')) {
         return `🎯 <strong>Goals:</strong><br><br>${oshimData.goals}<br><br>Currently ${oshimData.availability.toLowerCase()}.`;
       }
       if (q.includes('where') || q.includes('location') || q.includes('from') || q.includes('live')) {
-        return `📍 Oshim is from <strong>${oshimData.location}</strong> and studied at <strong>${oshimData.education.university}</strong>.`;
+        return `📍 Oshim is from <strong>${oshimData.location}</strong> and studied at <strong>${oshimData.education[0].university}</strong>.`;
       }
       if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
         return `👋 Hello! I'm Oshim's AI assistant. Ask about skills, projects, patents, startup, education, experience, or contact info!`;
