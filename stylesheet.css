@@ -1537,6 +1537,135 @@ img { max-width: 100%; }
 }
 
 /* ============================================
+   PATENTS SECTION
+   ============================================ */
+.patents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.patent-card {
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.patent-status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.patent-status-badge.published {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.patent-status-badge.filed {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.patent-icon {
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.patent-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.patent-full-title {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.patent-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.patent-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.patent-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.patent-value {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.patent-inventors {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patent-inventors p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.patent-description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.patent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .patents-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patent-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
    TECH STACK SECTION (Icon Grid)
    ============================================ */
 .tech-grid {
@@ -2796,6 +2925,10 @@ img { max-width: 100%; }
   background: rgba(255,255,255,0.9);
   border: 1px solid rgba(0,0,0,0.06);
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+}
+
+[data-theme="light"] .patent-full-title {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="light"] .filter-btn {
