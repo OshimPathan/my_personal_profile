@@ -1599,6 +1599,12 @@ img { max-width: 100%; }
   padding-bottom: 4px;
 }
 
+/* If there's no idf-title after full-title, add the separator via .patent-full-title--bordered */
+.patent-full-title--bordered {
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 .patent-idf-title {
   font-size: 0.82rem;
   color: var(--text-muted);
@@ -1643,6 +1649,8 @@ img { max-width: 100%; }
   font-size: 0.9rem;
   color: var(--text-primary);
   font-weight: 500;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .patent-inventors {
@@ -1679,6 +1687,18 @@ img { max-width: 100%; }
 
   .patent-meta {
     grid-template-columns: 1fr;
+  }
+
+  .patent-card {
+    padding: 24px 20px;
+  }
+
+  .patent-title {
+    font-size: 1.15rem;
+  }
+
+  .patent-value {
+    font-size: 0.82rem;
   }
 }
 
@@ -2946,6 +2966,27 @@ img { max-width: 100%; }
 
 [data-theme="light"] .patent-full-title {
   border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .patent-full-title--bordered {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .patent-idf-title {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .patent-status-badge.published {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+[data-theme="light"] .patent-status-badge.filed {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.25);
 }
 
 [data-theme="light"] .filter-btn {
