@@ -31,7 +31,8 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=21.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=34.0">
+  <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
@@ -47,28 +48,75 @@
     content="Portfolio of Oshim Pathan — Full-stack developer, AI engineer, VIT Vellore." />
   <meta property="og:image" content="https://oshimpathan.com.np/images/profile.png" />
 
-  <!-- Google Fonts -->
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@OshimPathan" />
+  <meta name="twitter:creator" content="@OshimPathan" />
+  <meta name="twitter:title" content="Oshim Pathan — Software Engineer" />
+  <meta name="twitter:description" content="Full-stack developer, AI engineer, and startup founder. VIT Vellore '26." />
+  <meta name="twitter:image" content="https://oshimpathan.com.np/images/profile.png" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Oshim Pathan",
+    "url": "https://oshimpathan.com.np",
+    "image": "https://oshimpathan.com.np/images/profile.png",
+    "jobTitle": "Software Engineer",
+    "worksFor": { "@type": "Organization", "name": "ShareSathi" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "VIT Vellore" },
+    "knowsAbout": ["Full-Stack Development", "AI/ML", "Cloud Computing", "React", "Python", "TypeScript"],
+    "sameAs": [
+      "https://github.com/OshimPathan",
+      "https://www.linkedin.com/in/oshim7786",
+      "https://x.com/OshimPathan"
+    ]
+  }
+  </script>
+
+  <!-- Preconnect for external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://api.github.com">
+
+  <!-- Google Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 </head>
 
 <body>
+  <!-- Skip to main content (accessibility) -->
+  <a href="#hero" class="skip-to-content">Skip to main content</a>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBL4CXVK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
 
+  <!-- ═══════════════════════════════════════════
+       PRELOADER
+       ═══════════════════════════════════════════ -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-logo">&lt;OP /&gt;</div>
+      <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
   <!-- Animated Mesh Gradient Background -->
-  <div class="mesh-gradient-bg">
+  <div class="mesh-gradient-bg" aria-hidden="true">
     <div class="mesh-blob blob-1"></div>
     <div class="mesh-blob blob-2"></div>
     <div class="mesh-blob blob-3"></div>
     <div class="mesh-blob blob-4"></div>
   </div>
-
-
 
   <!-- Scroll Progress Bar -->
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -82,6 +130,7 @@
       <nav class="nav-links-container" id="navLinks">
         <div class="nav-indicator" id="navIndicator"></div>
         <a href="#hero" class="nav-item active">Home</a>
+        <a href="#about" class="nav-item">About</a>
         <a href="#projects" class="nav-item">Projects</a>
         <a href="#skills" class="nav-item">Skills</a>
         <a href="#experience" class="nav-item">Experience</a>
@@ -96,7 +145,7 @@
               d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
           </svg>
           <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         </button>
@@ -111,39 +160,74 @@
        HERO SECTION
        ═══════════════════════════════════════════ -->
   <section class="hero-section" id="hero">
+    <div id="particles-js" class="particles-container" aria-hidden="true"></div>
     <div class="hero-split-container reveal">
       <div class="hero-content-left">
-        <p class="hero-greeting">Hello.</p>
-        <h2 class="hero-introduction">I'm <span class="highlight-text">Oshim</span></h2>
-        <h1 class="hero-title">Software Developer</h1>
-        <div class="hero-cta-group">
-          <a href="#projects" class="btn btn-coral">Get a project?</a>
-          <a href="data/Update_Resume(7).pdf" target="_blank" class="btn btn-outline">My resume</a>
+        <div class="hero-realtime-bar">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Available for opportunities</span>
+          </div>
+          <div class="hero-live-clock" id="liveClock" title="Oshim's local time (Nepal)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span id="liveClockTime">--:--</span>
+            <span class="clock-label">NPT</span>
+          </div>
         </div>
 
-        <div class="hero-social-links">
-          <a href="mailto:work.oshimkhan@gmail.com" class="social-icon" aria-label="Email">
+        <!-- GitHub Activity Pulse -->
+        <div class="github-activity-badge reveal" id="ghActivity">
+          <div class="gh-pulse"></div>
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="" width="14" height="14">
+          <span id="ghActivityText">Fetching GitHub activity...</span>
+        </div>
+
+        <p class="hero-greeting">Hello, I'm</p>
+        <h2 class="hero-introduction">
+          <span class="gradient-text glitch" data-text="Oshim Pathan">Oshim Pathan</span>
+        </h2>
+
+        <div class="dynamic-title-wrapper">
+          <h1 class="hero-title">
+            <span class="static-text">I build </span>
+            <span class="dynamic-text-container">
+              <span id="typed-role" class="dynamic-role">AI Systems</span><span class="cursor">|</span>
+            </span>
+          </h1>
+        </div>
+
+        <p class="hero-description">Software Engineer from Nepal specializing in AI-powered healthcare systems, cloud infrastructure, and full-stack development. VIT Vellore '26.</p>
+
+        <div class="hero-cta-group fade-in-delayed">
+          <a href="#projects" class="btn btn-primary magnetic">
+            <span>View Projects</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="data/Update_Resume(7).pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline magnetic">
+            <span>Download CV</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="hero-social-links fade-in-delayed">
+          <a href="mailto:work.oshimkhan@gmail.com" class="social-icon" aria-label="Email" data-tooltip="Email">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg>
           </a>
-          <a href="https://github.com/OshimPathan" target="_blank" class="social-icon" aria-label="GitHub">
+          <a href="https://github.com/OshimPathan" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub" data-tooltip="GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
             </svg>
           </a>
-          <a href="https://linkedin.com/in/oshim7786" target="_blank" class="social-icon" aria-label="LinkedIn">
+          <a href="https://linkedin.com/in/oshim7786" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn" data-tooltip="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-5.5 15h2.25v-6.75c0-1.5 1.25-2.25 2.5-2.25.75 0 1.25.5 1.25 1.5V18h2.25v-7.5c0-2-1.5-3-3.25-3-1.5 0-2.5 1-3 2v-1.75h-2V18zM6.5 6.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zM5.5 18h2.25V9H5.5v9z" />
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
             </svg>
           </a>
-          <a href="data/Update_Resume(7).pdf" target="_blank" class="social-icon" aria-label="Resume">
+          <a href="https://x.com/OshimPathan" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter" data-tooltip="Twitter / X">
             <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
           </a>
         </div>
@@ -151,13 +235,18 @@
       <div class="hero-image-right">
         <div class="profile-ring-container">
           <div class="ring-glow"></div>
+          <div class="ring-orbit">
+            <div class="orbit-dot"></div>
+          </div>
+          <div class="ring-orbit ring-orbit-2">
+            <div class="orbit-dot"></div>
+          </div>
           <div class="ring-border"></div>
           <img src="images/profile.png" alt="Oshim Pathan" class="profile-img-circle">
         </div>
       </div>
     </div>
-    </div>
-    <div class="scroll-hint">
+    <div class="scroll-hint" aria-hidden="true">
       <div class="mouse-icon">
         <div class="mouse-wheel"></div>
       </div>
@@ -166,40 +255,131 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       TECH STRIP (Jensen Style)
+       INFINITE MARQUEE TECH STRIP
        ═══════════════════════════════════════════ -->
-  <div class="tech-strip reveal">
-    <span class="tech-item">HTML</span>
-    <span class="tech-item">CSS</span>
-    <span class="tech-item">JavaScript</span>
-    <span class="tech-item">Python</span>
-    <span class="tech-item">React</span>
-    <span class="tech-item">TensorFlow</span>
-    <span class="tech-item">Firebase</span>
-    <span class="tech-item">Git</span>
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <div class="marquee-content">
+        <span class="marquee-item">Python</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">JavaScript</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">TypeScript</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">React</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Next.js</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Node.js</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">FastAPI</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">TensorFlow</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">AWS</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Firebase</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Docker</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">PostgreSQL</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">LangChain</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Flutter</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Supabase</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Redis</span>
+        <span class="marquee-dot"></span>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <span class="marquee-item">Python</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">JavaScript</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">TypeScript</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">React</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Next.js</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Node.js</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">FastAPI</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">TensorFlow</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">AWS</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Firebase</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Docker</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">PostgreSQL</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">LangChain</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Flutter</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Supabase</span>
+        <span class="marquee-dot"></span>
+        <span class="marquee-item">Redis</span>
+        <span class="marquee-dot"></span>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
-       STATS SECTION
+       ABOUT SECTION
        ═══════════════════════════════════════════ -->
-  <section class="stats-section reveal" id="stats">
-    <div class="stats-container">
-      <div class="stat-item">
-        <h3 class="stat-number" data-target="8">0</h3>
-        <span class="stat-symbol">+</span>
-        <p class="stat-label">Projects</p>
-      </div>
-      <div class="stat-item">
-        <h3 class="stat-number" data-target="2">0</h3>
-        <p class="stat-label">Internships</p>
-      </div>
-      <div class="stat-item">
-        <h3 class="stat-number" data-target="1">0</h3>
-        <p class="stat-label">Patent</p>
-      </div>
-      <div class="stat-item">
-        <h3 class="stat-number" data-target="8.78">0</h3>
-        <p class="stat-label">CGPA</p>
+  <section class="content-section" id="about">
+    <div class="section-inner">
+      <h2 class="section-title reveal"><span class="title-accent"></span>About Me</h2>
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>I'm a <strong>Software Engineer</strong> from Devdaha, Rupandehi, Nepal — currently in my final year of <strong>B.Tech in Computer Science</strong> at VIT Vellore, India. My passion lies at the intersection of <strong>AI, healthcare, and cloud computing</strong>.</p>
+          <p>I've built <strong>15+ projects</strong> ranging from AI-powered hospital systems to production-grade ERPs, with <strong>2 patents</strong> (B-SAFE.AI — filed &amp; published; Rebirth — filed). I'm also the <strong>Founder of <a href="https://github.com/OshimPathan/ShareSathi" target="_blank" rel="noopener noreferrer" class="inline-link">ShareSathi</a></strong> — Nepal's AI-powered stock analytics &amp; paper trading platform for NEPSE investors.</p>
+          <p>I believe technology should solve real human problems — that's why most of my work centers around healthcare accessibility. When I'm not coding, I'm building the next system that could change lives.</p>
+        </div>
+        <div class="about-highlights">
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="highlight-info">
+              <h4>15+ Projects</h4>
+              <p>Full-stack to AI systems</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="highlight-info">
+              <h4>8.78 CGPA</h4>
+              <p>VIT Vellore, India</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.12 0 4.07.74 5.6 1.97"/></svg>
+            </div>
+            <div class="highlight-info">
+              <h4>2 Patents</h4>
+              <p>Filed &amp; Published</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="highlight-info">
+              <h4>Startup Founder</h4>
+              <p>ShareSathi — NEPSE Trading</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -218,172 +398,211 @@
       <!-- Category Filter Tabs -->
       <div class="project-filters reveal" id="projectFilters">
         <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="startup">Startup</button>
         <button class="filter-btn" data-filter="ai-health">AI / Health</button>
         <button class="filter-btn" data-filter="enterprise">Enterprise</button>
         <button class="filter-btn" data-filter="web-apps">Web Apps</button>
-        <button class="filter-btn" data-filter="tools">Tools</button>
       </div>
 
-      <!-- Projects Grid -->
+      <!-- Projects Grid — Ordered by hiring impact (highest first) -->
       <div class="projects-grid" id="projectsGrid">
+
+        <div class="glass-card project-card reveal" data-category="startup">
+          <span class="project-tag">Startup · Founder</span>
+          <h3>📈 ShareSathi</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="TypeScript"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" loading="lazy"></span>
+            <span class="pti" data-tip="FastAPI"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" loading="lazy"></span>
+            <span class="pti" data-tip="Python"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy"></span>
+            <span class="pti" data-tip="Redis"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" loading="lazy"></span>
+            <span class="pti" data-tip="Tailwind"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy"></span>
+          </div>
+          <p>Nepal's AI-powered stock analytics &amp; paper trading platform. Live NEPSE prices, real financial news scraping, accurate brokerage fees, virtual trading with Rs. 10 Lakh, and freemium SaaS monetization (3 tiers).</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/ShareSathi" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
+          </div>
+        </div>
+
+        <div class="glass-card project-card reveal" data-category="enterprise">
+          <span class="project-tag">Enterprise · Full ERP</span>
+          <h3>🏫 SevenStar School ERP</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="Tailwind"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy"></span>
+            <span class="pti" data-tip="Supabase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" loading="lazy"></span>
+            <span class="pti" data-tip="PostgreSQL"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" loading="lazy"></span>
+            <span class="pti" data-tip="Express"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express" loading="lazy"></span>
+            <span class="pti txt">165 APIs</span>
+          </div>
+          <p>Production-grade K-12 school ERP with 55 database tables, 37 dashboard pages, 5 user roles, attendance, exams, fees, salary, library, and transport modules. Manages 1,300+ students.</p>
+          <div class="project-links">
+            <a href="https://seven-star-frontend.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/SevenStar" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
+          </div>
+        </div>
 
         <div class="glass-card project-card reveal" data-category="ai-health">
           <span class="project-tag">AI / Health</span>
           <h3>🏥 MedAssist AI</h3>
-          <p class="project-tech">Python · TypeScript · Next.js · Firebase · Socket.io · Docker · RAG</p>
-          <p>Real-time multi-channel intelligent hospital communication and emergency orchestration system with
-            safety-constrained AI triage, multi-role dashboards, and GDPR compliance.</p>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="Python"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy"></span>
+            <span class="pti" data-tip="FastAPI"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" loading="lazy"></span>
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="TypeScript"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" loading="lazy"></span>
+            <span class="pti" data-tip="MongoDB"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" loading="lazy"></span>
+            <span class="pti" data-tip="Docker"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" loading="lazy"></span>
+          </div>
+          <p>24/7 AI hospital assistant with patient triage (70+ symptom weights), emergency detection, appointment booking with slot locking, multi-role dashboards, Chart.js analytics, GDPR compliance, and PWA support.</p>
           <div class="project-links">
-            <a href="https://github.com/OshimPathan/MedAssist-AI" target="_blank" class="proj-link">Code</a>
+            <a href="https://github.com/OshimPathan/MedAssist-AI" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="ai-health">
           <span class="project-tag">AI / Health · Patent</span>
-          <h3>🩺 AeroStream</h3>
-          <p class="project-tech">Next.js · Azure · Tailwind · Supabase · Twilio · Custom ML · GPT</p>
-          <p>Contactless disease screening pipeline analyzing breath signals using LLMs, achieving early detection
-            of
-            respiratory and metabolic conditions.</p>
+          <h3>🩺 B-SAFE.AI (AeroStream)</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="Next.js"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" loading="lazy"></span>
+            <span class="pti" data-tip="Azure"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure" loading="lazy"></span>
+            <span class="pti" data-tip="Tailwind"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy"></span>
+            <span class="pti" data-tip="Supabase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" loading="lazy"></span>
+            <span class="pti txt">GPT</span>
+            <span class="pti txt">ML</span>
+          </div>
+          <p>Contactless disease screening pipeline analyzing breath signals using LLMs. <strong>Patent filed &amp; published</strong> (Application ID: 202641010439). Early detection of respiratory and metabolic conditions.</p>
           <div class="project-links">
-            <a href="https://aero-stream.vercel.app/" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank"
-              class="proj-link">Code</a>
+            <a href="https://aero-stream.vercel.app/" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/Health-Monitoring-System-heilo.git" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="ai-health">
           <span class="project-tag">AI / Health</span>
           <h3>🏥 Smart Hospital AI System</h3>
-          <p class="project-tech">Next.js 14 · TypeScript · Tailwind · Firebase · Zustand · Socket.io</p>
-          <p>Full-stack healthcare platform with AI chatbot, real-time queue tracking, multi-role dashboards,
-            emergency
-            SOS, and multi-language chat.</p>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="Next.js"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" loading="lazy"></span>
+            <span class="pti" data-tip="TypeScript"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" loading="lazy"></span>
+            <span class="pti" data-tip="Tailwind"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy"></span>
+            <span class="pti" data-tip="Firebase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" alt="Firebase" loading="lazy"></span>
+            <span class="pti txt">Socket.io</span>
+          </div>
+          <p>Full-stack healthcare platform with AI chatbot, real-time queue tracking, multi-role dashboards, emergency SOS, and multi-language chat.</p>
           <div class="project-links">
-            <a href="https://smart-hospital-ai-system.vercel.app" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/smart-hospital-ai-system.git" target="_blank"
-              class="proj-link">Code</a>
+            <a href="https://smart-hospital-ai-system.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/smart-hospital-ai-system.git" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
+          </div>
+        </div>
+
+        <div class="glass-card project-card reveal" data-category="ai-health">
+          <span class="project-tag">AI / Health · Patent</span>
+          <h3>🧠 Rebirth (Mental Health AI)</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="Flutter"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter" loading="lazy"></span>
+            <span class="pti" data-tip="Dart"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart" loading="lazy"></span>
+            <span class="pti" data-tip="Firebase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" alt="Firebase" loading="lazy"></span>
+            <span class="pti txt">Gemini</span>
+            <span class="pti txt">BERT</span>
+          </div>
+          <p>AI-powered mental health companion with emotion-aware conversational response regulation, severity-conditioned control logic, and longitudinal state analytics. <strong>Patent filed.</strong></p>
+          <div class="project-links">
+            <a href="https://capstone-project-report.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/rebirth-frontend.git" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="enterprise">
           <span class="project-tag">Enterprise</span>
           <h3>🌐 WorkSphere ERP</h3>
-          <p class="project-tech">React (Vite) · TypeScript · Tailwind · Node.js · PostgreSQL · Prisma · JWT</p>
-          <p>Comprehensive enterprise resource planning and team collaboration platform integrating project
-            management,
-            HR, finance, and support ticketing.</p>
-          <div class="project-links">
-            <a href="https://github.com/OshimPathan/WorkSphere" target="_blank" class="proj-link">Code</a>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="TypeScript"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" loading="lazy"></span>
+            <span class="pti" data-tip="Node.js"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" loading="lazy"></span>
+            <span class="pti" data-tip="PostgreSQL"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" loading="lazy"></span>
+            <span class="pti" data-tip="Prisma"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg" alt="Prisma" loading="lazy"></span>
           </div>
-        </div>
-
-        <div class="glass-card project-card reveal" data-category="enterprise">
-          <span class="project-tag">Enterprise</span>
-          <h3>📱 TaskFlow Pro</h3>
-          <p class="project-tech">React · Firebase · Capacitor · AI Chatbot · Stripe · Glassmorphism UI</p>
-          <p>Smart task management app with AI assistant, calendar integration, offline-first sync, drag-and-drop,
-            subscription tiers, and dark/light mode.</p>
+          <p>Comprehensive enterprise resource planning and team collaboration platform integrating project management, HR, finance, and support ticketing.</p>
           <div class="project-links">
-            <a href="https://github.com/OshimPathan/taskflow-pro" target="_blank" class="proj-link">Code</a>
-          </div>
-        </div>
-
-        <div class="glass-card project-card reveal" data-category="ai-health">
-          <span class="project-tag">AI / Health</span>
-          <h3>🧠 Rebirth (Mental Health AI)</h3>
-          <p class="project-tech">Flutter · Dart · Google Gemini · Custom Orchestrator · Firebase</p>
-          <p>Flutter-based iOS mental health intelligence system detecting behavioral and emotional patterns to
-            generate
-            personalized guidance using Gemini API.</p>
-          <div class="project-links">
-            <a href="https://capstone-project-report.vercel.app" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/rebirth-frontend.git" target="_blank" class="proj-link">Code</a>
+            <a href="https://github.com/OshimPathan/WorkSphere" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="ai-health">
           <span class="project-tag">AI / Health</span>
           <h3>💊 HealthMate AI (RAG Chatbot)</h3>
-          <p class="project-tech">Python · Flask · Pinecone · LangChain · OpenAI · AWS CI/CD · Docker</p>
-          <p>End-to-end medical chatbot leveraging RAG to provide accurate answers from medical documentation with
-            chat
-            history and resource management.</p>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="Python"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy"></span>
+            <span class="pti" data-tip="Docker"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" loading="lazy"></span>
+            <span class="pti" data-tip="AWS"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" loading="lazy"></span>
+            <span class="pti txt">LangChain</span>
+            <span class="pti txt">Pinecone</span>
+          </div>
+          <p>End-to-end medical chatbot leveraging RAG to provide accurate answers from medical documentation with chat history and resource management.</p>
           <div class="project-links">
-            <a href="https://github.com/OshimPathan/End-to-end-Medical-chatbot-Generative-AI" target="_blank"
-              class="proj-link">Code</a>
+            <a href="https://github.com/OshimPathan/End-to-end-Medical-chatbot-Generative-AI" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
+          </div>
+        </div>
+
+        <div class="glass-card project-card reveal" data-category="enterprise">
+          <span class="project-tag">Enterprise</span>
+          <h3>📱 TaskFlow Pro</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="Firebase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" alt="Firebase" loading="lazy"></span>
+            <span class="pti txt">Capacitor</span>
+            <span class="pti txt">Stripe</span>
+            <span class="pti txt">AI Bot</span>
+          </div>
+          <p>Smart task management app with AI assistant, calendar integration, offline-first sync, drag-and-drop, subscription tiers, and dark/light mode.</p>
+          <div class="project-links">
+            <a href="https://github.com/OshimPathan/taskflow-pro" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="ai-health">
           <span class="project-tag">AI / Health</span>
           <h3>🩺 MediAssist AI</h3>
-          <p class="project-tech">TypeScript · Supabase · Google OAuth · Gemini AI · Vercel</p>
-          <p>AI-powered chatbot that recommends which medical department to consult based on symptom analysis, with
-            full
-            authentication and chat history.</p>
-          <div class="project-links">
-            <a href="https://github.com/OshimPathan/medi-advisor" target="_blank" class="proj-link">Code</a>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="TypeScript"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TS" loading="lazy"></span>
+            <span class="pti" data-tip="Supabase"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" loading="lazy"></span>
+            <span class="pti txt">Gemini</span>
+            <span class="pti txt">OAuth</span>
           </div>
-        </div>
-
-        <div class="glass-card project-card reveal" data-category="web-apps">
-          <span class="project-tag">Web Apps</span>
-          <h3>🎬 GIF Search Engine</h3>
-          <p class="project-tech">React.js · Vite · Tailwind CSS · Giphy API · React Hooks</p>
-          <p>Optimized GIF search engine handling 100+ requests/sec with infinite scrolling for seamless content
-            discovery and 30% faster load times.</p>
+          <p>AI-powered chatbot that recommends which medical department to consult based on symptom analysis, with full authentication and chat history.</p>
           <div class="project-links">
-            <a href="https://react-giphy-azure.vercel.app" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/react-giphy.git" target="_blank" class="proj-link">Code</a>
+            <a href="https://github.com/OshimPathan/medi-advisor" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="web-apps">
           <span class="project-tag">Web Apps</span>
           <h3>🔗 URL Shortener SaaS</h3>
-          <p class="project-tech">React · Node.js · MongoDB · Stripe · Vercel · Multi-language</p>
-          <p>High-availability serverless URL shortener with Stripe payments, multi-language support, optimized for
-            low-latency redirection and infinite scalability.</p>
-          <div class="project-links">
-            <a href="https://urlshort-saas.vercel.app" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/urlshort-saas.git" target="_blank" class="proj-link">Code</a>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="Node.js"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" loading="lazy"></span>
+            <span class="pti" data-tip="MongoDB"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" loading="lazy"></span>
+            <span class="pti txt">Stripe</span>
           </div>
-        </div>
-
-        <div class="glass-card project-card reveal" data-category="tools">
-          <span class="project-tag">Tools</span>
-          <h3>✋ Hand Gesture Math Solver</h3>
-          <p class="project-tech">Python · OpenCV · cvzone · Gemini AI · NumPy · Pillow</p>
-          <p>Real-time hand gesture recognition system allowing users to solve math problems by drawing in the air,
-            integrated with Gemini AI.</p>
+          <p>High-availability serverless URL shortener with Stripe payments, multi-language support, optimized for low-latency redirection and infinite scalability.</p>
           <div class="project-links">
-            <a href="https://github.com/OshimPathan/Hand-Gesture-Math-Solver-Using-Python" target="_blank"
-              class="proj-link">Code</a>
-          </div>
-        </div>
-
-        <div class="glass-card project-card reveal" data-category="tools">
-          <span class="project-tag">Tools</span>
-          <h3>🃏 Flashcard Quiz App</h3>
-          <p class="project-tech">React · Vite · Local Storage · CSS Animations</p>
-          <p>Interactive quiz application with multi-user system, topic selection, timed quizzes, and local storage
-            persistence with blur reveal effects.</p>
-          <div class="project-links">
-            <a href="https://github.com/OshimPathan/flashcard_quiz" target="_blank" class="proj-link">Code</a>
+            <a href="https://urlshort-saas.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/urlshort-saas.git" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
         <div class="glass-card project-card reveal" data-category="web-apps">
           <span class="project-tag">Web Apps</span>
-          <h3>👟 Nike Store E-commerce</h3>
-          <p class="project-tech">HTML5 · CSS3 · JavaScript</p>
-          <p>Responsive e-commerce website with product catalog, detail views, cart functionality, and checkout
-            process
-            with modern design.</p>
+          <h3>🎬 GIF Search Engine</h3>
+          <div class="project-tech-icons">
+            <span class="pti" data-tip="React"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></span>
+            <span class="pti" data-tip="Tailwind"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" loading="lazy"></span>
+            <span class="pti txt">Giphy API</span>
+            <span class="pti txt">Hooks</span>
+          </div>
+          <p>Optimized GIF search engine handling 100+ requests/sec with infinite scrolling for seamless content discovery and 30% faster load times.</p>
           <div class="project-links">
-            <a href="https://oshimpathan.github.io/Nike_Store/" target="_blank" class="proj-link">Demo</a>
-            <a href="https://github.com/OshimPathan/Nike_Store.git" target="_blank" class="proj-link">Code</a>
+            <a href="https://react-giphy-azure.vercel.app" target="_blank" rel="noopener noreferrer" class="proj-link">Demo</a>
+            <a href="https://github.com/OshimPathan/react-giphy.git" target="_blank" rel="noopener noreferrer" class="proj-link">Code</a>
           </div>
         </div>
 
@@ -403,11 +622,11 @@
       <div class="cert-grid">
         <div class="glass-card cert-card reveal">
           <div class="cert-image">
-            <img src="images/IBM_Certificate.png" alt="IBM GEN AI">
+            <img src="images/IBM_Certificate.png" alt="IBM GEN AI" loading="lazy">
           </div>
           <div class="cert-info">
             <h3><a href="https://drive.google.com/file/d/1lxNWDIfXorl9sJge0Q5iZR9zJ1uVZ3Hv/view?usp=sharing"
-                target="_blank">🏅 IBM — GEN AI</a></h3>
+                target="_blank" rel="noopener noreferrer">🏅 IBM — GEN AI</a></h3>
             <p>Completed intensive GEN AI credit course (May–Jul 2025) by IBM Career Education Program for
               Developers.
               Focused on building and deploying ML models for scalable AI systems.</p>
@@ -416,10 +635,10 @@
 
         <div class="glass-card cert-card reveal">
           <div class="cert-image">
-            <img src="images/HackerRank.png" alt="HackerRank">
+            <img src="images/HackerRank.png" alt="HackerRank" loading="lazy">
           </div>
           <div class="cert-info">
-            <h3><a href="https://www.hackerrank.com/certificates/bb7bec6bc4e9" target="_blank">🏅 HackerRank —
+            <h3><a href="https://www.hackerrank.com/certificates/bb7bec6bc4e9" target="_blank" rel="noopener noreferrer">🏅 HackerRank —
                 Advanced
                 SQL & Python <em>(2+ Badges)</em></a></h3>
             <p>Earned certifications in Advanced SQL (joins, subqueries, window functions) and Python (data
@@ -430,10 +649,10 @@
 
         <div class="glass-card cert-card reveal">
           <div class="cert-image">
-            <img src="images/Azure.png" alt="Azure AZ-900">
+            <img src="images/Azure.png" alt="Azure AZ-900" loading="lazy">
           </div>
           <div class="cert-info">
-            <h3><a href="https://www.linkedin.com/learning/me/my-library/completed" target="_blank">Microsoft Azure
+            <h3><a href="https://www.linkedin.com/learning/me/my-library/completed" target="_blank" rel="noopener noreferrer">Microsoft Azure
                 AZ-900</a></h3>
             <p>Completed Azure Fundamentals prep via LinkedIn Learning covering cloud concepts, architecture,
               management, governance, and cloud-native principles. <em>Issued Aug 2024.</em></p>
@@ -444,7 +663,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       EXPERIENCE SECTION
+       EXPERIENCE SECTION (Vertical Timeline)
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="experience">
     <div class="section-inner">
@@ -452,28 +671,62 @@
       <p class="section-subtitle reveal">Hands-on industry experience through structured internships on real-world
         development and ML tasks.</p>
 
-      <div class="experience-timeline">
-        <div class="glass-card exp-card reveal">
-          <div class="exp-image">
-            <img src="images/codalpha.png" alt="CodeAlpha">
-          </div>
-          <div class="exp-info">
-            <h3><a href="https://drive.google.com/file/d/1ZwmpxrAxTgpsPfb5z93HsQZsmJAVAsZU/view?usp=sharing"
-                target="_blank">App Development Intern — CodeAlpha</a></h3>
-            <p>Worked on hands-on application development and feature implementation, gaining practical exposure to
-              real-world development workflows, task ownership, and industry-standard practices.</p>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-header">
+              <div class="timeline-logo timeline-logo--gradient">SS</div>
+              <div>
+                <h3><a href="https://github.com/OshimPathan/ShareSathi" target="_blank" rel="noopener noreferrer">Founder &amp; Lead Developer</a></h3>
+                <span class="timeline-company">ShareSathi</span>
+                <span class="timeline-date">Feb 2026 – Present</span>
+              </div>
+            </div>
+            <p>Building Nepal's AI-powered stock analytics &amp; paper trading platform for NEPSE investors. Live market data sync, AI-based forecasting, real-time WebSocket broadcasts, and freemium SaaS monetization. Full-stack development spanning React, FastAPI, TypeScript, and PostgreSQL.</p>
+            <div class="timeline-tags">
+              <span>React</span><span>FastAPI</span><span>TypeScript</span><span>WebSocket</span><span>Redis</span><span>PostgreSQL</span>
+            </div>
           </div>
         </div>
 
-        <div class="glass-card exp-card reveal">
-          <div class="exp-image">
-            <img src="images/codsoft.png" alt="CodSoft">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-header">
+              <img src="images/codalpha.png" alt="CodeAlpha" class="timeline-logo" loading="lazy">
+              <div>
+                <h3><a href="https://drive.google.com/file/d/1ZwmpxrAxTgpsPfb5z93HsQZsmJAVAsZU/view?usp=sharing"
+                    target="_blank" rel="noopener noreferrer">App Development Intern</a></h3>
+                <span class="timeline-company">CodeAlpha</span>
+                <span class="timeline-date">2024</span>
+              </div>
+            </div>
+            <p>Worked on hands-on application development and feature implementation, gaining practical exposure to
+              real-world development workflows, task ownership, and industry-standard practices.</p>
+            <div class="timeline-tags">
+              <span>React</span><span>Firebase</span><span>REST APIs</span>
+            </div>
           </div>
-          <div class="exp-info">
-            <h3><a href="https://drive.google.com/file/d/17IC9eu7IiS3yGlnFnE8V1B_zN592NpQ9/view?usp=sharing"
-                target="_blank">Machine Learning Intern — CodSoft</a></h3>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-header">
+              <img src="images/codsoft.png" alt="CodSoft" class="timeline-logo" loading="lazy">
+              <div>
+                <h3><a href="https://drive.google.com/file/d/17IC9eu7IiS3yGlnFnE8V1B_zN592NpQ9/view?usp=sharing"
+                    target="_blank" rel="noopener noreferrer">Machine Learning Intern</a></h3>
+                <span class="timeline-company">CodSoft</span>
+                <span class="timeline-date">2024</span>
+              </div>
+            </div>
             <p>Worked on ML-based tasks involving data analysis, model building, and algorithmic problem-solving.
               Strengthened understanding of applied ML workflows and independent project execution.</p>
+            <div class="timeline-tags">
+              <span>Python</span><span>Scikit-learn</span><span>Pandas</span><span>NumPy</span>
+            </div>
           </div>
         </div>
       </div>
@@ -491,10 +744,10 @@
 
       <div class="glass-card edu-card reveal">
         <div class="edu-image">
-          <img src="images/vit.png" alt="VIT Vellore">
+          <img src="images/vit.png" alt="VIT Vellore" loading="lazy">
         </div>
         <div class="edu-info">
-          <h3><a href="https://vit.ac.in/" target="_blank">Vellore Institute of Technology</a></h3>
+          <h3><a href="https://vit.ac.in/" target="_blank" rel="noopener noreferrer">Vellore Institute of Technology</a></h3>
           <p class="edu-degree">Bachelor of Technology — Computer Science and Engineering</p>
           <p class="edu-meta">2022 – 2026 &nbsp;·&nbsp; CGPA: 8.78 / 10 (Up to 7th Semester)</p>
         </div>
@@ -503,7 +756,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       TECH STACK SECTION (HR Showcase)
+       TECH STACK SECTION (Icon Grid)
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="skills">
     <div class="section-inner">
@@ -511,60 +764,223 @@
       <p class="section-subtitle reveal">Technologies I use to build production-grade systems.</p>
 
       <div class="tech-grid reveal">
-        <div class="tech-category">
-          <h4>Languages</h4>
-          <div class="tech-tags">
-            <span class="tech-tag">Python</span><span class="tech-tag">JavaScript</span><span
-              class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Java</span><span class="tech-tag">C++</span><span class="tech-tag">SQL</span><span
-              class="tech-tag">Dart</span>
+
+        <!-- Languages -->
+        <div class="tech-category" data-category-name="Languages">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">💻</span>
+            <h4>Languages</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item" data-tech="TypeScript">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" loading="lazy"></div>
+              <span>TypeScript</span>
+            </div>
+            <div class="tech-icon-item" data-tech="JavaScript">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" loading="lazy"></div>
+              <span>JavaScript</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Python">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy"></div>
+              <span>Python</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Java">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" loading="lazy"></div>
+              <span>Java</span>
+            </div>
+            <div class="tech-icon-item" data-tech="C++">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" loading="lazy"></div>
+              <span>C++</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Dart">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart" loading="lazy"></div>
+              <span>Dart</span>
+            </div>
           </div>
         </div>
-        <div class="tech-category">
-          <h4>Frontend</h4>
-          <div class="tech-tags">
-            <span class="tech-tag">React.js</span><span class="tech-tag">Next.js</span><span
-              class="tech-tag">Flutter</span>
-            <span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Framer Motion</span><span
-              class="tech-tag">HTML5/CSS3</span>
+
+        <!-- Frontend -->
+        <div class="tech-category" data-category-name="Frontend">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">🚀</span>
+            <h4>Frontend</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item" data-tech="React">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy"></div>
+              <span>React</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Next.js">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" loading="lazy"></div>
+              <span>Next.js</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Flutter">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter" loading="lazy"></div>
+              <span>Flutter</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Tailwind">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" loading="lazy"></div>
+              <span>Tailwind</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Angular">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" loading="lazy"></div>
+              <span>Angular</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Sass">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="Sass" loading="lazy"></div>
+              <span>Sass</span>
+            </div>
           </div>
         </div>
-        <div class="tech-category">
-          <h4>Backend</h4>
-          <div class="tech-tags">
-            <span class="tech-tag">Node.js</span><span class="tech-tag">Express.js</span><span
-              class="tech-tag">FastAPI</span>
-            <span class="tech-tag">Flask</span><span class="tech-tag">Django</span><span
-              class="tech-tag">Socket.io</span>
+
+        <!-- Backend & Database -->
+        <div class="tech-category" data-category-name="Backend &amp; Database">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">⚙️</span>
+            <h4>Backend &amp; Database</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item" data-tech="Node.js">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" loading="lazy"></div>
+              <span>Node.js</span>
+            </div>
+            <div class="tech-icon-item" data-tech="FastAPI">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" loading="lazy"></div>
+              <span>FastAPI</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Express">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express" loading="lazy"></div>
+              <span>Express</span>
+            </div>
+            <div class="tech-icon-item" data-tech="PostgreSQL">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" loading="lazy"></div>
+              <span>PostgreSQL</span>
+            </div>
+            <div class="tech-icon-item" data-tech="MongoDB">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" loading="lazy"></div>
+              <span>MongoDB</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Redis">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" loading="lazy"></div>
+              <span>Redis</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Supabase">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" alt="Supabase" loading="lazy"></div>
+              <span>Supabase</span>
+            </div>
           </div>
         </div>
-        <div class="tech-category">
-          <h4>AI / ML</h4>
-          <div class="tech-tags">
-            <span class="tech-tag highlight">OpenAI API</span><span class="tech-tag highlight">LangChain</span>
-            <span class="tech-tag highlight">Gemini AI</span><span class="tech-tag">TensorFlow</span>
-            <span class="tech-tag">PyTorch</span><span class="tech-tag">Scikit-learn</span><span
-              class="tech-tag">Pinecone</span>
+
+        <!-- AI / ML -->
+        <div class="tech-category" data-category-name="AI / ML">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">🧠</span>
+            <h4>AI / ML</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item highlight" data-tech="TensorFlow">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow" loading="lazy"></div>
+              <span>TensorFlow</span>
+            </div>
+            <div class="tech-icon-item highlight" data-tech="PyTorch">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="PyTorch" loading="lazy"></div>
+              <span>PyTorch</span>
+            </div>
+            <div class="tech-icon-item highlight" data-tech="OpenAI">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openai/openai-original.svg" alt="OpenAI" loading="lazy"></div>
+              <span>OpenAI</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Scikit-learn">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="Scikit-learn" loading="lazy"></div>
+              <span>Sklearn</span>
+            </div>
+            <div class="tech-icon-item highlight" data-tech="LangChain">
+              <div class="tech-icon-wrap"><span class="tech-icon-emoji">🦜</span></div>
+              <span>LangChain</span>
+            </div>
+            <div class="tech-icon-item highlight" data-tech="Gemini">
+              <div class="tech-icon-wrap"><span class="tech-icon-emoji">✨</span></div>
+              <span>Gemini</span>
+            </div>
           </div>
         </div>
-        <div class="tech-category">
-          <h4>Cloud & DevOps</h4>
-          <div class="tech-tags">
-            <span class="tech-tag">AWS</span><span class="tech-tag">Google Cloud</span><span
-              class="tech-tag">Azure</span>
-            <span class="tech-tag">Firebase</span><span class="tech-tag">Docker</span><span
-              class="tech-tag">Kubernetes</span><span class="tech-tag">Vercel</span>
+
+        <!-- Cloud & DevOps -->
+        <div class="tech-category" data-category-name="Cloud &amp; DevOps">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">🛠️</span>
+            <h4>DevOps &amp; Tools</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item" data-tech="Docker">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" loading="lazy"></div>
+              <span>Docker</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Kubernetes">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg" alt="Kubernetes" loading="lazy"></div>
+              <span>K8s</span>
+            </div>
+            <div class="tech-icon-item" data-tech="AWS">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" loading="lazy"></div>
+              <span>AWS</span>
+            </div>
+            <div class="tech-icon-item" data-tech="GCP">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" alt="Google Cloud" loading="lazy"></div>
+              <span>GCP</span>
+            </div>
+            <div class="tech-icon-item" data-tech="GitHub">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" loading="lazy"></div>
+              <span>GitHub</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Firebase">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg" alt="Firebase" loading="lazy"></div>
+              <span>Firebase</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Azure">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure" loading="lazy"></div>
+              <span>Azure</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Vercel">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="Vercel" loading="lazy"></div>
+              <span>Vercel</span>
+            </div>
           </div>
         </div>
-        <div class="tech-category">
-          <h4>Databases</h4>
-          <div class="tech-tags">
-            <span class="tech-tag">PostgreSQL</span><span class="tech-tag">MongoDB</span><span
-              class="tech-tag">MySQL</span>
-            <span class="tech-tag">Redis</span><span class="tech-tag">Supabase</span><span
-              class="tech-tag">Prisma</span>
+
+        <!-- Databases (extra) -->
+        <div class="tech-category" data-category-name="More Tools">
+          <div class="tech-category-header">
+            <span class="tech-cat-icon">🧩</span>
+            <h4>More Tools</h4>
+          </div>
+          <div class="tech-icons-grid">
+            <div class="tech-icon-item" data-tech="Git">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy"></div>
+              <span>Git</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Prisma">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg" alt="Prisma" loading="lazy"></div>
+              <span>Prisma</span>
+            </div>
+            <div class="tech-icon-item" data-tech="GraphQL">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" alt="GraphQL" loading="lazy"></div>
+              <span>GraphQL</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Figma">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" loading="lazy"></div>
+              <span>Figma</span>
+            </div>
+            <div class="tech-icon-item" data-tech="Linux">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux" loading="lazy"></div>
+              <span>Linux</span>
+            </div>
+            <div class="tech-icon-item" data-tech="VS Code">
+              <div class="tech-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy"></div>
+              <span>VS Code</span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -631,27 +1047,27 @@
   <section class="stats-section">
     <div class="stats-bar reveal">
       <div class="stat-item">
-        <span class="stat-number" data-count="13">0</span>
+        <span class="stat-number counter" data-count="15">0</span>
         <span class="stat-label">Projects Built</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-count="8.76" data-decimal="true">0</span>
+        <span class="stat-number counter" data-count="8.78" data-decimal="true">0</span>
         <span class="stat-label">CGPA / 10</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-count="2">0</span>
+        <span class="stat-number counter" data-count="2">0</span>
         <span class="stat-label">Internships</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-count="1">0</span>
-        <span class="stat-label">Patent Published</span>
+        <span class="stat-number counter" data-count="2">0</span>
+        <span class="stat-label">Patents Filed</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-number" data-count="4">0</span>
+        <span class="stat-number counter" data-count="4">0</span>
         <span class="stat-label">Certifications</span>
       </div>
     </div>
@@ -701,7 +1117,7 @@
             rapidly
             and delivered high-quality code for our core product."</p>
           <div class="testimonial-author">
-            <div class="author-avatar" style="background: var(--accent);">ST</div>
+            <div class="author-avatar accent-bg">ST</div>
             <div class="author-info">
               <h4>Sarah Thompson</h4>
               <span>Tech Lead, CodeAlpha</span>
@@ -755,7 +1171,7 @@
             </svg>
             Hire Me
           </a>
-          <a href="data/Update_Resume(7).pdf" target="_blank" class="cta-btn secondary">
+          <a href="data/Update_Resume(7).pdf" target="_blank" rel="noopener noreferrer" class="cta-btn secondary">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
             </svg>
@@ -788,19 +1204,19 @@
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
-          <li><a href="https://github.com/OshimPathan" target="_blank">
+          <li><a href="https://github.com/OshimPathan" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                 <path
                   d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
               </svg>
               GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/oshim7786" target="_blank">
+          <li><a href="https://www.linkedin.com/in/oshim7786" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                 <path
                   d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
               LinkedIn</a></li>
-          <li><a href="https://x.com/OshimPathan" target="_blank">
+          <li><a href="https://x.com/OshimPathan" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
                 <path
                   d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -840,7 +1256,7 @@
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
-      <p>© 2025 Oshim Pathan. Built with passion from scratch.</p>
+      <p>&copy; <span id="copyrightYear">2025</span> Oshim Pathan. Built with passion from scratch.</p>
       <p class="footer-made">Made with <span class="heart">♥</span> using HTML, CSS & JavaScript</p>
     </div>
   </footer>
@@ -856,7 +1272,7 @@
         <circle cx="12" cy="10" r="1.5" />
         <circle cx="16" cy="10" r="1.5" />
       </svg>
-      <svg class="close-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" style="display:none">
+      <svg class="close-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
         <path
           d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
       </svg>
@@ -864,7 +1280,7 @@
     </button>
     <div class="chatbot-window" id="chatbotWindow">
       <div class="chatbot-header">
-        <div class="chatbot-avatar"><img src="images/profile.png" alt="Oshim" onerror="this.innerHTML='🤖'"></div>
+        <div class="chatbot-avatar"><img src="images/profile.png" alt="Oshim" onerror="this.style.display='none';this.parentNode.textContent='🤖'"></div>
         <div class="chatbot-info">
           <h4>Oshim's Assistant</h4><span class="chatbot-status"><span class="status-dot"></span> Online</span>
         </div>
@@ -886,7 +1302,7 @@
       </div>
       <div class="chatbot-input">
         <input type="text" id="chatInput" placeholder="Ask me anything..." onkeypress="handleChatKeypress(event)">
-        <button class="send-btn" onclick="sendMessage()">
+        <button class="send-btn" onclick="sendMessage()" aria-label="Send message" title="Send">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
           </svg>
@@ -907,7 +1323,140 @@
        ALL JAVASCRIPT
        ═══════════════════════════════════════════ -->
   <script>
+    // ============================================
+    // PRELOADER
+    // ============================================
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('loaded');
+        document.body.classList.add('loaded');
+      }, 1800);
+    });
 
+    // ============================================
+    // REAL-TIME: Live Clock (Nepal Time NPT = UTC+5:45)
+    // ============================================
+    function updateLiveClock() {
+      const now = new Date();
+      const npt = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kathmandu' }));
+      const h = npt.getHours();
+      const m = String(npt.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      const el = document.getElementById('liveClockTime');
+      if (el) el.textContent = `${h12}:${m} ${ampm}`;
+    }
+    updateLiveClock();
+    setInterval(updateLiveClock, 10000);
+
+    // ============================================
+    // REAL-TIME: GitHub Activity
+    // ============================================
+    async function fetchGitHubActivity() {
+      const el = document.getElementById('ghActivityText');
+      const badge = document.getElementById('ghActivity');
+      try {
+        const res = await fetch('https://api.github.com/users/OshimPathan/events/public?per_page=5');
+        if (!res.ok) throw new Error('API rate-limited');
+        const events = await res.json();
+        if (events.length > 0) {
+          const latest = events[0];
+          const when = new Date(latest.created_at);
+          const diff = Date.now() - when.getTime();
+          const mins = Math.floor(diff / 60000);
+          const hours = Math.floor(mins / 60);
+          const days = Math.floor(hours / 24);
+          let timeAgo;
+          if (mins < 60) timeAgo = `${mins}m ago`;
+          else if (hours < 24) timeAgo = `${hours}h ago`;
+          else timeAgo = `${days}d ago`;
+
+          const typeMap = {
+            PushEvent: 'Pushed code',
+            CreateEvent: 'Created repo/branch',
+            PullRequestEvent: 'Opened PR',
+            IssuesEvent: 'Opened issue',
+            WatchEvent: 'Starred a repo',
+            ForkEvent: 'Forked a repo',
+            ReleaseEvent: 'Published release'
+          };
+          const action = typeMap[latest.type] || latest.type.replace('Event', '');
+          const repo = latest.repo.name.split('/')[1];
+          el.textContent = `${action} on ${repo} · ${timeAgo}`;
+
+          // Color coding
+          if (mins < 30) {
+            badge.classList.add('gh-active-now');
+          } else if (hours < 6) {
+            badge.classList.add('gh-active-recent');
+          }
+        } else {
+          el.textContent = 'Building in stealth mode 🚀';
+        }
+      } catch (e) {
+        el.textContent = 'Open Source contributor · 30+ repos';
+      }
+    }
+    fetchGitHubActivity();
+    // Refresh every 5 minutes
+    setInterval(fetchGitHubActivity, 300000);
+
+    // ============================================
+    // CUSTOM CURSOR
+    // ============================================
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+    });
+
+    function animateCursorRing() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+      requestAnimationFrame(animateCursorRing);
+    }
+    animateCursorRing();
+
+    // Cursor hover effects
+    document.querySelectorAll('a, button, .magnetic, .project-card, .glass-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorRing.classList.add('cursor-hover');
+        cursorDot.classList.add('cursor-hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorRing.classList.remove('cursor-hover');
+        cursorDot.classList.remove('cursor-hover');
+      });
+    });
+
+    // Hide cursor on mobile
+    if ('ontouchstart' in window) {
+      cursorDot.style.display = 'none';
+      cursorRing.style.display = 'none';
+    }
+
+    // ============================================
+    // MAGNETIC BUTTON EFFECT
+    // ============================================
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
 
     // ============================================
     // NAVBAR SCROLL EFFECT & ACTIVE SECTION
@@ -930,27 +1479,21 @@
       navIndicator.style.opacity = '1';
     }
 
-    // Move indicator on hover
     navItems.forEach(item => {
       item.addEventListener('mouseenter', () => moveIndicator(item));
     });
-    // Return to active on mouse leave
     document.querySelector('.nav-links-container').addEventListener('mouseleave', () => {
       const active = document.querySelector('.nav-item.active');
       if (active) moveIndicator(active);
     });
 
     window.addEventListener('scroll', () => {
-      // Shrink nav
       navbar.classList.toggle('scrolled', window.scrollY > 60);
-
-      // Scroll progress bar
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       scrollProgress.style.width = scrollPercent + '%';
 
-      // Active section
       let current = 'hero';
       sections.forEach(s => {
         if (s.getBoundingClientRect().top <= 160) current = s.id;
@@ -959,13 +1502,10 @@
         link.classList.remove('active');
         if (link.getAttribute('href') === '#' + current) link.classList.add('active');
       });
-
-      // Update indicator position on scroll
       const active = document.querySelector('.nav-item.active');
       if (active) moveIndicator(active);
     });
 
-    // Initial indicator position
     requestAnimationFrame(() => {
       const active = document.querySelector('.nav-item.active');
       if (active) moveIndicator(active);
@@ -977,35 +1517,91 @@
         e.preventDefault();
         const target = document.querySelector(link.getAttribute('href'));
         if (target) target.scrollIntoView({ behavior: 'smooth' });
-        // Close mobile menu
         document.getElementById('navLinks').classList.remove('open');
         document.getElementById('hamburger').classList.remove('open');
       });
     });
 
-    // Hamburger toggle
     document.getElementById('hamburger').addEventListener('click', () => {
       document.getElementById('navLinks').classList.toggle('open');
       document.getElementById('hamburger').classList.toggle('open');
     });
 
     // ============================================
-    // SCROLL REVEAL (IntersectionObserver)
+    // SCROLL REVEAL (Enhanced with stagger)
     // ============================================
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
+          // Add stagger delay based on position within parent
+          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+          let siblingIndex = Array.from(siblings).indexOf(entry.target);
+          entry.target.style.transitionDelay = `${siblingIndex * 0.08}s`;
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     // ============================================
-    // TYPED ROLE ANIMATION (TERMINAL STYLE)
+    // TECH ICON STAGGER + 3D TILT
     // ============================================
-    const roles = ['Software Engineer', 'AI Developer', 'Cloud Architect', 'Full Stack Developer', 'ML Engineer'];
+    const techObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const icons = entry.target.querySelectorAll('.tech-icon-item');
+          icons.forEach((icon, i) => {
+            icon.style.transitionDelay = `${i * 0.06}s`;
+            icon.classList.add('tech-visible');
+          });
+          techObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.tech-icons-grid').forEach(g => techObserver.observe(g));
+
+    // 3D tilt + radial glow on tech category cards
+    document.querySelectorAll('.tech-category').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotY = ((x - cx) / cx) * 8;
+        const rotX = ((cy - y) / cy) * 8;
+        card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+        // Radial glow follows cursor
+        const pctX = ((x / rect.width) * 100).toFixed(0);
+        const pctY = ((y / rect.height) * 100).toFixed(0);
+        card.style.setProperty('--mouse-x', pctX + '%');
+        card.style.setProperty('--mouse-y', pctY + '%');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    // Project card tech icons stagger
+    const projTechObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const pills = entry.target.querySelectorAll('.pti');
+          pills.forEach((p, i) => {
+            p.style.transitionDelay = `${i * 0.05}s`;
+            p.classList.add('pti-visible');
+          });
+          projTechObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.project-tech-icons').forEach(g => projTechObs.observe(g));
+
+    // ============================================
+    // TYPED ROLE ANIMATION
+    // ============================================
+    const roles = ['AI Systems', 'Scalable Clouds', 'Modern Web Apps', 'Intelligent Chatbots', 'Enterprise ERPs', 'Healthcare Platforms'];
     let roleIndex = 0, charIndex = 0, isDeleting = false, typingSpeed = 100;
 
     function typeRole() {
@@ -1033,38 +1629,30 @@
       }
       setTimeout(typeRole, typingSpeed);
     }
-    setTimeout(typeRole, 1500);
+    setTimeout(typeRole, 2500);
 
     // ============================================
-    // TILT EFFECT (Vanilla JS)
+    // TILT EFFECT
     // ============================================
     function initTilt() {
-      const cards = document.querySelectorAll('.project-card');
-
+      const cards = document.querySelectorAll('.project-card, .profile-ring-container');
       cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
-
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
-
-          const rotateX = ((y - centerY) / centerY) * -5; // Max tilt 5deg
+          const rotateX = ((y - centerY) / centerY) * -5;
           const rotateY = ((x - centerX) / centerX) * 5;
-
           card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
-
         card.addEventListener('mouseleave', () => {
           card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
         });
       });
     }
-
-    // Initialize after DOM load
     document.addEventListener('DOMContentLoaded', initTilt);
-    // Also init immediately in case DOM is already ready
     initTilt();
 
     // ============================================
@@ -1076,19 +1664,18 @@
 
       function filterProjects(category) {
         filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === category));
-
-        allCards.forEach(card => {
+        allCards.forEach((card, i) => {
           const match = category === 'all' || card.dataset.category === category;
           if (match) {
             card.classList.remove('filter-hidden');
             card.classList.add('filter-show');
+            card.style.animationDelay = `${i * 0.05}s`;
           } else {
             card.classList.remove('filter-show');
             card.classList.add('filter-hidden');
           }
         });
       }
-
       filterBtns.forEach(btn => {
         btn.addEventListener('click', () => filterProjects(btn.dataset.filter));
       });
@@ -1102,7 +1689,6 @@
     const sunIcon = themeToggle.querySelector('.sun-icon');
     const moonIcon = themeToggle.querySelector('.moon-icon');
 
-    // Check saved theme
     const savedTheme = localStorage.getItem('theme') || 'dark';
     html.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
@@ -1126,77 +1712,48 @@
     }
 
     // ============================================
-    // STATS COUNTER ANIMATION
+    // COUNTER ANIMATION (Stats bar)
     // ============================================
-    const statsSection = document.getElementById('stats');
-    const statNumbers = document.querySelectorAll('.stat-number');
-    let started = false;
-
-    const statsObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !started) {
-        started = true;
-        statNumbers.forEach(num => {
-          const target = +num.getAttribute('data-target');
-          const isFloat = target % 1 !== 0;
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          const target = parseFloat(entry.target.dataset.count);
+          const isDecimal = entry.target.dataset.decimal === 'true';
           const duration = 2000;
-          const start = 0;
           const startTime = performance.now();
 
           function update(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-
-            // Ease out quart
             const ease = 1 - Math.pow(1 - progress, 4);
-
-            let current = start + (target - start) * ease;
-
-            if (isFloat) {
-              num.innerText = current.toFixed(2);
-            } else {
-              num.innerText = Math.floor(current);
-            }
-
-            if (progress < 1) {
-              requestAnimationFrame(update);
-            } else {
-              num.innerText = target; // Ensure final value
-            }
+            let current = target * ease;
+            entry.target.textContent = isDecimal ? current.toFixed(2) : Math.floor(current);
+            if (progress < 1) requestAnimationFrame(update);
+            else entry.target.textContent = isDecimal ? target.toFixed(2) : target;
           }
           requestAnimationFrame(update);
-        });
-      }
+        }
+      });
     }, { threshold: 0.5 });
-
-    if (statsSection) statsObserver.observe(statsSection);
+    counters.forEach(c => counterObserver.observe(c));
 
     // ============================================
     // BACK TO TOP BUTTON
     // ============================================
     const backToTopBtn = document.getElementById('backToTop');
-
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
+      backToTopBtn.classList.toggle('visible', window.scrollY > 500);
     });
-
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // ============================================
-    // PAGE LOAD ANIMATIONS
+    // DYNAMIC COPYRIGHT YEAR
     // ============================================
-    window.addEventListener('load', () => {
-      const heroElements = document.querySelectorAll('#hero > div > *');
-      heroElements.forEach((el, index) => {
-        el.classList.add('fade-in-up');
-        el.style.animationDelay = `${index * 150}ms`;
-      });
-    });
+    document.getElementById('copyrightYear').textContent = new Date().getFullYear();
 
     // ============================================
     // CHATBOT FUNCTIONALITY
@@ -1207,36 +1764,41 @@
       email: "work.oshimkhan@gmail.com",
       linkedin: "linkedin.com/in/oshim7786",
       github: "github.com/OshimPathan",
-      education: { degree: "B.Tech in Computer Science and Engineering", university: "VIT Vellore, India", year: "2022 - 2026", gpa: "8.76 CGPA" },
+      education: { degree: "B.Tech in Computer Science and Engineering", university: "VIT Vellore, India", year: "2022 - 2026", gpa: "8.78 CGPA" },
       skills: {
         languages: ["Python", "JavaScript", "TypeScript", "Java", "C++", "SQL", "Dart"],
         frontend: ["React.js", "Next.js", "Flutter", "Tailwind CSS", "HTML5", "CSS3"],
         backend: ["Node.js", "Express.js", "FastAPI", "Django", "Flask"],
         cloud: ["AWS", "Google Cloud", "Azure", "Firebase", "Docker", "Kubernetes"],
-        ai_ml: ["TensorFlow", "PyTorch", "Scikit-learn", "OpenAI API", "LangChain", "Gemini AI"],
+        ai_ml: ["TensorFlow", "PyTorch", "Scikit-learn", "OpenAI API", "LangChain", "Gemini AI", "FAISS", "RAG"],
         databases: ["MongoDB", "PostgreSQL", "MySQL", "Redis", "Supabase", "Pinecone"],
         tools: ["Git", "GitHub", "VS Code", "Postman", "Figma", "Prisma"]
       },
+      patents: [
+        { name: "B-SAFE.AI", title: "Secured Breathe Sensor Array Framework for Non-Invasive Disease Diagnosis Using Generative AI", appId: "202641010439", status: "Filed & Published" },
+        { name: "Rebirth", title: "An Emotion-Aware Conversational Response Regulation System with Severity-Conditioned Control Logic", status: "Filed" }
+      ],
+      startup: { name: "ShareSathi", role: "Founder & Lead Developer", desc: "Nepal's AI-powered stock analytics & paper trading platform for NEPSE investors", since: "Feb 2026" },
       projects: [
-        { name: "MedAssist AI", desc: "Real-time hospital communication with AI triage" },
-        { name: "AeroStream", desc: "Contactless disease screening via breath analysis (Patent)" },
+        { name: "ShareSathi", desc: "AI-powered NEPSE stock analytics & paper trading platform (Startup)" },
+        { name: "SevenStar School ERP", desc: "Full K-12 school ERP — 55 tables, 37 dashboards, 5 roles" },
+        { name: "MedAssist AI", desc: "24/7 hospital assistant with AI triage & emergency detection" },
+        { name: "B-SAFE.AI (AeroStream)", desc: "Contactless disease screening via breath analysis (Patent)" },
         { name: "Smart Hospital AI", desc: "Full-stack healthcare with AI chatbot & SOS" },
+        { name: "Rebirth", desc: "Mental health AI with emotion-aware response regulation (Patent)" },
         { name: "WorkSphere", desc: "Enterprise ERP with HR, finance & project management" },
-        { name: "TaskFlow Pro", desc: "Smart task management with AI assistant" },
-        { name: "Rebirth", desc: "Mental health intelligence on iOS with Gemini" },
         { name: "HealthMate AI", desc: "RAG medical chatbot with Pinecone & LangChain" },
+        { name: "TaskFlow Pro", desc: "Smart task management with AI assistant" },
         { name: "MediAssist AI", desc: "Symptom-to-department recommendation chatbot" },
-        { name: "GIF Search Engine", desc: "100+ RPS GIF search with infinite scroll" },
         { name: "URL Shortener SaaS", desc: "Serverless URL shortener with Stripe" },
-        { name: "Hand Gesture Math Solver", desc: "Air-draw math solving with OpenCV + Gemini" },
-        { name: "Flashcard Quiz", desc: "Interactive multi-user quiz app" },
-        { name: "Nike Store", desc: "E-commerce with cart & checkout" }
+        { name: "GIF Search Engine", desc: "100+ RPS GIF search with infinite scroll" }
       ],
       experience: [
+        { role: "Founder & Lead Developer", company: "ShareSathi", duration: "Feb 2026 – Present" },
         { role: "App Development Intern", company: "CodeAlpha", duration: "2024" },
         { role: "Machine Learning Intern", company: "CodSoft", duration: "2024" }
       ],
-      goals: "Aiming to join Google or top MAANG companies while building scalable AI and cloud platforms",
+      goals: "Aiming to join Google or top MAANG companies while building scalable AI and cloud platforms. Also growing ShareSathi as a startup.",
       availability: "Open to Software Engineering, AI/ML, and Cloud Development opportunities"
     };
 
@@ -1253,21 +1815,21 @@
 
     function handleChatKeypress(event) { if (event.key === 'Enter') sendMessage(); }
 
+    // Close chatbot on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const win = document.getElementById('chatbotWindow');
+        if (win.classList.contains('open')) toggleChatbot();
+      }
+    });
+
     function sendMessage() {
       const input = document.getElementById('chatInput');
       const message = input.value.trim();
       if (!message) return;
-
-      // UI Update
       addMessage(message, 'user');
       input.value = '';
-
-      // Firebase Logging
-      if (window.sendToFirebase) {
-        window.sendToFirebase(message, 'user');
-      }
-
-      // Auto-Response
+      if (window.sendToFirebase) window.sendToFirebase(message, 'user');
       showTyping();
       setTimeout(() => { hideTyping(); addMessage(generateResponse(message), 'bot'); }, 800 + Math.random() * 700);
     }
@@ -1308,6 +1870,14 @@
       if (q.includes('education') || q.includes('study') || q.includes('university') || q.includes('degree') || q.includes('college')) {
         return `🎓 <strong>Education:</strong><br><br><strong>${oshimData.education.degree}</strong><br>📍 ${oshimData.education.university}<br>📅 ${oshimData.education.year}<br>⭐ ${oshimData.education.gpa}`;
       }
+      if (q.includes('patent') || q.includes('research') || q.includes('publication')) {
+        let list = oshimData.patents.map(p => `<strong>${p.name}:</strong> ${p.title} — <em>${p.status}</em>`).join('<br><br>');
+        return `📜 <strong>Patents (${oshimData.patents.length}):</strong><br><br>${list}`;
+      }
+      if (q.includes('startup') || q.includes('sharesathi') || q.includes('founder') || q.includes('nepse')) {
+        const s = oshimData.startup;
+        return `🚀 <strong>${s.name}</strong><br><br><strong>Role:</strong> ${s.role}<br><strong>Since:</strong> ${s.since}<br><br>${s.desc}`;
+      }
       if (q.includes('project') || q.includes('work') || q.includes('built') || q.includes('portfolio')) {
         let list = oshimData.projects.map(p => `<strong>${p.name}:</strong> ${p.desc}`).join('<br>');
         return `🚀 <strong>Projects (${oshimData.projects.length}):</strong><br><br>${list}`;
@@ -1320,7 +1890,7 @@
         return `📧 <strong>Get in Touch:</strong><br><br><strong>Email:</strong> ${oshimData.email}<br><strong>LinkedIn:</strong> ${oshimData.linkedin}<br><strong>GitHub:</strong> ${oshimData.github}<br><strong>Location:</strong> ${oshimData.location}`;
       }
       if (q.includes('who') || q.includes('about') || q.includes('yourself') || q.includes('oshim')) {
-        return `👋 <strong>About Oshim:</strong><br><br>I'm ${oshimData.name}, a software engineer from ${oshimData.location}. Currently pursuing ${oshimData.education.degree} at ${oshimData.education.university}.<br><br>🎯 ${oshimData.goals}`;
+        return `👋 <strong>About Oshim:</strong><br><br>I'm ${oshimData.name}, a software engineer from ${oshimData.location}. Currently pursuing ${oshimData.education.degree} at ${oshimData.education.university}.<br><br>🚀 Founder of <strong>${oshimData.startup.name}</strong> — ${oshimData.startup.desc}<br>📜 <strong>${oshimData.patents.length} Patents</strong> (B-SAFE.AI published, Rebirth filed)<br><br>🎯 ${oshimData.goals}`;
       }
       if (q.includes('goal') || q.includes('future') || q.includes('aim') || q.includes('dream')) {
         return `🎯 <strong>Goals:</strong><br><br>${oshimData.goals}<br><br>Currently ${oshimData.availability.toLowerCase()}.`;
@@ -1329,15 +1899,44 @@
         return `📍 Oshim is from <strong>${oshimData.location}</strong> and studied at <strong>${oshimData.education.university}</strong>.`;
       }
       if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
-        return `👋 Hello! I'm Oshim's AI assistant. Ask about skills, projects, education, experience, or contact info!`;
+        return `👋 Hello! I'm Oshim's AI assistant. Ask about skills, projects, patents, startup, education, experience, or contact info!`;
       }
       if (q.includes('thank')) {
         return `😊 You're welcome! Feel free to ask anything else about Oshim!`;
       }
-      return `🤔 I can help with <strong>skills</strong>, <strong>projects</strong>, <strong>education</strong>, <strong>experience</strong>, or <strong>contact info</strong>. Try asking about any of these!`;
+      return `🤔 I can help with <strong>skills</strong>, <strong>projects</strong>, <strong>patents</strong>, <strong>startup</strong>, <strong>education</strong>, <strong>experience</strong>, or <strong>contact info</strong>. Try asking about any of these!`;
     }
+  </script>
 
-
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    if (window.particlesJS) {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+          "color": { "value": "#6366f1" },
+          "shape": { "type": "circle" },
+          "opacity": { "value": 0.35, "random": true },
+          "size": { "value": 2.5, "random": true },
+          "line_linked": { "enable": true, "distance": 150, "color": "#6366f1", "opacity": 0.25, "width": 1 },
+          "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": { "enable": true, "mode": "grab" },
+            "onclick": { "enable": true, "mode": "push" },
+            "resize": true
+          },
+          "modes": {
+            "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+            "push": { "particles_nb": 4 }
+          }
+        },
+        "retina_detect": true
+      });
+    }
   </script>
 
   <!-- Firebase SDKs -->
