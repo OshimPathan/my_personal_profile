@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=42.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=42.1">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -1949,6 +1949,31 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       ROBOT SECTION GUIDE (side mascot)
+       ═══════════════════════════════════════════ -->
+  <div id="robotGuide" class="robot-guide" aria-hidden="true">
+    <div class="robot-body">
+      <div class="robot-antenna">
+        <div class="robot-antenna-ball"></div>
+        <div class="robot-antenna-stick"></div>
+      </div>
+      <div class="robot-head">
+        <div class="robot-eye left"></div>
+        <div class="robot-eye right"></div>
+        <div class="robot-mouth"></div>
+      </div>
+      <div class="robot-torso">
+        <div class="robot-screen"></div>
+      </div>
+      <div class="robot-arm left-arm"></div>
+      <div class="robot-arm right-arm"></div>
+    </div>
+    <div class="robot-speech" id="robotSpeech">
+      <span id="robotText"></span>
+    </div>
+  </div>
+
   <!-- Back to Top Button -->
   <button id="backToTop" aria-label="Back to Top">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -2803,6 +2828,138 @@
 
       animate();
     })(); } catch(e) { console.warn('WorldMap init failed:', e); }
+
+    // ============================================
+    // ROBOT SECTION GUIDE — scroll-triggered mascot
+    // ============================================
+    try { (function initRobotGuide() {
+      const robot = document.getElementById('robotGuide');
+      const speechEl = document.getElementById('robotText');
+      if (!robot || !speechEl) return;
+
+      // Section messages — the robot introduces each section
+      const sectionMessages = {
+        hero: { text: "Hey! 👋 I'm Robert, your guide. Scroll down to explore Oshim's portfolio!", wave: true },
+        about: { text: "📖 Here's a bit about Oshim — who he is, what drives him.", wave: false },
+        experience: { text: "💼 Check out Oshim's professional experience and journey!", wave: false },
+        projects: { text: "🚀 Cool projects ahead! Oshim has built some amazing stuff.", wave: true },
+        certifications: { text: "📜 Certifications that prove Oshim's expertise!", wave: false },
+        education: { text: "🎓 The academic foundation behind the skills.", wave: false },
+        patents: { text: "🔬 Patents & research — innovator mode ON!", wave: true },
+        skills: { text: "🛠️ The full tech stack — languages, frameworks, tools!", wave: false },
+        blog: { text: "✍️ Oshim's thoughts and articles.", wave: false },
+        'github-streak': { text: "🔥 GitHub activity — consistency is key!", wave: false },
+        testimonials: { text: "🌟 What others say about working with Oshim.", wave: true },
+      };
+
+      let currentSection = '';
+      let hideTimeout = null;
+      let blinkInterval = null;
+      let isTyping = false;
+
+      // Blink animation — periodic
+      blinkInterval = setInterval(() => {
+        if (!robot.classList.contains('visible')) return;
+        robot.classList.add('blink');
+        setTimeout(() => robot.classList.remove('blink'), 200);
+      }, 3500);
+
+      // Typewriter effect for speech text
+      function typeText(text, cb) {
+        isTyping = true;
+        robot.classList.add('talking');
+        speechEl.textContent = '';
+        let i = 0;
+        const speed = 22; // ms per character
+        function tick() {
+          if (i < text.length) {
+            speechEl.textContent += text[i];
+            i++;
+            setTimeout(tick, speed);
+          } else {
+            robot.classList.remove('talking');
+            isTyping = false;
+            if (cb) cb();
+          }
+        }
+        tick();
+      }
+
+      function showRobot(sectionId) {
+        if (currentSection === sectionId && robot.classList.contains('visible')) return;
+        currentSection = sectionId;
+        const msg = sectionMessages[sectionId];
+        if (!msg) return;
+
+        // Clear any pending hide
+        if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+
+        // Show robot
+        robot.classList.add('visible');
+        if (msg.wave) {
+          robot.classList.add('wave');
+          setTimeout(() => robot.classList.remove('wave'), 1400);
+        }
+
+        // Type the message
+        typeText(msg.text, () => {
+          // Auto-hide after 6 seconds
+          hideTimeout = setTimeout(() => {
+            robot.classList.remove('visible');
+          }, 6000);
+        });
+      }
+
+      function hideRobot() {
+        if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+        robot.classList.remove('visible');
+        currentSection = '';
+      }
+
+      // Observe each section
+      const sectionIds = Object.keys(sectionMessages);
+      const observerOptions = {
+        root: null,
+        rootMargin: '-15% 0px -15% 0px',
+        threshold: 0.15,
+      };
+
+      const sectionObserver = new IntersectionObserver((entries) => {
+        // Find the most visible section
+        let best = null;
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!best || entry.intersectionRatio > best.intersectionRatio) {
+              best = entry;
+            }
+          }
+        });
+
+        if (best) {
+          const id = best.target.id || best.target.getAttribute('data-section');
+          if (id && sectionMessages[id]) {
+            showRobot(id);
+          }
+        }
+      }, observerOptions);
+
+      sectionIds.forEach(id => {
+        const el = document.getElementById(id) || document.querySelector(`[data-section="${id}"]`);
+        if (el) sectionObserver.observe(el);
+      });
+
+      // Initial trigger for hero section after a delay
+      setTimeout(() => {
+        const heroEl = document.getElementById('hero');
+        if (heroEl) {
+          const rect = heroEl.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            showRobot('hero');
+          }
+        }
+      }, 2500);
+
+    })(); } catch(e) { console.warn('RobotGuide init failed:', e); }
 
     // ============================================
     // REAL-TIME: Live Clock (Nepal Time NPT = UTC+5:45)
