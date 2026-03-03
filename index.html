@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.4">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.5">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -136,8 +136,46 @@
     <style>
       .preloader{display:none!important}
       body>*{opacity:1!important;animation:none!important}
+      .reveal{opacity:1!important;transform:none!important;animation:none!important}
     </style>
   </noscript>
+
+  <!-- BULLETPROOF REVEAL FAIL-SAFE: force-show content if main JS errors -->
+  <script>
+    (function(){
+      function _forceReveal(){
+        try{
+          var els=document.querySelectorAll('.reveal:not(.visible)');
+          for(var i=0;i<els.length;i++){
+            els[i].classList.add('visible');
+          }
+        }catch(e){}
+      }
+      // Safety net: reveal all content after 5s no matter what
+      setTimeout(_forceReveal,5000);
+
+      // Also set up a standalone IntersectionObserver for .reveal elements
+      // This runs independently of the main JS block
+      function _setupRevealObserver(){
+        try{
+          if(!('IntersectionObserver' in window)){_forceReveal();return;}
+          var obs=new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+              }
+            });
+          },{threshold:0.05,rootMargin:'0px 0px -30px 0px'});
+          document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+        }catch(e){_forceReveal();}
+      }
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',_setupRevealObserver);
+      }else{
+        _setupRevealObserver();
+      }
+    })();
+  </script>
 
   <!-- Custom Cursor -->
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
@@ -1877,7 +1915,7 @@
     // Advanced — responsive, touch, constellations,
     // dust clouds, pulsating core, device-aware quality
     // ============================================
-    (function initGalaxy() {
+    try { (function initGalaxy() {
       const canvas = document.getElementById('galaxyCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -2300,12 +2338,12 @@
       }
 
       requestAnimationFrame(draw);
-    })();
+    })(); } catch(e) { console.warn('Galaxy init failed:', e); }
 
     // ============================================
     // WORLD MAP BACKGROUND
     // ============================================
-    (function initWorldMap() {
+    try { (function initWorldMap() {
       const canvas = document.getElementById('worldMapCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -2593,7 +2631,7 @@
       });
 
       resize();
-    })();
+    })(); } catch(e) { console.warn('WorldMap init failed:', e); }
 
     // ============================================
     // REAL-TIME: Live Clock (Nepal Time NPT = UTC+5:45)
