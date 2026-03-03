@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.1">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.2">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -114,11 +114,11 @@
   <!-- 3D Galaxy Universe Background (visible behind content sections) -->
   <div class="mesh-gradient-bg" aria-hidden="true">
     <canvas id="galaxyCanvas"></canvas>
-    <canvas id="worldMapCanvas"></canvas>
     <div class="galaxy-nebula nebula-1"></div>
     <div class="galaxy-nebula nebula-2"></div>
     <div class="galaxy-nebula nebula-3"></div>
     <div class="bg-vignette"></div>
+    <canvas id="worldMapCanvas"></canvas>
   </div>
 
   <!-- Scroll Progress Bar -->
@@ -2222,10 +2222,10 @@
 
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
         const accentColor = isLight ? '79, 70, 229' : '99, 102, 241';
-        const gridColor = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.04)`;
-        const landFill = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.07)`;
-        const landStroke = isLight ? `rgba(${accentColor}, 0.15)` : `rgba(${accentColor}, 0.18)`;
-        const dotColor = isLight ? `rgba(${accentColor}, 0.35)` : `rgba(${accentColor}, 0.45)`;
+        const gridColor = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.08)`;
+        const landFill = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.14)`;
+        const landStroke = isLight ? `rgba(${accentColor}, 0.3)` : `rgba(${accentColor}, 0.35)`;
+        const dotColor = isLight ? `rgba(${accentColor}, 0.5)` : `rgba(${accentColor}, 0.6)`;
 
         // ── Draw graticule grid ──
         ctx.lineWidth = 0.5;
@@ -2251,7 +2251,7 @@
 
         // ── Draw equator with accent ──
         ctx.beginPath();
-        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.1)` : `rgba(${accentColor}, 0.08)`;
+        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.2)` : `rgba(${accentColor}, 0.15)`;
         ctx.lineWidth = 1;
         const [eqX1, eqY1] = project(-180, 0);
         const [eqX2, eqY2] = project(180, 0);
@@ -2282,7 +2282,7 @@
             const [px, py] = project(lon, lat);
             if (isLand(lon, lat)) {
               ctx.beginPath();
-              ctx.arc(px, py, isMobile ? 0.6 : 0.8, 0, Math.PI * 2);
+              ctx.arc(px, py, isMobile ? 0.8 : 1.0, 0, Math.PI * 2);
               ctx.fillStyle = dotColor;
               ctx.fill();
             }
@@ -2294,21 +2294,21 @@
           const [cx, cy] = project(lon, lat);
           // Outer glow
           ctx.beginPath();
-          ctx.arc(cx, cy, 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${accentColor}, 0.15)`;
+          ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${accentColor}, 0.2)`;
           ctx.fill();
           // Inner dot
           ctx.beginPath();
-          ctx.arc(cx, cy, 1.2, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${accentColor}, 0.6)`;
+          ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${accentColor}, 0.8)`;
           ctx.fill();
         });
 
         // ── Outer frame: subtle map border ──
         const [fX1, fY1] = project(-180, 85);
         const [fX2, fY2] = project(180, -85);
-        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.05)`;
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.1)`;
+        ctx.lineWidth = 0.8;
         ctx.strokeRect(fX1, fY1, fX2 - fX1, fY2 - fY1);
       }
 
