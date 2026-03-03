@@ -3437,67 +3437,82 @@ img { max-width: 100%; }
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-[data-theme="light"] .hero-live-clock {
-  background: rgba(0,0,0,0.03);
-  border-color: rgba(0,0,0,0.08);
-}
-
-[data-theme="light"] .hero-gh-badge {
-  background: rgba(0,0,0,0.03);
-  border-color: rgba(0,0,0,0.06);
-}
-[data-theme="light"] .hero-gh-badge img {
-  filter: invert(0.3);
-}
-
 /* Light theme — fullscreen hero overrides */
 [data-theme="light"] .hero-bg-overlay {
   background:
-    linear-gradient(to top, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.7) 30%, rgba(248, 250, 252, 0.2) 55%, transparent 100%),
-    linear-gradient(to right, rgba(248, 250, 252, 0.75) 0%, transparent 50%);
+    linear-gradient(to top, rgba(248, 250, 252, 1) 0%, rgba(248, 250, 252, 0.97) 20%, rgba(248, 250, 252, 0.88) 40%, rgba(248, 250, 252, 0.7) 60%, rgba(248, 250, 252, 0.5) 80%, rgba(248, 250, 252, 0.3) 100%),
+    linear-gradient(to right, rgba(248, 250, 252, 0.9) 0%, rgba(248, 250, 252, 0.4) 50%, transparent 100%);
 }
 
 [data-theme="light"] .hero-noise {
-  opacity: 0.02;
+  opacity: 0.015;
 }
 
 [data-theme="light"] .hero-orb-1 {
-  background: rgba(99, 102, 241, 0.08);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.04), transparent 70%);
+  filter: blur(100px);
 }
 
 [data-theme="light"] .hero-orb-2 {
-  background: rgba(6, 182, 212, 0.06);
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.03), transparent 70%);
+  filter: blur(100px);
 }
 
 [data-theme="light"] .hero-social-link {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
-  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #475569 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 [data-theme="light"] .hero-social-link:hover {
-  background: rgba(79, 70, 229, 0.06);
+  background: rgba(79, 70, 229, 0.08);
   border-color: rgba(79, 70, 229, 0.3);
-  color: var(--accent);
+  color: var(--accent) !important;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
 }
 
 [data-theme="light"] .hero-big-name {
   color: var(--text-primary);
 }
 
+[data-theme="light"] .hero-big-name .gradient-text {
+  background: linear-gradient(135deg, #1e293b, #4f46e5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 [data-theme="light"] .hero-badge {
-  background: rgba(79, 70, 229, 0.06);
-  border-color: rgba(79, 70, 229, 0.15);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(79, 70, 229, 0.2);
   color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="light"] .hero-description {
-  color: var(--text-secondary);
+  color: #334155;
+}
+
+[data-theme="light"] .static-text {
+  color: #64748b;
 }
 
 [data-theme="light"] .hero-stats {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hero-stat-number {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .hero-stat-label {
+  color: #64748b;
 }
 
 [data-theme="light"] .hero-stat-divider {
@@ -3505,19 +3520,42 @@ img { max-width: 100%; }
 }
 
 [data-theme="light"] .btn-outline {
-  background: rgba(0, 0, 0, 0.03);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.75);
+  color: #1e293b;
   border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 [data-theme="light"] .btn-outline:hover {
   border-color: rgba(79, 70, 229, 0.5);
   color: var(--accent);
-  background: rgba(79, 70, 229, 0.05);
+  background: rgba(79, 70, 229, 0.06);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.12);
+}
+
+[data-theme="light"] .btn-primary {
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
 }
 
 [data-theme="light"] .hero-fullscreen-img {
-  filter: brightness(0.85) contrast(1.05);
+  filter: brightness(0.92) contrast(1.02) saturate(0.8);
+}
+
+[data-theme="light"] .hero-live-clock {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .hero-gh-badge {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+[data-theme="light"] .hero-gh-badge img {
+  filter: invert(0.3);
 }
 
 [data-theme="light"] .section-num {
