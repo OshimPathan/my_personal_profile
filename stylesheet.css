@@ -4787,7 +4787,7 @@ img { max-width: 100%; }
    ============================================ */
 .toast-container {
   position: fixed;
-  bottom: 24px;
+  bottom: 270px;
   left: 24px;
   z-index: 9999;
   display: flex;
@@ -5567,8 +5567,8 @@ body {
 
 .voice-feedback {
   position: fixed;
-  bottom: 150px;
-  right: 25px;
+  bottom: 92px;
+  right: 82px;
   z-index: 9999;
   opacity: 0;
   transform: translateY(10px) scale(0.95);
