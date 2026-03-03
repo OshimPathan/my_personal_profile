@@ -2602,6 +2602,283 @@ img { max-width: 100%; }
 }
 
 /* ============================================
+   GITHUB CONTRIBUTION STREAK
+   ============================================ */
+.github-streak-section {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.gh-streak-dashboard {
+  padding: 32px;
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.gh-streak-dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.4), rgba(6,182,212,0.3), transparent);
+}
+
+/* --- Streak Stats Row --- */
+.gh-streak-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+}
+
+.gh-streak-stat {
+  flex: 1;
+  text-align: center;
+  padding: 12px 16px;
+}
+
+.gh-streak-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-height: 42px;
+}
+
+.gh-streak-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+}
+
+.gh-streak-unit {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+}
+
+.gh-streak-divider {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, transparent, rgba(99,102,241,0.2), transparent);
+  flex-shrink: 0;
+}
+
+/* Loading shimmer */
+.gh-streak-loading {
+  display: inline-block;
+  width: 48px;
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(99,102,241,0.08) 25%, rgba(99,102,241,0.18) 50%, rgba(99,102,241,0.08) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Heatmap --- */
+.gh-heatmap-wrap {
+  margin-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99,102,241,0.3) transparent;
+  padding-bottom: 4px;
+}
+
+.gh-heatmap-wrap::-webkit-scrollbar {
+  height: 4px;
+}
+.gh-heatmap-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+.gh-heatmap-wrap::-webkit-scrollbar-thumb {
+  background: rgba(99,102,241,0.25);
+  border-radius: 4px;
+}
+
+.gh-heatmap-months {
+  display: flex;
+  padding-left: 36px;
+  margin-bottom: 4px;
+  min-width: fit-content;
+}
+
+.gh-heatmap-months span {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gh-heatmap-grid {
+  display: flex;
+  gap: 4px;
+  min-width: fit-content;
+}
+
+.gh-heatmap-days {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px 0;
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.gh-heatmap-days span {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  line-height: 13px;
+  height: 13px;
+}
+
+.gh-heatmap-cells {
+  display: flex;
+  gap: 3px;
+  flex-wrap: nowrap;
+}
+
+.gh-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.gh-cell {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  cursor: default;
+}
+
+.gh-cell:hover {
+  transform: scale(1.6);
+  z-index: 5;
+}
+
+.gh-cell[data-level="0"] { background: rgba(255,255,255,0.04); }
+.gh-cell[data-level="1"] { background: #0e4429; box-shadow: 0 0 4px rgba(14,68,41,0.3); }
+.gh-cell[data-level="2"] { background: #006d32; box-shadow: 0 0 6px rgba(0,109,50,0.3); }
+.gh-cell[data-level="3"] { background: #26a641; box-shadow: 0 0 8px rgba(38,166,65,0.3); }
+.gh-cell[data-level="4"] { background: #39d353; box-shadow: 0 0 10px rgba(57,211,83,0.4); }
+
+.gh-cell:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15,23,42,0.95);
+  color: #e2e8f0;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid rgba(99,102,241,0.2);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+/* --- Legend --- */
+.gh-heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.gh-legend-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin: 0 4px;
+}
+
+.gh-legend-cell {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+}
+
+.gh-legend-cell[data-level="0"] { background: rgba(255,255,255,0.04); }
+.gh-legend-cell[data-level="1"] { background: #0e4429; }
+.gh-legend-cell[data-level="2"] { background: #006d32; }
+.gh-legend-cell[data-level="3"] { background: #26a641; }
+.gh-legend-cell[data-level="4"] { background: #39d353; }
+
+/* --- Live indicator --- */
+.gh-streak-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.gh-streak-live a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.gh-streak-live a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .gh-streak-dashboard { padding: 20px 16px; }
+  .gh-streak-stats { flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+  .gh-streak-stat { min-width: 30%; }
+  .gh-streak-divider { display: none; }
+  .gh-streak-value { font-size: 2rem; }
+  .gh-cell { width: 11px; height: 11px; }
+  .gh-heatmap-days { width: 26px; }
+  .gh-heatmap-days span { font-size: 0.55rem; line-height: 11px; height: 11px; }
+  .gh-heatmap-cells { gap: 2px; }
+  .gh-week { gap: 2px; }
+}
+
+@media (max-width: 480px) {
+  .gh-streak-stats { gap: 12px; }
+  .gh-streak-value { font-size: 1.6rem; }
+  .gh-streak-label { font-size: 0.62rem; }
+  .gh-cell { width: 9px; height: 9px; border-radius: 2px; }
+  .gh-heatmap-days span { font-size: 0.5rem; line-height: 9px; height: 9px; }
+  .gh-heatmap-months span { font-size: 0.55rem; }
+}
+
+/* ============================================
    TESTIMONIALS SECTION
    ============================================ */
 .testimonials-grid {
@@ -3674,6 +3951,44 @@ img { max-width: 100%; }
 
 [data-theme="light"] .skip-to-content {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- Light Theme: GitHub Streak --- */
+[data-theme="light"] .gh-streak-dashboard {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+[data-theme="light"] .gh-streak-dashboard::before {
+  background: linear-gradient(90deg, transparent, rgba(79,70,229,0.25), rgba(6,182,212,0.2), transparent);
+}
+
+[data-theme="light"] .gh-streak-divider {
+  background: linear-gradient(to bottom, transparent, rgba(79,70,229,0.15), transparent);
+}
+
+[data-theme="light"] .gh-cell[data-level="0"] { background: rgba(0,0,0,0.04); box-shadow: none; }
+[data-theme="light"] .gh-cell[data-level="1"] { background: #9be9a8; box-shadow: none; }
+[data-theme="light"] .gh-cell[data-level="2"] { background: #40c463; box-shadow: none; }
+[data-theme="light"] .gh-cell[data-level="3"] { background: #30a14e; box-shadow: none; }
+[data-theme="light"] .gh-cell[data-level="4"] { background: #216e39; box-shadow: none; }
+
+[data-theme="light"] .gh-legend-cell[data-level="0"] { background: rgba(0,0,0,0.04); }
+[data-theme="light"] .gh-legend-cell[data-level="1"] { background: #9be9a8; }
+[data-theme="light"] .gh-legend-cell[data-level="2"] { background: #40c463; }
+[data-theme="light"] .gh-legend-cell[data-level="3"] { background: #30a14e; }
+[data-theme="light"] .gh-legend-cell[data-level="4"] { background: #216e39; }
+
+[data-theme="light"] .gh-cell:hover::after {
+  background: rgba(255,255,255,0.96);
+  color: #1e293b;
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+[data-theme="light"] .gh-streak-live {
+  border-top-color: rgba(0,0,0,0.06);
 }
 
 /* ============================================
