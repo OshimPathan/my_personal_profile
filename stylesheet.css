@@ -86,17 +86,10 @@ body::after {
   opacity: 0.4;
 }
 
-/* Smooth page entrance — content fades in after preloader */
-body:not(.loaded) > *:not(.preloader) {
-  opacity: 0;
-  /* CSS-only fallback: auto-reveal content after 3s even if JS fails */
-  animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards;
-}
-body.loaded > * {
+/* Page entrance — content is always visible, preloader hides via JS+CSS */
+body > * {
   opacity: 1;
-  animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-body.loaded > .preloader { opacity: 0; animation: none; }
 
 @keyframes pageEntrance {
   from { opacity: 0; transform: translateY(12px); }
@@ -3460,25 +3453,23 @@ img { max-width: 100%; }
 /* ============================================
    SCROLL REVEAL ANIMATION
    ============================================ */
+/* Scroll reveal: content is visible by default, JS adds animation */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal.animate {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
-  /* CSS-only safety: auto-reveal after 6s even if JS observer never fires */
-  animation: revealFallback 0.9s cubic-bezier(0.16, 1, 0.3, 1) 6s forwards;
 }
 
-.reveal.visible {
+.reveal.animate.visible {
   opacity: 1;
   transform: translateY(0);
-  animation: none; /* Cancel CSS fallback once JS succeeds */
-}
-
-@keyframes revealFallback {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in-delayed {
@@ -6279,19 +6270,9 @@ body {
 /* ============================================
    ⏱️ IDLE SCREENSAVER
    ============================================ */
+/* Screensaver disabled — was causing page to appear blank */
 .screensaver-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100000;
-  background: #020617;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease;
-}
-
-.screensaver-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
+  display: none !important;
 }
 
 .screensaver-overlay canvas {

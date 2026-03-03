@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=40.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=41.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -87,22 +87,20 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- NUCLEAR FALLBACK: pure CSS animation that guarantees content visibility after 4s -->
+  <!-- NUCLEAR FIX: Content must ALWAYS be visible. No more hiding. -->
   <style>
-    @keyframes nuclearReveal {
-      to { opacity: 1 !important; transform: none !important; }
+    /* Kill ALL content-hiding mechanisms */
+    body > * { opacity: 1 !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    /* Preloader: auto-hide at 2.5s via CSS */
+    .preloader {
+      animation: killPreloader 0.5s ease 2.5s forwards !important;
     }
-    /* After 4s, force everything visible no matter what */
-    body > *:not(.preloader) {
-      animation: nuclearReveal 0.5s ease 4s forwards !important;
+    @keyframes killPreloader {
+      to { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important; }
     }
-    .reveal {
-      animation: nuclearReveal 0.5s ease 5s forwards !important;
-    }
-    /* Once body.loaded and .reveal.visible are set by JS, cancel the fallback */
-    body.loaded > * { animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
-    body.loaded > .preloader { opacity: 0 !important; animation: none !important; }
-    .reveal.visible { opacity: 1 !important; transform: none !important; animation: none !important; }
+    /* Screensaver: NEVER show on page load */
+    .screensaver-overlay { display: none !important; }
   </style>
 </head>
 
@@ -3176,11 +3174,17 @@
 
     // ============================================
     // SCROLL REVEAL (Enhanced with stagger)
+    // Content is visible by default. JS adds .animate class,
+    // then IntersectionObserver adds .visible to trigger animation.
+    // If JS fails, content remains visible.
     // ============================================
+    const revealEls = document.querySelectorAll('.reveal');
+    // Step 1: Add .animate class so elements can be animated
+    revealEls.forEach(el => el.classList.add('animate'));
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-          // Add stagger delay based on position within parent
           const siblings = entry.target.parentElement.querySelectorAll('.reveal');
           let siblingIndex = Array.from(siblings).indexOf(entry.target);
           entry.target.style.transitionDelay = `${siblingIndex * 0.08}s`;
@@ -3189,7 +3193,7 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    revealEls.forEach(el => observer.observe(el));
 
     // ============================================
     // TECH ICON STAGGER + 3D TILT
