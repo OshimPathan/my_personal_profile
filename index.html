@@ -1480,16 +1480,35 @@
 
     // ============================================
     // 3D GALAXY / UNIVERSE BACKGROUND RENDERER
+    // Advanced — responsive, touch, constellations,
+    // dust clouds, pulsating core, device-aware quality
     // ============================================
     (function initGalaxy() {
       const canvas = document.getElementById('galaxyCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
 
+      // --- Device & performance detection ---
+      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
+      const isLowEnd = isMobile && (navigator.hardwareConcurrency || 4) <= 4;
+      const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+      // Quality tiers
+      const Q = {
+        stars:       isLowEnd ? 400 : isMobile ? 700 : 1400,
+        spiralStars: isLowEnd ? 200 : isMobile ? 350 : 800,
+        dustClouds:  isLowEnd ? 8 : isMobile ? 15 : 30,
+        constellations: isLowEnd ? 0 : isMobile ? 4 : 8,
+        enableGlow:  !isLowEnd,
+        enableDust:  true,
+        shooterInterval: isLowEnd ? 6 : 3,
+        parallaxStrength: isMobile ? 8 : 20,
+      };
+
       let W, H, cx, cy;
-      let mouseX = 0, mouseY = 0;
-      let scrollY = 0;
-      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      let mouseX = 0, mouseY = 0, targetMX = 0, targetMY = 0;
+      let lastTime = performance.now();
+      let isVisible = true;
 
       function resize() {
         W = window.innerWidth;
@@ -1501,217 +1520,392 @@
         canvas.style.width = W + 'px';
         canvas.style.height = H + 'px';
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        // Re-distribute stars on resize
+        for (let i = 0; i < stars.length; i++) {
+          stars[i].x = (Math.random() - 0.5) * W * 3;
+          stars[i].y = (Math.random() - 0.5) * H * 3;
+        }
       }
-      resize();
-      window.addEventListener('resize', resize);
 
-      // --- Star layers with 3D depth ---
-      const STAR_COUNT = 1200;
+      // Debounced resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+      });
+
+      // Visibility API — pause when tab hidden
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+        if (isVisible) lastTime = performance.now();
+      });
+
+      // --- Star field with 3D depth layers ---
+      const STAR_COUNT = Q.stars;
       const stars = [];
+      const starHues = [210, 220, 235, 250, 265, 280, 200, 180, 45, 10];
       for (let i = 0; i < STAR_COUNT; i++) {
-        const depth = Math.random(); // 0 = far, 1 = near
+        const depth = Math.random();
+        const isBright = depth > 0.85 && Math.random() > 0.5;
         stars.push({
-          x: (Math.random() - 0.5) * W * 3,
-          y: (Math.random() - 0.5) * H * 3,
+          x: (Math.random() - 0.5) * 3000,
+          y: (Math.random() - 0.5) * 3000,
           z: depth,
-          baseSize: 0.3 + depth * 2.2,
-          twinkleSpeed: 0.5 + Math.random() * 3,
+          baseSize: isBright ? 1.5 + Math.random() * 1.5 : 0.2 + depth * 2,
+          twinkleSpeed: 0.3 + Math.random() * 3.5,
           twinkleOffset: Math.random() * Math.PI * 2,
-          hue: [220, 240, 260, 280, 200, 180, 40][Math.floor(Math.random() * 7)],
-          saturation: 20 + Math.random() * 60,
-          brightness: 60 + depth * 40,
+          hue: starHues[Math.floor(Math.random() * starHues.length)],
+          sat: 15 + Math.random() * 65,
+          bri: 55 + depth * 45,
+          isBright,
+          // Cross-spike data for bright stars
+          spikeAngle: Math.random() * Math.PI,
         });
       }
 
-      // --- Galaxy spiral arms ---
-      const SPIRAL_STARS = 600;
-      const spiralStars = [];
-      for (let i = 0; i < SPIRAL_STARS; i++) {
-        const arm = Math.floor(Math.random() * 3);
-        const dist = 20 + Math.random() * Math.min(W, H) * 0.4;
-        const angle = (arm * 2 * Math.PI / 3) + (dist * 0.008) + (Math.random() - 0.5) * 0.6;
-        const depth = 0.3 + Math.random() * 0.7;
-        spiralStars.push({
+      // --- Galaxy spiral arms (4 arms for richer look) ---
+      const SPIRAL_COUNT = Q.spiralStars;
+      const spirals = [];
+      const ARMS = 4;
+      for (let i = 0; i < SPIRAL_COUNT; i++) {
+        const arm = Math.floor(Math.random() * ARMS);
+        const dist = 15 + Math.random() * Math.min(1400, Math.max(W, H)) * 0.42;
+        const angle = (arm * 2 * Math.PI / ARMS) + (dist * 0.007) + (Math.random() - 0.5) * 0.55;
+        const depth = 0.25 + Math.random() * 0.75;
+        spirals.push({
           dist, angle, depth,
-          baseSize: 0.4 + depth * 1.8,
-          twinkleSpeed: 0.8 + Math.random() * 2,
+          baseSize: 0.3 + depth * 1.6,
+          twinkleSpeed: 0.6 + Math.random() * 2.5,
           twinkleOffset: Math.random() * Math.PI * 2,
-          hue: [230, 260, 280, 200, 320][Math.floor(Math.random() * 5)],
-          saturation: 40 + Math.random() * 50,
-          brightness: 50 + depth * 50,
-          scatter: (Math.random() - 0.5) * 25,
+          hue: [225, 250, 275, 300, 195][Math.floor(Math.random() * 5)],
+          sat: 35 + Math.random() * 55,
+          bri: 45 + depth * 55,
+          scatter: (Math.random() - 0.5) * 22,
         });
+      }
+
+      // --- Cosmic dust clouds ---
+      const DUST_COUNT = Q.dustClouds;
+      const dustClouds = [];
+      for (let i = 0; i < DUST_COUNT; i++) {
+        dustClouds.push({
+          x: Math.random() * 3000 - 1000,
+          y: Math.random() * 2000 - 500,
+          radius: 40 + Math.random() * 120,
+          hue: [230, 260, 290, 200, 320][Math.floor(Math.random() * 5)],
+          alpha: 0.015 + Math.random() * 0.035,
+          depth: 0.2 + Math.random() * 0.6,
+          driftX: (Math.random() - 0.5) * 0.3,
+          driftY: (Math.random() - 0.5) * 0.2,
+        });
+      }
+
+      // --- Constellation lines ---
+      const constellations = [];
+      for (let i = 0; i < Q.constellations; i++) {
+        const baseX = Math.random() * W;
+        const baseY = Math.random() * H;
+        const points = [];
+        const count = 3 + Math.floor(Math.random() * 4);
+        for (let j = 0; j < count; j++) {
+          points.push({
+            ox: baseX + (Math.random() - 0.5) * 180,
+            oy: baseY + (Math.random() - 0.5) * 140,
+          });
+        }
+        constellations.push({ points, alpha: 0.06 + Math.random() * 0.08, depth: 0.4 + Math.random() * 0.4 });
       }
 
       // --- Shooting stars ---
       const shooters = [];
       function spawnShooter() {
-        const startX = Math.random() * W;
-        const startY = Math.random() * H * 0.5;
-        const angle = -0.4 + Math.random() * -0.4; // downward-left
-        const speed = 5 + Math.random() * 8;
-        const hue = [230, 260, 180, 300][Math.floor(Math.random() * 4)];
         shooters.push({
-          x: startX, y: startY, angle, speed,
-          life: 1, decay: 0.015 + Math.random() * 0.02,
-          length: 60 + Math.random() * 100,
-          hue,
+          x: Math.random() * W,
+          y: Math.random() * H * 0.45,
+          angle: -0.3 - Math.random() * 0.5,
+          speed: 4 + Math.random() * 10,
+          life: 1,
+          decay: 0.012 + Math.random() * 0.022,
+          length: 50 + Math.random() * 130,
+          hue: [225, 260, 185, 305, 45][Math.floor(Math.random() * 5)],
+          width: 1 + Math.random() * 1.5,
         });
       }
 
-      // --- Mouse tracking for parallax ---
+      // --- Input: mouse & touch parallax ---
       document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / W - 0.5) * 2;
-        mouseY = (e.clientY / H - 0.5) * 2;
+        targetMX = (e.clientX / W - 0.5) * 2;
+        targetMY = (e.clientY / H - 0.5) * 2;
       });
-      window.addEventListener('scroll', () => {
-        scrollY = window.pageYOffset;
-      });
+
+      // Touch support — gyroscope or touch drag
+      let touchStartX = 0, touchStartY = 0;
+      if (isMobile) {
+        // Try device orientation first
+        if (window.DeviceOrientationEvent) {
+          window.addEventListener('deviceorientation', (e) => {
+            if (e.gamma !== null) {
+              targetMX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
+              targetMY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
+            }
+          }, { passive: true });
+        }
+        // Fallback: touch drag
+        document.addEventListener('touchstart', (e) => {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        document.addEventListener('touchmove', (e) => {
+          const dx = (e.touches[0].clientX - touchStartX) / W;
+          const dy = (e.touches[0].clientY - touchStartY) / H;
+          targetMX = Math.max(-1, Math.min(1, dx * 3));
+          targetMY = Math.max(-1, Math.min(1, dy * 3));
+        }, { passive: true });
+      }
 
       // --- Animation state ---
       let time = 0;
-      let galaxyRotation = 0;
+      let galaxyRot = 0;
       let shooterTimer = 0;
+      let corePulse = 0;
 
-      function draw() {
-        time += 0.016;
-        galaxyRotation += 0.0003;
-        shooterTimer += 0.016;
+      // Initial resize
+      resize();
 
-        // Spawn shooting stars periodically
-        if (shooterTimer > 3 + Math.random() * 4) {
+      function draw(now) {
+        if (!isVisible) { requestAnimationFrame(draw); return; }
+
+        const dt = Math.min((now - lastTime) / 1000, 0.05); // clamped delta
+        lastTime = now;
+        time += dt;
+        galaxyRot += dt * 0.018;
+        shooterTimer += dt;
+        corePulse += dt * 1.2;
+
+        // Smooth mouse interpolation
+        mouseX += (targetMX - mouseX) * 3 * dt;
+        mouseY += (targetMY - mouseY) * 3 * dt;
+
+        // Spawn shooting stars
+        if (shooterTimer > Q.shooterInterval + Math.random() * 3) {
           spawnShooter();
           shooterTimer = 0;
         }
 
         ctx.clearRect(0, 0, W, H);
 
-        // Parallax offsets from mouse
-        const px = mouseX * 15;
-        const py = mouseY * 15;
+        const px = mouseX * Q.parallaxStrength;
+        const py = mouseY * Q.parallaxStrength;
 
-        // --- Draw background star field (3D parallax) ---
+        // --- Cosmic dust clouds ---
+        if (Q.enableDust) {
+          for (let i = 0; i < dustClouds.length; i++) {
+            const d = dustClouds[i];
+            d.x += d.driftX * dt * 10;
+            d.y += d.driftY * dt * 10;
+            const parallax = 0.15 + d.depth * 0.5;
+            const dx = ((d.x + px * parallax) % (W + 400)) ;
+            const dy = ((d.y + py * parallax) % (H + 300)) ;
+            const grad = ctx.createRadialGradient(dx, dy, 0, dx, dy, d.radius);
+            grad.addColorStop(0, `hsla(${d.hue}, 60%, 40%, ${d.alpha})`);
+            grad.addColorStop(0.5, `hsla(${d.hue}, 50%, 30%, ${d.alpha * 0.4})`);
+            grad.addColorStop(1, `hsla(${d.hue}, 40%, 20%, 0)`);
+            ctx.beginPath();
+            ctx.arc(dx, dy, d.radius, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          }
+        }
+
+        // --- Background star field ---
         for (let i = 0; i < STAR_COUNT; i++) {
           const s = stars[i];
-          const parallax = 0.1 + s.z * 0.9;
+          const parallax = 0.08 + s.z * 0.92;
           const sx = cx + (s.x - cx) * parallax * 0.4 + px * parallax;
           const sy = cy + (s.y - cy) * parallax * 0.4 + py * parallax;
-
-          // Wrap around viewport
           const wrappedX = ((sx % W) + W) % W;
           const wrappedY = ((sy % H) + H) % H;
 
-          // Twinkle
-          const twinkle = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(time * s.twinkleSpeed + s.twinkleOffset));
+          const twinkle = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(time * s.twinkleSpeed + s.twinkleOffset));
           const size = s.baseSize * twinkle;
-          const alpha = (0.3 + s.z * 0.7) * twinkle;
+          const alpha = (0.25 + s.z * 0.75) * twinkle;
 
           ctx.beginPath();
           ctx.arc(wrappedX, wrappedY, size, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${s.hue}, ${s.saturation}%, ${s.brightness}%, ${alpha})`;
+          ctx.fillStyle = `hsla(${s.hue}, ${s.sat}%, ${s.bri}%, ${alpha})`;
           ctx.fill();
 
-          // Glow for brighter/closer stars
-          if (s.z > 0.7 && twinkle > 0.7) {
+          // Cross-spike glow for bright stars
+          if (Q.enableGlow && s.isBright && twinkle > 0.65) {
+            const spikeLen = size * 5 * twinkle;
+            const spikeAlpha = alpha * 0.2;
+            ctx.save();
+            ctx.translate(wrappedX, wrappedY);
+            ctx.rotate(s.spikeAngle);
+            ctx.strokeStyle = `hsla(${s.hue}, ${s.sat}%, 90%, ${spikeAlpha})`;
+            ctx.lineWidth = 0.5;
+            // Horizontal spike
             ctx.beginPath();
-            ctx.arc(wrappedX, wrappedY, size * 3, 0, Math.PI * 2);
-            const grad = ctx.createRadialGradient(wrappedX, wrappedY, 0, wrappedX, wrappedY, size * 3);
-            grad.addColorStop(0, `hsla(${s.hue}, ${s.saturation}%, ${s.brightness}%, ${alpha * 0.3})`);
-            grad.addColorStop(1, `hsla(${s.hue}, ${s.saturation}%, ${s.brightness}%, 0)`);
+            ctx.moveTo(-spikeLen, 0);
+            ctx.lineTo(spikeLen, 0);
+            ctx.stroke();
+            // Vertical spike
+            ctx.beginPath();
+            ctx.moveTo(0, -spikeLen * 0.6);
+            ctx.lineTo(0, spikeLen * 0.6);
+            ctx.stroke();
+            ctx.restore();
+
+            // Soft halo
+            const grad = ctx.createRadialGradient(wrappedX, wrappedY, 0, wrappedX, wrappedY, size * 4);
+            grad.addColorStop(0, `hsla(${s.hue}, ${s.sat}%, ${s.bri}%, ${alpha * 0.25})`);
+            grad.addColorStop(1, `hsla(${s.hue}, ${s.sat}%, ${s.bri}%, 0)`);
+            ctx.beginPath();
+            ctx.arc(wrappedX, wrappedY, size * 4, 0, Math.PI * 2);
             ctx.fillStyle = grad;
             ctx.fill();
           }
         }
 
-        // --- Draw spiral galaxy ---
-        const gcx = cx + px * 0.3;
-        const gcy = cy * 0.85 + py * 0.3;
+        // --- Constellation lines ---
+        if (constellations.length > 0) {
+          ctx.lineWidth = 0.5;
+          for (let c = 0; c < constellations.length; c++) {
+            const con = constellations[c];
+            const parallax = 0.2 + con.depth * 0.4;
+            const pulseAlpha = con.alpha * (0.6 + 0.4 * Math.sin(time * 0.3 + c));
+            ctx.strokeStyle = `rgba(150, 160, 255, ${pulseAlpha})`;
+            ctx.beginPath();
+            for (let j = 0; j < con.points.length; j++) {
+              const p = con.points[j];
+              const x = p.ox + px * parallax;
+              const y = p.oy + py * parallax;
+              if (j === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            // Small dots at vertices
+            for (let j = 0; j < con.points.length; j++) {
+              const p = con.points[j];
+              ctx.beginPath();
+              ctx.arc(p.ox + px * parallax, p.oy + py * parallax, 1.5, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(180, 190, 255, ${pulseAlpha * 1.5})`;
+              ctx.fill();
+            }
+          }
+        }
 
-        for (let i = 0; i < SPIRAL_STARS; i++) {
-          const s = spiralStars[i];
-          const a = s.angle + galaxyRotation + (s.depth * 0.2);
+        // --- Spiral galaxy ---
+        const gcx = cx + px * 0.25;
+        const gcy = cy * 0.82 + py * 0.25;
+
+        for (let i = 0; i < SPIRAL_COUNT; i++) {
+          const s = spirals[i];
+          const a = s.angle + galaxyRot + (s.depth * 0.18);
           const d = s.dist;
-          const parallax = 0.3 + s.depth * 0.7;
+          const parallax = 0.25 + s.depth * 0.75;
 
-          // Elliptical projection for 3D tilt
           const rx = Math.cos(a) * d;
-          const ry = Math.sin(a) * d * 0.45; // tilt factor
+          const ry = Math.sin(a) * d * 0.42;
 
-          const sx = gcx + rx * parallax + px * parallax * 0.5 + s.scatter;
-          const sy = gcy + ry * parallax + py * parallax * 0.5 + s.scatter * 0.5;
+          const sx = gcx + rx * parallax + px * parallax * 0.4 + s.scatter;
+          const sy = gcy + ry * parallax + py * parallax * 0.4 + s.scatter * 0.5;
 
-          if (sx < -20 || sx > W + 20 || sy < -20 || sy > H + 20) continue;
+          if (sx < -30 || sx > W + 30 || sy < -30 || sy > H + 30) continue;
 
-          const twinkle = 0.5 + 0.5 * (0.5 + 0.5 * Math.sin(time * s.twinkleSpeed + s.twinkleOffset));
+          const twinkle = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(time * s.twinkleSpeed + s.twinkleOffset));
           const size = s.baseSize * twinkle;
-          const alpha = (0.2 + s.depth * 0.6) * twinkle;
+          const alpha = (0.15 + s.depth * 0.65) * twinkle;
+
+          // Color temperature: inner = warmer, outer = bluer
+          const tempShift = d < 100 ? 15 : 0;
 
           ctx.beginPath();
           ctx.arc(sx, sy, size, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${s.hue}, ${s.saturation}%, ${s.brightness}%, ${alpha})`;
+          ctx.fillStyle = `hsla(${s.hue + tempShift}, ${s.sat}%, ${s.bri}%, ${alpha})`;
           ctx.fill();
 
-          // Inner glow for close spiral stars
-          if (s.depth > 0.6 && d < 150) {
+          // Glow for inner bright stars
+          if (Q.enableGlow && s.depth > 0.55 && d < 140) {
+            const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, size * 3);
+            grad.addColorStop(0, `hsla(${s.hue + tempShift}, 75%, 80%, ${alpha * 0.2})`);
+            grad.addColorStop(1, `hsla(${s.hue + tempShift}, 75%, 80%, 0)`);
             ctx.beginPath();
-            ctx.arc(sx, sy, size * 2.5, 0, Math.PI * 2);
-            const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, size * 2.5);
-            grad.addColorStop(0, `hsla(${s.hue}, 80%, 80%, ${alpha * 0.25})`);
-            grad.addColorStop(1, `hsla(${s.hue}, 80%, 80%, 0)`);
+            ctx.arc(sx, sy, size * 3, 0, Math.PI * 2);
             ctx.fillStyle = grad;
             ctx.fill();
           }
         }
 
-        // --- Galaxy core glow ---
-        const coreGrad = ctx.createRadialGradient(gcx, gcy, 0, gcx, gcy, 90);
-        coreGrad.addColorStop(0, 'rgba(140, 130, 255, 0.12)');
-        coreGrad.addColorStop(0.3, 'rgba(100, 100, 241, 0.06)');
-        coreGrad.addColorStop(0.6, 'rgba(80, 80, 200, 0.02)');
+        // --- Pulsating galaxy core ---
+        const coreScale = 1 + 0.12 * Math.sin(corePulse);
+        const coreRadius = (isMobile ? 55 : 95) * coreScale;
+        const coreGrad = ctx.createRadialGradient(gcx, gcy, 0, gcx, gcy, coreRadius);
+        coreGrad.addColorStop(0, `rgba(160, 150, 255, ${0.14 + 0.04 * Math.sin(corePulse)})`);
+        coreGrad.addColorStop(0.2, 'rgba(130, 120, 255, 0.08)');
+        coreGrad.addColorStop(0.5, 'rgba(100, 100, 230, 0.03)');
         coreGrad.addColorStop(1, 'rgba(80, 80, 200, 0)');
         ctx.beginPath();
-        ctx.arc(gcx, gcy, 90, 0, Math.PI * 2);
+        ctx.arc(gcx, gcy, coreRadius, 0, Math.PI * 2);
         ctx.fillStyle = coreGrad;
+        ctx.fill();
+
+        // Secondary warm core ring
+        const ringRadius = coreRadius * 0.45;
+        const ringGrad = ctx.createRadialGradient(gcx, gcy, ringRadius * 0.3, gcx, gcy, ringRadius);
+        ringGrad.addColorStop(0, `rgba(255, 220, 180, ${0.06 + 0.02 * Math.sin(corePulse * 1.3)})`);
+        ringGrad.addColorStop(1, 'rgba(255, 200, 150, 0)');
+        ctx.beginPath();
+        ctx.arc(gcx, gcy, ringRadius, 0, Math.PI * 2);
+        ctx.fillStyle = ringGrad;
         ctx.fill();
 
         // --- Shooting stars ---
         for (let i = shooters.length - 1; i >= 0; i--) {
           const sh = shooters[i];
-          sh.x += Math.cos(sh.angle) * sh.speed;
-          sh.y -= Math.sin(sh.angle) * sh.speed;
-          sh.life -= sh.decay;
+          sh.x += Math.cos(sh.angle) * sh.speed * dt * 60;
+          sh.y -= Math.sin(sh.angle) * sh.speed * dt * 60;
+          sh.life -= sh.decay * dt * 60;
 
-          if (sh.life <= 0) {
-            shooters.splice(i, 1);
-            continue;
-          }
+          if (sh.life <= 0) { shooters.splice(i, 1); continue; }
 
           const tailX = sh.x - Math.cos(sh.angle) * sh.length * sh.life;
           const tailY = sh.y + Math.sin(sh.angle) * sh.length * sh.life;
 
           const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
-          grad.addColorStop(0, `hsla(${sh.hue}, 80%, 85%, ${sh.life * 0.9})`);
-          grad.addColorStop(0.3, `hsla(${sh.hue}, 70%, 70%, ${sh.life * 0.4})`);
+          grad.addColorStop(0, `hsla(${sh.hue}, 85%, 88%, ${sh.life * 0.95})`);
+          grad.addColorStop(0.2, `hsla(${sh.hue}, 75%, 75%, ${sh.life * 0.5})`);
           grad.addColorStop(1, `hsla(${sh.hue}, 60%, 60%, 0)`);
 
           ctx.beginPath();
           ctx.moveTo(sh.x, sh.y);
           ctx.lineTo(tailX, tailY);
           ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.5 * sh.life;
+          ctx.lineWidth = sh.width * sh.life;
           ctx.stroke();
 
-          // Head glow
+          // Bright head
           ctx.beginPath();
-          ctx.arc(sh.x, sh.y, 2 * sh.life, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${sh.hue}, 90%, 90%, ${sh.life * 0.8})`;
+          ctx.arc(sh.x, sh.y, 2.2 * sh.life, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${sh.hue}, 95%, 92%, ${sh.life * 0.85})`;
           ctx.fill();
+
+          // Subtle head glow
+          if (Q.enableGlow) {
+            const hGrad = ctx.createRadialGradient(sh.x, sh.y, 0, sh.x, sh.y, 8 * sh.life);
+            hGrad.addColorStop(0, `hsla(${sh.hue}, 80%, 85%, ${sh.life * 0.3})`);
+            hGrad.addColorStop(1, `hsla(${sh.hue}, 80%, 85%, 0)`);
+            ctx.beginPath();
+            ctx.arc(sh.x, sh.y, 8 * sh.life, 0, Math.PI * 2);
+            ctx.fillStyle = hGrad;
+            ctx.fill();
+          }
         }
 
         requestAnimationFrame(draw);
       }
 
-      draw();
+      requestAnimationFrame(draw);
     })();
 
     // ============================================
