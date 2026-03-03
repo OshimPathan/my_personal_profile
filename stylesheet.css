@@ -89,13 +89,14 @@ body::after {
 /* Smooth page entrance — content fades in after preloader */
 body:not(.loaded) > *:not(.preloader) {
   opacity: 0;
-  /* CSS-only fallback: auto-reveal content after 5.6s even if JS fails */
-  animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 5.6s forwards;
+  /* CSS-only fallback: auto-reveal content after 3s even if JS fails */
+  animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards;
 }
 body.loaded > * {
+  opacity: 1;
   animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-body.loaded > .preloader { animation: none; }
+body.loaded > .preloader { opacity: 0; animation: none; }
 
 @keyframes pageEntrance {
   from { opacity: 0; transform: translateY(12px); }

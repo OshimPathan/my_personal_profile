@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.5">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=40.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -86,6 +86,24 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+
+  <!-- NUCLEAR FALLBACK: pure CSS animation that guarantees content visibility after 4s -->
+  <style>
+    @keyframes nuclearReveal {
+      to { opacity: 1 !important; transform: none !important; }
+    }
+    /* After 4s, force everything visible no matter what */
+    body > *:not(.preloader) {
+      animation: nuclearReveal 0.5s ease 4s forwards !important;
+    }
+    .reveal {
+      animation: nuclearReveal 0.5s ease 5s forwards !important;
+    }
+    /* Once body.loaded and .reveal.visible are set by JS, cancel the fallback */
+    body.loaded > * { animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+    body.loaded > .preloader { opacity: 0 !important; animation: none !important; }
+    .reveal.visible { opacity: 1 !important; transform: none !important; animation: none !important; }
+  </style>
 </head>
 
 <body>
@@ -113,8 +131,15 @@
       function _killPreloader(){
         try{
           var p=document.getElementById('preloader');
-          if(p){p.classList.add('loaded');p.style.opacity='0';p.style.visibility='hidden';p.style.pointerEvents='none';}
+          if(p){p.classList.add('loaded');p.style.cssText='opacity:0!important;visibility:hidden!important;pointer-events:none!important;';}
           document.body.classList.add('loaded');
+          // Force all direct children of body to be visible
+          var children=document.body.children;
+          for(var i=0;i<children.length;i++){
+            if(!children[i].classList.contains('preloader')){
+              children[i].style.opacity='1';
+            }
+          }
         }catch(e){}
       }
       // Strategy 1: on window load (all resources done)
@@ -151,8 +176,19 @@
           }
         }catch(e){}
       }
-      // Safety net: reveal all content after 5s no matter what
-      setTimeout(_forceReveal,5000);
+      // Safety net: reveal all content after 4s no matter what
+      setTimeout(_forceReveal,4000);
+      // Double safety net at 6s
+      setTimeout(function(){
+        _forceReveal();
+        // Also ensure body.loaded is set
+        document.body.classList.add('loaded');
+        // Force body children visible
+        try{
+          var ch=document.body.children;
+          for(var i=0;i<ch.length;i++) ch[i].style.opacity='1';
+        }catch(e){}
+      },6000);
 
       // Also set up a standalone IntersectionObserver for .reveal elements
       // This runs independently of the main JS block
@@ -5109,11 +5145,15 @@
       let ssActive = false;
       let logoX, logoY, logoDX, logoDY;
       let stars = [];
-      const IDLE_TIMEOUT = 120000; // 2 minutes
+      const IDLE_TIMEOUT = 300000; // 5 minutes
+      const PAGE_LOAD_TIME = Date.now();
+      const MIN_TIME_BEFORE_SS = 60000; // Don't allow screensaver within first 60s
 
       function resetIdle() {
         clearTimeout(idleTimer);
         if (ssActive) exitScreensaver();
+        // Never start screensaver within the first 60 seconds of page load
+        if (Date.now() - PAGE_LOAD_TIME < MIN_TIME_BEFORE_SS) return;
         idleTimer = setTimeout(enterScreensaver, IDLE_TIMEOUT);
       }
 
