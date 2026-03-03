@@ -103,6 +103,7 @@
     <div class="preloader-inner">
       <div class="preloader-logo">&lt;OP /&gt;</div>
       <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
     </div>
   </div>
 
@@ -121,6 +122,78 @@
 
   <!-- Scroll Progress Bar -->
   <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ═══════════════════════════════════════════
+       COMMAND PALETTE (Cmd+K / Ctrl+K)
+       ═══════════════════════════════════════════ -->
+  <div class="cmd-palette-overlay" id="cmdOverlay">
+    <div class="cmd-palette" id="cmdPalette">
+      <div class="cmd-input-wrap">
+        <svg class="cmd-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="cmd-input" id="cmdInput" placeholder="Search sections, skills, projects..." autocomplete="off" spellcheck="false">
+        <kbd class="cmd-kbd">ESC</kbd>
+      </div>
+      <div class="cmd-results" id="cmdResults"></div>
+      <div class="cmd-footer">
+        <span><kbd>↑↓</kbd> Navigate</span>
+        <span><kbd>↵</kbd> Open</span>
+        <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       VERTICAL DOT NAVIGATION (Right Side)
+       ═══════════════════════════════════════════ -->
+  <nav class="dot-nav" id="dotNav" aria-label="Section navigation">
+    <a href="#hero" class="dot-nav-item active" data-section="hero" aria-label="Hero"><span class="dot-nav-label">Home</span></a>
+    <a href="#about" class="dot-nav-item" data-section="about" aria-label="About"><span class="dot-nav-label">About</span></a>
+    <a href="#experience" class="dot-nav-item" data-section="experience" aria-label="Experience"><span class="dot-nav-label">Experience</span></a>
+    <a href="#projects" class="dot-nav-item" data-section="projects" aria-label="Projects"><span class="dot-nav-label">Projects</span></a>
+    <a href="#patents" class="dot-nav-item" data-section="patents" aria-label="Patents"><span class="dot-nav-label">Patents</span></a>
+    <a href="#skills" class="dot-nav-item" data-section="skills" aria-label="Skills"><span class="dot-nav-label">Skills</span></a>
+    <a href="#contact" class="dot-nav-item" data-section="contact" aria-label="Contact"><span class="dot-nav-label">Contact</span></a>
+  </nav>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="shortcuts-overlay" id="shortcutsOverlay">
+    <div class="shortcuts-modal glass-card">
+      <div class="shortcuts-header">
+        <h3>Keyboard Shortcuts</h3>
+        <button class="shortcuts-close" id="shortcutsClose">&times;</button>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-item"><kbd>Ctrl</kbd><span>+</span><kbd>K</kbd><span class="shortcut-desc">Command Palette</span></div>
+        <div class="shortcut-item"><kbd>?</kbd><span class="shortcut-desc">Show Shortcuts</span></div>
+        <div class="shortcut-item"><kbd>↑</kbd> <kbd>↓</kbd><span class="shortcut-desc">Navigate Sections</span></div>
+        <div class="shortcut-item"><kbd>D</kbd><span class="shortcut-desc">Toggle Theme</span></div>
+        <div class="shortcut-item"><kbd>G</kbd><span class="shortcut-desc">Go to GitHub</span></div>
+        <div class="shortcut-item"><kbd>H</kbd><span class="shortcut-desc">Go Home</span></div>
+        <div class="shortcut-item"><kbd>Esc</kbd><span class="shortcut-desc">Close Modals</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Easter Egg Terminal -->
+  <div class="easter-terminal-overlay" id="easterOverlay">
+    <div class="easter-terminal">
+      <div class="easter-terminal-bar">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <span class="term-title">oshim@portfolio:~</span>
+        <button class="term-close" id="easterClose">&times;</button>
+      </div>
+      <div class="easter-terminal-body" id="easterBody">
+        <div class="term-line"><span class="term-prompt">$</span> <span class="term-cmd">whoami</span></div>
+      </div>
+      <div class="easter-terminal-input">
+        <span class="term-prompt">$</span>
+        <input type="text" id="easterInput" placeholder="Type a command..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════════════
        FLOATING PILL NAVBAR
@@ -144,6 +217,10 @@
 
       <!-- Right side controls -->
       <div class="nav-controls">
+        <button id="cmdTrigger" class="cmd-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <kbd>⌘K</kbd>
+        </button>
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle Dark Mode">
           <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2702,6 +2779,626 @@
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // ============================================
+    // ENHANCED PRELOADER WITH PERCENTAGE
+    // ============================================
+    (function enhancedPreloader() {
+      const pctEl = document.getElementById('preloaderPercent');
+      if (!pctEl) return;
+      let pct = 0;
+      const interval = setInterval(() => {
+        pct += Math.random() * 15 + 3;
+        if (pct >= 100) { pct = 100; clearInterval(interval); }
+        pctEl.textContent = Math.floor(pct) + '%';
+      }, 120);
+    })();
+
+    // ============================================
+    // COMMAND PALETTE (Ctrl+K / Cmd+K)
+    // ============================================
+    (function initCommandPalette() {
+      const overlay = document.getElementById('cmdOverlay');
+      const palette = document.getElementById('cmdPalette');
+      const input = document.getElementById('cmdInput');
+      const results = document.getElementById('cmdResults');
+      const trigger = document.getElementById('cmdTrigger');
+      let activeIndex = -1;
+
+      const commands = [
+        // Navigation
+        { group: 'Navigate', icon: '🏠', label: 'Home', action: () => scrollToSection('hero'), hint: '' },
+        { group: 'Navigate', icon: '👤', label: 'About Me', action: () => scrollToSection('about'), hint: '#about' },
+        { group: 'Navigate', icon: '💼', label: 'Experience', action: () => scrollToSection('experience'), hint: '#experience' },
+        { group: 'Navigate', icon: '🚀', label: 'Projects', action: () => scrollToSection('projects'), hint: '#projects' },
+        { group: 'Navigate', icon: '📜', label: 'Patents', action: () => scrollToSection('patents'), hint: '#patents' },
+        { group: 'Navigate', icon: '💻', label: 'Tech Stack', action: () => scrollToSection('skills'), hint: '#skills' },
+        { group: 'Navigate', icon: '📝', label: 'Blog', action: () => scrollToSection('blog'), hint: '#blog' },
+        { group: 'Navigate', icon: '📊', label: 'GitHub Streak', action: () => scrollToSection('github-streak'), hint: '#streak' },
+        { group: 'Navigate', icon: '📧', label: 'Contact', action: () => scrollToSection('contact'), hint: '#contact' },
+        // Actions
+        { group: 'Actions', icon: '🌓', label: 'Toggle Theme', action: () => document.getElementById('themeToggle').click(), hint: 'D' },
+        { group: 'Actions', icon: '📄', label: 'Download Resume', action: () => window.open('data/Update_Resume(7).pdf', '_blank'), hint: '' },
+        { group: 'Actions', icon: '💬', label: 'Open Chatbot', action: () => { if(!document.getElementById('chatbotWindow').classList.contains('open')) toggleChatbot(); }, hint: '' },
+        { group: 'Actions', icon: '⌨️', label: 'Keyboard Shortcuts', action: () => document.getElementById('shortcutsOverlay').classList.add('open'), hint: '?' },
+        // Links
+        { group: 'Links', icon: '🐙', label: 'GitHub Profile', action: () => window.open('https://github.com/OshimPathan', '_blank'), hint: 'G' },
+        { group: 'Links', icon: '🔗', label: 'LinkedIn', action: () => window.open('https://linkedin.com/in/oshim7786', '_blank'), hint: '' },
+        { group: 'Links', icon: '🐦', label: 'Twitter / X', action: () => window.open('https://x.com/OshimPathan', '_blank'), hint: '' },
+        // Projects quick-access
+        { group: 'Projects', icon: '📈', label: 'ShareSathi', action: () => window.open('https://github.com/OshimPathan/ShareSathi', '_blank'), hint: '' },
+        { group: 'Projects', icon: '🏫', label: 'SevenStar ERP', action: () => window.open('https://frontend-nu-eosin-89.vercel.app', '_blank'), hint: '' },
+        { group: 'Projects', icon: '🏥', label: 'MedAssist AI', action: () => window.open('https://github.com/OshimPathan/MedAssist-AI', '_blank'), hint: '' },
+        { group: 'Projects', icon: '🩺', label: 'B-SAFE.AI', action: () => window.open('https://aero-stream.vercel.app/', '_blank'), hint: '' },
+        // Skills
+        { group: 'Skills', icon: '⚛️', label: 'React', action: () => scrollToSection('skills'), hint: 'Frontend' },
+        { group: 'Skills', icon: '🐍', label: 'Python', action: () => scrollToSection('skills'), hint: 'Language' },
+        { group: 'Skills', icon: '📘', label: 'TypeScript', action: () => scrollToSection('skills'), hint: 'Language' },
+        { group: 'Skills', icon: '🧠', label: 'TensorFlow / AI', action: () => scrollToSection('skills'), hint: 'AI/ML' },
+        { group: 'Skills', icon: '🐳', label: 'Docker', action: () => scrollToSection('skills'), hint: 'DevOps' },
+        { group: 'Skills', icon: '☁️', label: 'AWS / Cloud', action: () => scrollToSection('skills'), hint: 'Cloud' },
+      ];
+
+      function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      function openPalette() {
+        overlay.classList.add('open');
+        input.value = '';
+        input.focus();
+        renderResults('');
+        activeIndex = -1;
+      }
+
+      function closePalette() {
+        overlay.classList.remove('open');
+        input.blur();
+      }
+
+      function renderResults(query) {
+        const q = query.toLowerCase().trim();
+        const filtered = q ? commands.filter(c =>
+          c.label.toLowerCase().includes(q) ||
+          c.group.toLowerCase().includes(q) ||
+          c.hint.toLowerCase().includes(q)
+        ) : commands;
+
+        // Group results
+        const groups = {};
+        filtered.forEach(c => {
+          if (!groups[c.group]) groups[c.group] = [];
+          groups[c.group].push(c);
+        });
+
+        let html = '';
+        let idx = 0;
+        for (const [group, items] of Object.entries(groups)) {
+          html += `<div class="cmd-result-group"><div class="cmd-result-group-label">${group}</div>`;
+          items.forEach(item => {
+            html += `<div class="cmd-result-item" data-index="${idx}">
+              <span class="cmd-icon">${item.icon}</span>
+              <span class="cmd-label">${item.label}</span>
+              ${item.hint ? `<span class="cmd-hint">${item.hint}</span>` : ''}
+            </div>`;
+            idx++;
+          });
+          html += '</div>';
+        }
+        results.innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text-muted)">No results found</div>';
+        activeIndex = -1;
+
+        // Store flattened list for keyboard nav
+        results._flatItems = filtered;
+
+        // Click handlers
+        results.querySelectorAll('.cmd-result-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const i = parseInt(el.dataset.index);
+            if (results._flatItems[i]) {
+              closePalette();
+              results._flatItems[i].action();
+            }
+          });
+        });
+      }
+
+      function updateActive() {
+        results.querySelectorAll('.cmd-result-item').forEach((el, i) => {
+          el.classList.toggle('active', i === activeIndex);
+          if (i === activeIndex) el.scrollIntoView({ block: 'nearest' });
+        });
+      }
+
+      input.addEventListener('input', () => renderResults(input.value));
+
+      input.addEventListener('keydown', (e) => {
+        const items = results.querySelectorAll('.cmd-result-item');
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIndex = (activeIndex + 1) % items.length;
+          updateActive();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIndex = activeIndex <= 0 ? items.length - 1 : activeIndex - 1;
+          updateActive();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (activeIndex >= 0 && results._flatItems[activeIndex]) {
+            closePalette();
+            results._flatItems[activeIndex].action();
+          }
+        } else if (e.key === 'Escape') {
+          closePalette();
+        }
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closePalette();
+      });
+
+      if (trigger) trigger.addEventListener('click', openPalette);
+
+      // Global shortcut: Ctrl+K or Cmd+K
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          if (overlay.classList.contains('open')) closePalette();
+          else openPalette();
+        }
+      });
+    })();
+
+    // ============================================
+    // VERTICAL DOT NAVIGATION
+    // ============================================
+    (function initDotNav() {
+      const dotNav = document.getElementById('dotNav');
+      const dotItems = dotNav.querySelectorAll('.dot-nav-item');
+      const allSections = document.querySelectorAll('.content-section, .hero-section, .footer-section');
+
+      // Show dot nav after scrolling past hero
+      function updateDotNav() {
+        dotNav.classList.toggle('visible', window.scrollY > 300);
+
+        let current = 'hero';
+        allSections.forEach(s => {
+          if (s.getBoundingClientRect().top <= 200) current = s.id;
+        });
+        // Map footer to contact
+        if (current === 'contact') current = 'contact';
+
+        dotItems.forEach(item => {
+          item.classList.toggle('active', item.dataset.section === current);
+        });
+      }
+
+      window.addEventListener('scroll', updateDotNav, { passive: true });
+
+      dotItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById(item.dataset.section);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    })();
+
+    // ============================================
+    // TOAST NOTIFICATION SYSTEM
+    // ============================================
+    function showToast(icon, text, duration = 4000) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-text">${text}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('removing');
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
+    }
+
+    // Welcome toast after preloader
+    setTimeout(() => {
+      showToast('👋', 'Welcome! Press <strong>Ctrl+K</strong> to search anything', 5000);
+    }, 3000);
+
+    // Random activity toasts
+    (function activityToasts() {
+      const msgs = [
+        { icon: '🔥', text: 'Oshim pushed code to <strong>GitHub</strong> recently' },
+        { icon: '⚡', text: 'Press <strong>?</strong> to see keyboard shortcuts' },
+        { icon: '🎯', text: 'Try scrolling with <strong>arrow keys</strong> between sections' },
+        { icon: '🌙', text: 'Press <strong>D</strong> to toggle dark/light theme' },
+      ];
+      let idx = 0;
+      setInterval(() => {
+        if (document.hidden) return;
+        const msg = msgs[idx % msgs.length];
+        showToast(msg.icon, msg.text, 3500);
+        idx++;
+      }, 45000); // Every 45 seconds
+    })();
+
+    // ============================================
+    // DYNAMIC PAGE TITLE
+    // ============================================
+    (function initDynamicTitle() {
+      const baseTitle = 'Oshim Pathan — Software Engineer';
+      const sectionTitles = {
+        hero: baseTitle,
+        about: 'About Me — Oshim Pathan',
+        experience: 'Experience — Oshim Pathan',
+        projects: 'Projects — Oshim Pathan',
+        certifications: 'Certifications — Oshim Pathan',
+        education: 'Education — Oshim Pathan',
+        patents: 'Patents — Oshim Pathan',
+        skills: 'Tech Stack — Oshim Pathan',
+        blog: 'Blog — Oshim Pathan',
+        'github-streak': 'GitHub Streak — Oshim Pathan',
+        testimonials: 'Feedback — Oshim Pathan',
+        contact: 'Contact — Oshim Pathan'
+      };
+
+      let currentSection = 'hero';
+      window.addEventListener('scroll', () => {
+        const allSec = document.querySelectorAll('.content-section, .hero-section, .footer-section');
+        let active = 'hero';
+        allSec.forEach(s => {
+          if (s.getBoundingClientRect().top <= 200) active = s.id;
+        });
+        if (active !== currentSection) {
+          currentSection = active;
+          document.title = sectionTitles[active] || baseTitle;
+        }
+      }, { passive: true });
+
+      // Visibility changes
+      let wasHidden = false;
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          wasHidden = true;
+          document.title = '👋 Come back! — Oshim Pathan';
+        } else if (wasHidden) {
+          wasHidden = false;
+          document.title = '🎉 Welcome back! — Oshim Pathan';
+          setTimeout(() => {
+            document.title = sectionTitles[currentSection] || baseTitle;
+          }, 2000);
+        }
+      });
+    })();
+
+    // ============================================
+    // KEYBOARD SHORTCUTS
+    // ============================================
+    (function initKeyboardShortcuts() {
+      const sectionOrder = ['hero', 'about', 'experience', 'projects', 'patents', 'skills', 'blog', 'github-streak', 'contact'];
+      let currentIdx = 0;
+
+      const shortcutsOverlay = document.getElementById('shortcutsOverlay');
+      const shortcutsClose = document.getElementById('shortcutsClose');
+
+      shortcutsClose.addEventListener('click', () => shortcutsOverlay.classList.remove('open'));
+      shortcutsOverlay.addEventListener('click', (e) => {
+        if (e.target === shortcutsOverlay) shortcutsOverlay.classList.remove('open');
+      });
+
+      // Find current section index
+      function updateCurrentIdx() {
+        const allSec = document.querySelectorAll('.content-section, .hero-section, .footer-section');
+        let active = 'hero';
+        allSec.forEach(s => {
+          if (s.getBoundingClientRect().top <= 200) active = s.id;
+        });
+        const idx = sectionOrder.indexOf(active);
+        if (idx >= 0) currentIdx = idx;
+      }
+
+      window.addEventListener('scroll', updateCurrentIdx, { passive: true });
+
+      document.addEventListener('keydown', (e) => {
+        // Ignore if typing in input fields
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+        // Ignore if any modal is open
+        if (document.getElementById('cmdOverlay').classList.contains('open')) return;
+        if (document.getElementById('easterOverlay').classList.contains('open')) return;
+
+        switch (e.key) {
+          case '?':
+            e.preventDefault();
+            shortcutsOverlay.classList.toggle('open');
+            break;
+          case 'ArrowDown':
+          case 'j':
+            if (!shortcutsOverlay.classList.contains('open')) {
+              e.preventDefault();
+              updateCurrentIdx();
+              if (currentIdx < sectionOrder.length - 1) {
+                currentIdx++;
+                document.getElementById(sectionOrder[currentIdx])?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            break;
+          case 'ArrowUp':
+          case 'k':
+            if (!shortcutsOverlay.classList.contains('open')) {
+              e.preventDefault();
+              updateCurrentIdx();
+              if (currentIdx > 0) {
+                currentIdx--;
+                document.getElementById(sectionOrder[currentIdx])?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            break;
+          case 'd':
+          case 'D':
+            e.preventDefault();
+            document.getElementById('themeToggle').click();
+            showToast('🌓', 'Theme toggled!', 2000);
+            break;
+          case 'g':
+          case 'G':
+            e.preventDefault();
+            window.open('https://github.com/OshimPathan', '_blank');
+            break;
+          case 'h':
+          case 'H':
+            e.preventDefault();
+            document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+            break;
+          case 'Escape':
+            shortcutsOverlay.classList.remove('open');
+            document.getElementById('easterOverlay').classList.remove('open');
+            break;
+        }
+      });
+    })();
+
+    // ============================================
+    // TEXT SCRAMBLE ON SECTION TITLES
+    // ============================================
+    (function initTextScramble() {
+      const chars = '!<>-_\\/[]{}—=+*^?#_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+      function scrambleText(el) {
+        const originalText = el.dataset.original || el.textContent;
+        el.dataset.original = originalText;
+        const length = originalText.length;
+        let iteration = 0;
+        const maxIterations = length * 2;
+
+        const interval = setInterval(() => {
+          el.textContent = originalText.split('').map((char, i) => {
+            if (char === ' ') return ' ';
+            if (i < iteration / 2) return originalText[i];
+            return chars[Math.floor(Math.random() * chars.length)];
+          }).join('');
+          iteration++;
+          if (iteration >= maxIterations) {
+            el.textContent = originalText;
+            clearInterval(interval);
+          }
+        }, 30);
+      }
+
+      const scrambleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.scrambled) {
+            entry.target.dataset.scrambled = 'true';
+            // Small delay for effect
+            setTimeout(() => scrambleText(entry.target), 200);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      document.querySelectorAll('.section-title').forEach(el => {
+        scrambleObserver.observe(el);
+      });
+    })();
+
+    // ============================================
+    // RIPPLE EFFECT ON BUTTONS
+    // ============================================
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn, .cta-btn, .filter-btn, .proj-link');
+      if (!btn) return;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      btn.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+
+    // ============================================
+    // KONAMI CODE EASTER EGG + TERMINAL
+    // ============================================
+    (function initEasterEgg() {
+      const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let konamiIdx = 0;
+      const overlay = document.getElementById('easterOverlay');
+      const body = document.getElementById('easterBody');
+      const input = document.getElementById('easterInput');
+      const closeBtn = document.getElementById('easterClose');
+
+      function openTerminal() {
+        overlay.classList.add('open');
+        input.focus();
+        addLine('output', '🎉 Secret terminal activated! Type "help" for commands.');
+      }
+
+      function closeTerminal() {
+        overlay.classList.remove('open');
+      }
+
+      closeBtn.addEventListener('click', closeTerminal);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeTerminal();
+      });
+
+      // Konami code detection
+      document.addEventListener('keydown', (e) => {
+        if (document.getElementById('cmdOverlay').classList.contains('open')) return;
+        if (e.target.tagName === 'INPUT' && e.target !== input) return;
+
+        if (e.key === konamiCode[konamiIdx]) {
+          konamiIdx++;
+          if (konamiIdx === konamiCode.length) {
+            konamiIdx = 0;
+            openTerminal();
+          }
+        } else {
+          konamiIdx = 0;
+        }
+      });
+
+      function addLine(type, text) {
+        const div = document.createElement('div');
+        div.className = 'term-line';
+        if (type === 'cmd') {
+          div.innerHTML = `<span class="term-prompt">$</span> <span class="term-cmd">${text}</span>`;
+        } else {
+          div.innerHTML = `<span class="term-output">${text}</span>`;
+        }
+        body.appendChild(div);
+        body.scrollTop = body.scrollHeight;
+      }
+
+      const termCommands = {
+        help: () => `Available commands:
+  <span class="term-accent">whoami</span>    — About Oshim
+  <span class="term-accent">skills</span>    — Tech stack
+  <span class="term-accent">projects</span>  — Project list
+  <span class="term-accent">patents</span>   — Patent info
+  <span class="term-accent">contact</span>   — Get in touch
+  <span class="term-accent">startup</span>   — ShareSathi info
+  <span class="term-accent">sudo hire</span> — 😉
+  <span class="term-accent">cat goals</span> — Future plans
+  <span class="term-accent">neofetch</span>  — System info
+  <span class="term-accent">clear</span>     — Clear terminal
+  <span class="term-accent">exit</span>      — Close terminal`,
+
+        whoami: () => `<span class="term-success">Oshim Pathan</span>
+  Software Engineer | AI Enthusiast | Startup Founder
+  📍 Devdaha, Nepal → VIT Vellore '26
+  🎓 B.Tech CSE — CGPA: 8.78/10
+  📜 2 Patents (B-SAFE.AI published, Rebirth filed)
+  🚀 Founder @ ShareSathi`,
+
+        skills: () => `<span class="term-accent">Languages:</span>  TypeScript, Python, Java, C++, Dart
+<span class="term-accent">Frontend:</span>   React, Next.js, Flutter, Tailwind
+<span class="term-accent">Backend:</span>    Node.js, FastAPI, Express, Django
+<span class="term-accent">Cloud:</span>      AWS, GCP, Azure, Docker, K8s
+<span class="term-accent">AI/ML:</span>      TensorFlow, PyTorch, LangChain, OpenAI
+<span class="term-accent">Databases:</span>  PostgreSQL, MongoDB, Redis, Supabase`,
+
+        projects: () => `<span class="term-success">15+ Projects Built:</span>
+  📈 ShareSathi — AI stock analytics (Startup)
+  🏫 SevenStar ERP — K-12 school management
+  🏥 MedAssist AI — Hospital assistant
+  🩺 B-SAFE.AI — Breath disease screening (Patent)
+  🧠 Rebirth — Mental health AI (Patent)
+  🌐 WorkSphere — Enterprise ERP
+  💊 HealthMate AI — RAG medical chatbot
+  ...and more on <span class="term-accent">github.com/OshimPathan</span>`,
+
+        patents: () => `<span class="term-success">2 Patents Filed:</span>
+
+  <span class="term-accent">1. B-SAFE.AI (AeroStream/Recon)</span>
+     Status: Filed & Published ✅
+     App No: 202641010439
+     Filed: 01 Feb 2026 | Published: 13 Feb 2026
+
+  <span class="term-accent">2. Rebirth (Mental Health AI)</span>
+     Status: Under Review 🔄
+     Submitted via VIT IPR Cell`,
+
+        contact: () => `<span class="term-accent">📧 Email:</span>    work.oshimkhan@gmail.com
+<span class="term-accent">🐙 GitHub:</span>   github.com/OshimPathan
+<span class="term-accent">🔗 LinkedIn:</span> linkedin.com/in/oshim7786
+<span class="term-accent">🐦 Twitter:</span>  x.com/OshimPathan`,
+
+        startup: () => `<span class="term-success">📈 ShareSathi</span>
+  Nepal's AI-powered stock analytics platform
+  Role: Founder & Lead Developer
+  Since: Feb 2026
+  Stack: React, FastAPI, TypeScript, WebSocket, Redis
+  Features: Live NEPSE data, AI forecasting, paper trading`,
+
+        'sudo hire': () => `<span class="term-success">✅ sudo access granted</span>
+  
+  Hiring Oshim Pathan...
+  Loading skills......... ████████████ 100%
+  Loading experience..... ████████████ 100%
+  Loading patents........ ████████████ 100%
+  
+  <span class="term-success">🎉 HIRED! Welcome to the team!</span>
+  
+  📧 Reach out: work.oshimkhan@gmail.com`,
+
+        'cat goals': () => `<span class="term-accent">$ cat ~/goals.txt</span>
+  
+  🎯 Join a MAANG company as SDE
+  🚀 Scale ShareSathi to 10K+ users
+  📜 File more patents in AI/Healthcare
+  🌏 Build tech that saves lives in Nepal
+  🤖 Contribute to open-source AI projects`,
+
+        neofetch: () => {
+          const now = new Date();
+          const uptime = Math.floor((now - new Date('2022-01-01')) / (1000*60*60*24));
+          return `<span class="term-success">
+   ╭──────────────────────╮
+   │   &lt;OP /&gt;  Portfolio  │
+   ╰──────────────────────╯</span>
+  <span class="term-accent">OS:</span>        Portfolio v2.0
+  <span class="term-accent">Host:</span>      oshimpathan.com.np
+  <span class="term-accent">Uptime:</span>    ${uptime} days
+  <span class="term-accent">Shell:</span>     JavaScript (ES2024)
+  <span class="term-accent">Theme:</span>     ${document.documentElement.getAttribute('data-theme')}
+  <span class="term-accent">Terminal:</span>  Easter Egg v1.0
+  <span class="term-accent">CPU:</span>       Brain.js (Coffee-Powered)
+  <span class="term-accent">Memory:</span>    15+ projects loaded
+  <span class="term-accent">GPU:</span>       3D Galaxy Renderer`;
+        },
+
+        clear: () => 'CLEAR',
+        exit: () => 'EXIT',
+      };
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const cmd = input.value.trim().toLowerCase();
+          input.value = '';
+          if (!cmd) return;
+
+          addLine('cmd', cmd);
+
+          if (termCommands[cmd]) {
+            const result = typeof termCommands[cmd] === 'function' ? termCommands[cmd]() : termCommands[cmd];
+            if (result === 'CLEAR') {
+              body.innerHTML = '';
+              addLine('output', 'Terminal cleared.');
+            } else if (result === 'EXIT') {
+              closeTerminal();
+            } else {
+              addLine('output', result);
+            }
+          } else {
+            addLine('output', `<span style="color:#ef4444">command not found: ${cmd}</span>\nType <span class="term-accent">help</span> for available commands.`);
+          }
+        } else if (e.key === 'Escape') {
+          closeTerminal();
+        }
+      });
+    })();
 
     // ============================================
     // DYNAMIC COPYRIGHT YEAR
