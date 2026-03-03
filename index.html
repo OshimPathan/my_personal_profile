@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.3">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.4">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -106,6 +106,38 @@
       <div class="preloader-percent" id="preloaderPercent">0%</div>
     </div>
   </div>
+
+  <!-- BULLETPROOF PRELOADER FAIL-SAFE: standalone script, independent of main JS -->
+  <script>
+    (function(){
+      function _killPreloader(){
+        try{
+          var p=document.getElementById('preloader');
+          if(p){p.classList.add('loaded');p.style.opacity='0';p.style.visibility='hidden';p.style.pointerEvents='none';}
+          document.body.classList.add('loaded');
+        }catch(e){}
+      }
+      // Strategy 1: on window load (all resources done)
+      window.addEventListener('load',function(){setTimeout(_killPreloader,1200);});
+      // Strategy 2: on DOMContentLoaded (HTML parsed, doesn't wait for CDN)
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',function(){setTimeout(_killPreloader,2000);});
+      }else{
+        // DOMContentLoaded already fired — dismiss soon
+        setTimeout(_killPreloader,800);
+      }
+      // Strategy 3: absolute safety net — 3.5 seconds no matter what
+      setTimeout(_killPreloader,3500);
+    })();
+  </script>
+
+  <!-- Fallback if JS is completely disabled -->
+  <noscript>
+    <style>
+      .preloader{display:none!important}
+      body>*{opacity:1!important;animation:none!important}
+    </style>
+  </noscript>
 
   <!-- Custom Cursor -->
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
@@ -1826,7 +1858,7 @@
        ═══════════════════════════════════════════ -->
   <script>
     // ============================================
-    // PRELOADER
+    // PRELOADER (backup — main fail-safe is above)
     // ============================================
     (function() {
       function dismissPreloader() {
@@ -1836,12 +1868,8 @@
           document.body.classList.add('loaded');
         }
       }
-      // Primary: fire after DOM + most resources
-      window.addEventListener('load', () => { setTimeout(dismissPreloader, 1200); });
-      // Fallback: fire after DOM parsed (doesn't wait for images/CDN)
-      document.addEventListener('DOMContentLoaded', () => { setTimeout(dismissPreloader, 2500); });
-      // Safety net: force dismiss after 4 seconds no matter what
-      setTimeout(dismissPreloader, 4000);
+      // Extra safety — this runs if the standalone script above somehow missed
+      setTimeout(dismissPreloader, 4500);
     })();
 
     // ============================================

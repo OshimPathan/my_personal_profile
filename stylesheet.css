@@ -89,6 +89,8 @@ body::after {
 /* Smooth page entrance — content fades in after preloader */
 body:not(.loaded) > *:not(.preloader) {
   opacity: 0;
+  /* CSS-only fallback: auto-reveal content after 5.6s even if JS fails */
+  animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 5.6s forwards;
 }
 body.loaded > * {
   animation: pageEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -151,12 +153,19 @@ img { max-width: 100%; }
   align-items: center;
   justify-content: center;
   transition: opacity 0.6s ease, visibility 0.6s ease;
+  /* Pure CSS safety: auto-hide after 5s even if JS completely fails */
+  animation: preloaderAutoHide 0.6s ease 5s forwards;
+}
+
+@keyframes preloaderAutoHide {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 .preloader.loaded {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  animation: none; /* Cancel the CSS timer once JS succeeds */
 }
 
 .preloader-inner {
