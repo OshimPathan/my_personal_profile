@@ -3416,7 +3416,7 @@ img { max-width: 100%; }
    ============================================ */
 #backToTop {
   position: fixed;
-  bottom: 30px; right: 30px;
+  bottom: 25px; right: 90px;
   width: 48px; height: 48px;
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -5506,8 +5506,8 @@ body {
    ============================================ */
 .voice-nav-btn {
   position: fixed;
-  bottom: 100px;
-  right: 24px;
+  bottom: 92px;
+  right: 25px;
   z-index: 9998;
   width: 48px;
   height: 48px;
@@ -5567,8 +5567,8 @@ body {
 
 .voice-feedback {
   position: fixed;
-  bottom: 160px;
-  right: 24px;
+  bottom: 150px;
+  right: 25px;
   z-index: 9999;
   opacity: 0;
   transform: translateY(10px) scale(0.95);
@@ -5634,8 +5634,8 @@ body {
    ============================================ */
 .accent-picker {
   position: fixed;
-  bottom: 160px;
-  left: 24px;
+  bottom: 155px;
+  left: 25px;
   z-index: 9998;
 }
 
@@ -5803,8 +5803,8 @@ body {
 
 .spotlight-toggle {
   position: fixed;
-  bottom: 160px;
-  right: 80px;
+  bottom: 152px;
+  right: 25px;
   z-index: 9998;
   width: 44px;
   height: 44px;
@@ -5841,8 +5841,8 @@ body {
    ============================================ */
 .ambient-sound {
   position: fixed;
-  bottom: 100px;
-  left: 24px;
+  bottom: 92px;
+  left: 25px;
   z-index: 9998;
 }
 
@@ -6059,11 +6059,11 @@ body {
    MOBILE RESPONSIVE — NEW FEATURES
    ============================================ */
 @media (max-width: 768px) {
-  .voice-nav-btn { width: 40px; height: 40px; bottom: 80px; right: 16px; }
-  .spotlight-toggle { width: 36px; height: 36px; bottom: 130px; right: 60px; }
-  .accent-picker { bottom: 130px; left: 16px; }
+  .voice-nav-btn { width: 40px; height: 40px; bottom: 78px; right: 16px; }
+  .spotlight-toggle { width: 36px; height: 36px; bottom: 128px; right: 16px; }
+  .accent-picker { bottom: 128px; left: 16px; }
   .accent-picker-toggle { width: 36px; height: 36px; }
-  .ambient-sound { bottom: 80px; left: 16px; }
+  .ambient-sound { bottom: 78px; left: 16px; }
   .ambient-toggle { width: 40px; height: 40px; }
   .accent-panel, .ambient-panel { width: 190px; }
   .voice-feedback { bottom: 130px; right: 16px; }
@@ -6074,10 +6074,9 @@ body {
    ============================================ */
 .trail-picker {
   position: fixed;
-  top: 50%;
-  right: 24px;
+  bottom: 212px;
+  right: 25px;
   z-index: 9998;
-  transform: translateY(-50%);
 }
 
 .trail-picker-toggle {
@@ -6107,8 +6106,8 @@ body {
 .trail-panel {
   position: absolute;
   right: 56px;
-  top: 50%;
-  transform: translateY(-50%) scale(0.95);
+  bottom: -30px;
+  transform: scale(0.95);
   background: rgba(15, 23, 42, 0.9);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
@@ -6124,7 +6123,7 @@ body {
 
 .trail-panel.open {
   opacity: 1;
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
   pointer-events: auto;
 }
 
@@ -6180,10 +6179,9 @@ body {
    ============================================ */
 .fingerprint-art {
   position: fixed;
-  top: 50%;
-  left: 24px;
+  bottom: 212px;
+  left: 25px;
   z-index: 9998;
-  transform: translateY(calc(-50% + 50px));
 }
 
 .fingerprint-toggle {
@@ -6213,8 +6211,8 @@ body {
 .fingerprint-panel {
   position: absolute;
   left: 56px;
-  top: 50%;
-  transform: translateY(-50%) scale(0.95);
+  bottom: -30px;
+  transform: scale(0.95);
   background: rgba(15, 23, 42, 0.92);
   -webkit-backdrop-filter: blur(24px);
   backdrop-filter: blur(24px);
@@ -6230,7 +6228,7 @@ body {
 
 .fingerprint-panel.open {
   opacity: 1;
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
   pointer-events: auto;
 }
 
@@ -6470,15 +6468,13 @@ body {
    MOBILE RESPONSIVE — v39.3 FEATURES
    ============================================ */
 @media (max-width: 768px) {
-  .trail-picker { top: auto; bottom: 180px; right: 16px; transform: none; }
+  .trail-picker { bottom: 175px; right: 16px; }
   .trail-picker-toggle { width: 36px; height: 36px; }
-  .trail-panel { right: 48px; top: auto; bottom: -20px; transform: scale(0.95); width: 175px; }
-  .trail-panel.open { transform: scale(1); }
+  .trail-panel { right: 48px; bottom: -20px; width: 175px; }
 
-  .fingerprint-art { top: auto; bottom: 180px; left: 16px; transform: none; }
+  .fingerprint-art { bottom: 175px; left: 16px; }
   .fingerprint-toggle { width: 36px; height: 36px; }
-  .fingerprint-panel { left: 48px; top: auto; bottom: -20px; transform: scale(0.95); width: 200px; }
-  .fingerprint-panel.open { transform: scale(1); }
+  .fingerprint-panel { left: 48px; bottom: -20px; width: 200px; }
   .fingerprint-panel canvas { width: 168px; height: 168px; }
 
   .breakout-container canvas { width: 320px; height: 213px; }
