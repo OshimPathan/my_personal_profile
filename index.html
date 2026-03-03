@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=41.1">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=42.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -2407,7 +2407,8 @@
     })(); } catch(e) { console.warn('Galaxy init failed:', e); }
 
     // ============================================
-    // WORLD MAP BACKGROUND
+    // INTERACTIVE 3D GLOBE BACKGROUND
+    // Click + drag to rotate — touch supported
     // ============================================
     try { (function initWorldMap() {
       const canvas = document.getElementById('worldMapCanvas');
@@ -2416,98 +2417,85 @@
       const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
       const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
-      let W, H;
+      let W, H, centerX, centerY, radius;
+      let rotLon = -30, rotLat = 15; // Current rotation angles
+      let targetRotLon = rotLon, targetRotLat = rotLat;
+      let autoRotateSpeed = 0.08; // degrees per frame
+      let isDragging = false;
+      let lastMouseX = 0, lastMouseY = 0;
+      let dragVelX = 0, dragVelY = 0; // Inertia
+      let isVisible = true;
+      let animId = null;
 
-      // ── Region outlines [lon, lat] — simplified but recognizable ──
+      // ── Region outlines [lon, lat] — simplified continents ──
       const REGIONS = [
-        // ── NORTH AMERICA ──
+        // NORTH AMERICA
         [[-168,65],[-155,71],[-140,70],[-130,72],[-115,72],[-95,73],[-82,70],[-68,63],[-58,52],[-55,47],[-60,46],[-67,44],[-70,42],[-74,40],[-76,36],[-81,31],[-82,25],[-84,18],[-88,16],[-92,15],[-97,16],[-105,20],[-110,24],[-117,32],[-122,37],[-125,49],[-128,52],[-134,57],[-148,60],[-152,57],[-165,57],[-170,62]],
         // Greenland
         [[-52,60],[-44,60],[-28,66],[-20,72],[-18,78],[-22,82],[-40,83],[-50,82],[-55,78],[-55,75],[-48,66]],
         // Iceland
         [[-24,64],[-22,65],[-14,66],[-13,64],[-18,63],[-23,64]],
-
-        // ── EUROPE ──
+        // EUROPE
         [[-10,36],[-5,36],[0,38],[4,43],[0,46],[-3,47],[-9,43],[-10,40]],
         [[0,46],[3,43],[6,44],[5,48],[2,51],[4,52],[8,54],[12,55],[14,54],[10,47],[14,43],[16,41],[13,38],[16,38],[18,40],[22,40],[26,41],[28,42],[28,44],[24,46],[22,48],[18,48],[15,51],[14,54],[20,55],[22,57],[20,60],[24,60],[24,64],[22,68],[15,70],[10,63],[7,58],[5,54],[2,52],[0,50],[-2,47]],
         [[-10,51],[-6,52],[-5,55],[-3,57],[-5,58],[-7,58],[-8,55],[-10,52]],
-        [[0,51],[2,53],[1,55],[0,57],[-2,58],[-4,57],[-5,54],[-3,51],[0,51]],
         [[5,58],[8,58],[12,60],[14,64],[16,66],[20,69],[27,71],[30,70],[30,66],[28,64],[24,61],[20,56],[16,56],[12,55],[10,58]],
-
-        // ── RUSSIA / NORTHERN ASIA ──
+        // RUSSIA / NORTHERN ASIA
         [[28,55],[32,56],[35,60],[40,62],[50,66],[60,68],[70,70],[80,72],[90,74],[100,72],[110,72],[120,70],[130,62],[135,58],[138,52],[140,48],[142,44],[148,46],[152,55],[157,58],[162,62],[170,65],[180,66],[180,72],[170,72],[160,70],[150,68],[130,72],[100,76],[80,74],[70,72],[60,70],[50,68],[42,66],[36,62],[30,60],[28,55]],
-
-        // ── AFRICA ──
+        // AFRICA
         [[-18,15],[-17,22],[-15,28],[-8,32],[-5,36],[0,36],[10,37],[15,32],[25,32],[30,31],[33,30],[35,22],[42,12],[51,12],[51,8],[47,5],[42,0],[40,-6],[38,-12],[36,-18],[33,-26],[29,-34],[21,-35],[18,-32],[15,-27],[12,-17],[9,-5],[7,4],[5,5],[1,6],[-5,5],[-8,5],[-12,8],[-16,12],[-18,14]],
         [[44,-12],[50,-16],[50,-24],[47,-26],[44,-24],[43,-18],[44,-12]],
-
-        // ── MIDDLE EAST ──
+        // MIDDLE EAST
         [[35,32],[36,34],[37,37],[40,38],[44,38],[48,38],[50,37],[52,36],[54,30],[56,27],[56,24],[55,17],[52,13],[49,12],[45,13],[43,15],[42,14],[40,14],[38,16],[36,22],[35,28],[33,30]],
-
-        // ── SOUTH ASIA ──
+        // SOUTH ASIA
         [[68,24],[72,22],[76,16],[78,10],[80,8],[80,12],[83,16],[86,22],[88,24],[90,22],[92,20],[93,24],[93,27],[90,28],[88,28],[85,28],[80,30],[76,30],[72,28],[68,24]],
         [[80,7],[81,6],[82,7],[81,10],[80,9]],
-
-        // ── EAST ASIA ──
+        // EAST ASIA
         [[73,40],[80,42],[87,48],[90,50],[95,52],[105,54],[110,52],[120,52],[122,46],[124,40],[122,30],[118,24],[112,22],[108,22],[106,22],[100,22],[98,22],[93,28],[88,28],[87,36],[80,36],[76,34],[73,40]],
         [[125,34],[127,36],[129,38],[128,42],[126,39],[125,37]],
         [[130,31],[132,34],[135,35],[137,37],[140,40],[142,43],[145,45],[143,43],[140,38],[137,35],[134,33],[130,31]],
         [[120,22],[122,24],[121,25],[120,24]],
-
-        // ── SOUTHEAST ASIA ──
+        // SOUTHEAST ASIA
         [[96,28],[100,22],[100,16],[101,8],[102,2],[104,1],[106,2],[106,10],[108,16],[108,22],[106,16],[104,10],[103,8],[100,12],[100,18],[98,22]],
         [[118,8],[120,10],[122,14],[124,18],[122,18],[120,14],[118,10]],
         [[95,-1],[105,-2],[106,-6],[110,-7],[115,-8],[120,-8],[125,-5],[128,-3],[130,-2],[135,-5],[140,-6],[142,-8],[141,-10],[135,-8],[130,-5],[127,-6],[122,-8],[117,-8],[112,-7],[106,-7],[105,-5],[100,0]],
-        [[141,-3],[145,-5],[148,-6],[150,-6],[152,-4],[155,-5],[155,-8],[150,-10],[147,-10],[142,-8],[141,-6]],
-
-        // ── SOUTH AMERICA ──
+        // SOUTH AMERICA
         [[-78,10],[-75,12],[-73,12],[-68,11],[-63,11],[-55,6],[-51,4],[-50,0],[-44,-2],[-35,-5],[-35,-10],[-38,-15],[-40,-22],[-48,-28],[-54,-34],[-57,-38],[-65,-42],[-69,-46],[-73,-51],[-75,-53],[-71,-55],[-68,-55],[-65,-52],[-65,-46],[-71,-40],[-73,-35],[-71,-28],[-70,-17],[-75,-14],[-77,-5],[-80,0],[-80,5],[-77,9]],
-
-        // ── OCEANIA ──
+        // AUSTRALIA
         [[115,-12],[120,-12],[130,-12],[137,-12],[142,-10],[145,-14],[150,-22],[153,-26],[153,-30],[151,-34],[148,-38],[145,-39],[140,-38],[136,-35],[130,-32],[128,-30],[122,-28],[118,-24],[114,-22],[113,-25],[115,-30],[117,-34],[120,-35],[122,-34],[118,-30],[115,-26],[113,-22],[114,-18],[115,-14]],
-        [[166,-35],[168,-37],[172,-40],[175,-42],[178,-44],[178,-46],[176,-46],[174,-42],[170,-38],[167,-36]],
-
-        // ── CENTRAL AMERICA + CARIBBEAN ──
-        [[-84,22],[-82,22],[-78,20],[-75,20],[-77,22],[-82,23]],
       ];
 
-      // ── Labeled cities [lon, lat, name, size] ──
+      // Key cities [lon, lat, name]
       const CITIES = [
-        [-74, 40.7, 'New York', 'lg'],
-        [-122, 37.8, 'San Francisco', 'md'],
-        [-3.4, 51.5, 'London', 'lg'],
-        [2.3, 48.9, 'Paris', 'lg'],
-        [37.6, 55.8, 'Moscow', 'lg'],
-        [139.7, 35.7, 'Tokyo', 'lg'],
-        [116.4, 39.9, 'Beijing', 'lg'],
-        [77.2, 28.6, 'New Delhi', 'lg'],
-        [85.3, 27.7, 'Kathmandu', 'md'],
-        [151.2, -33.9, 'Sydney', 'lg'],
-        [-43.2, -22.9, 'Rio de Janeiro', 'md'],
-        [28.9, 41, 'Istanbul', 'md'],
-        [31.2, 30, 'Cairo', 'md'],
-        [55.3, 25.3, 'Dubai', 'md'],
-        [121.5, 31.2, 'Shanghai', 'lg'],
-        [100.5, 13.8, 'Bangkok', 'md'],
-        [126.9, 37.6, 'Seoul', 'md'],
-        [103.8, 1.4, 'Singapore', 'md'],
-        [-99.1, 19.4, 'Mexico City', 'md'],
-        [-58.4, -34.6, 'Buenos Aires', 'md'],
-        [-77, 38.9, 'Washington DC', 'md'],
-        [36.8, -1.3, 'Nairobi', 'sm'],
-        [18.4, -33.9, 'Cape Town', 'md'],
-        [114.2, 22.3, 'Hong Kong', 'sm'],
+        [-74, 40.7, 'New York'], [-122, 37.8, 'SF'], [-3.4, 51.5, 'London'],
+        [2.3, 48.9, 'Paris'], [37.6, 55.8, 'Moscow'], [139.7, 35.7, 'Tokyo'],
+        [116.4, 39.9, 'Beijing'], [77.2, 28.6, 'Delhi'], [85.3, 27.7, 'Kathmandu'],
+        [151.2, -33.9, 'Sydney'], [-43.2, -22.9, 'Rio'], [121.5, 31.2, 'Shanghai'],
+        [100.5, 13.8, 'Bangkok'], [55.3, 25.3, 'Dubai'], [-99.1, 19.4, 'Mexico City'],
       ];
 
-      // ── Continent labels [lon, lat, name] ──
-      const CONTINENTS = [
-        [-100, 48, 'NORTH AMERICA'],
-        [-58, -15, 'SOUTH AMERICA'],
-        [20, 8, 'AFRICA'],
-        [15, 50, 'EUROPE'],
-        [80, 45, 'ASIA'],
-        [135, -25, 'AUSTRALIA'],
-      ];
+      // Graticule lines (every 30 degrees)
+      const GRAT_LONS = [-180,-150,-120,-90,-60,-30,0,30,60,90,120,150,180];
+      const GRAT_LATS = [-60,-30,0,30,60];
+
+      function toRad(d) { return d * Math.PI / 180; }
+
+      // 3D spherical projection — returns [screenX, screenY, visible]
+      function project3D(lon, lat) {
+        const lambda = toRad(lon);
+        const phi = toRad(lat);
+        const lambda0 = toRad(rotLon);
+        const phi0 = toRad(rotLat);
+
+        // Orthographic projection
+        const cosC = Math.sin(phi0) * Math.sin(phi) + Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0);
+        if (cosC < 0) return [0, 0, false]; // Behind the globe
+
+        const x = radius * Math.cos(phi) * Math.sin(lambda - lambda0);
+        const y = radius * (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0));
+
+        return [centerX + x, centerY - y, true];
+      }
 
       function resize() {
         W = window.innerWidth;
@@ -2517,177 +2505,268 @@
         canvas.style.width = W + 'px';
         canvas.style.height = H + 'px';
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        draw();
-      }
-
-      // Equirectangular projection — lon/lat to canvas x/y
-      function project(lon, lat) {
-        const mapW = W * 0.92;
-        const mapH = mapW * 0.5;
-        const offX = (W - mapW) / 2;
-        const offY = (H - mapH) / 2;
-        const x = offX + ((lon + 180) / 360) * mapW;
-        const y = offY + ((90 - lat) / 180) * mapH;
-        return [x, y];
+        centerX = W / 2;
+        centerY = H / 2;
+        radius = Math.min(W, H) * (isMobile ? 0.35 : 0.32);
       }
 
       function draw() {
         ctx.clearRect(0, 0, W, H);
-
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
 
-        // ── Google Maps–inspired color palette ──
-        const oceanColor     = isLight ? '#d4e9f7'  : '#1a2438';
-        const landColor      = isLight ? '#e8e4d8'  : '#2a3548';
-        const landAlt        = isLight ? '#dfd9c8'  : '#2f3d52';
-        const borderColor    = isLight ? '#c2b8a2'  : '#3e5068';
-        const coastColor     = isLight ? '#9ec5db'  : '#2d4460';
-        const labelColor     = isLight ? '#5a6578'  : '#8899aa';
-        const contLabelColor = isLight ? '#8494a7'  : '#5a6a7e';
-        const cityDotColor   = isLight ? '#e74c3c'  : '#ef5350';
-        const cityRingColor  = isLight ? 'rgba(231,76,60,0.25)' : 'rgba(239,83,80,0.25)';
-        const cityTextColor  = isLight ? '#2c3e50'  : '#b0bec5';
-        const waterLineColor = isLight ? '#b8d4e8'  : '#243350';
+        // Colors
+        const globeBg     = isLight ? '#d8e8f5' : '#0f1a2e';
+        const globeEdge   = isLight ? '#a8c8e0' : '#1e3050';
+        const landColor   = isLight ? '#b8c9a0' : '#1a3a2a';
+        const landStroke  = isLight ? '#8aab70' : '#2a5a3a';
+        const gratColor   = isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)';
+        const cityColor   = isLight ? '#e74c3c' : '#ef5350';
+        const cityText    = isLight ? '#334155' : '#94a3b8';
+        const nepalColor  = '#6366f1';
+        const glowColor   = isLight ? 'rgba(100,140,200,0.15)' : 'rgba(99,102,241,0.08)';
 
-        // ── Fill entire canvas with ocean ──
-        ctx.fillStyle = oceanColor;
+        // Globe outer glow
+        const glow = ctx.createRadialGradient(centerX, centerY, radius * 0.9, centerX, centerY, radius * 1.4);
+        glow.addColorStop(0, glowColor);
+        glow.addColorStop(1, 'transparent');
+        ctx.fillStyle = glow;
         ctx.fillRect(0, 0, W, H);
 
-        // ── Draw water texture lines (subtle horizontal waves) ──
-        ctx.strokeStyle = waterLineColor;
-        ctx.lineWidth = 0.3;
-        ctx.globalAlpha = 0.4;
-        for (let y = 0; y < H; y += (isMobile ? 14 : 8)) {
+        // Globe background circle
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = globeBg;
+        ctx.fill();
+
+        // Globe edge gradient
+        const edgeGrad = ctx.createRadialGradient(centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.1, centerX, centerY, radius);
+        edgeGrad.addColorStop(0, isLight ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.06)');
+        edgeGrad.addColorStop(0.7, 'transparent');
+        edgeGrad.addColorStop(1, isLight ? 'rgba(0,0,0,0.08)' : 'rgba(0,0,0,0.3)');
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = edgeGrad;
+        ctx.fill();
+
+        // Clip to globe
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.clip();
+
+        // ── Graticule (latitude/longitude grid lines) ──
+        ctx.strokeStyle = gratColor;
+        ctx.lineWidth = 0.8;
+
+        // Longitude lines (meridians)
+        GRAT_LONS.forEach(lon => {
           ctx.beginPath();
-          ctx.moveTo(0, y);
-          for (let x = 0; x < W; x += 40) {
-            ctx.lineTo(x + 20, y + Math.sin(x * 0.02 + y * 0.01) * 1.5);
+          let started = false;
+          for (let lat = -90; lat <= 90; lat += 3) {
+            const [x, y, vis] = project3D(lon, lat);
+            if (vis) {
+              if (!started) { ctx.moveTo(x, y); started = true; }
+              else ctx.lineTo(x, y);
+            } else { started = false; }
           }
           ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
+        });
 
-        // ── Draw filled land regions ──
-        REGIONS.forEach((region, idx) => {
+        // Latitude lines (parallels)
+        GRAT_LATS.forEach(lat => {
           ctx.beginPath();
-          region.forEach(([lon, lat], i) => {
-            const [x, y] = project(lon, lat);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-          });
-          ctx.closePath();
-          // Alternate land shades for visual interest
-          ctx.fillStyle = (idx % 3 === 0) ? landAlt : landColor;
-          ctx.fill();
-          // Coastline
-          ctx.strokeStyle = coastColor;
-          ctx.lineWidth = 1.2;
+          let started = false;
+          for (let lon = -180; lon <= 180; lon += 3) {
+            const [x, y, vis] = project3D(lon, lat);
+            if (vis) {
+              if (!started) { ctx.moveTo(x, y); started = true; }
+              else ctx.lineTo(x, y);
+            } else { started = false; }
+          }
           ctx.stroke();
         });
 
-        // ── Draw country borders (inner outlines, slightly different) ──
+        // ── Draw land masses ──
         REGIONS.forEach(region => {
+          const projected = region.map(([lon, lat]) => project3D(lon, lat));
+          const anyVisible = projected.some(p => p[2]);
+          if (!anyVisible) return;
+
           ctx.beginPath();
-          region.forEach(([lon, lat], i) => {
-            const [x, y] = project(lon, lat);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+          let started = false;
+          projected.forEach(([x, y, vis]) => {
+            if (vis) {
+              if (!started) { ctx.moveTo(x, y); started = true; }
+              else ctx.lineTo(x, y);
+            }
           });
           ctx.closePath();
-          ctx.strokeStyle = borderColor;
-          ctx.lineWidth = 0.6;
-          ctx.setLineDash([3, 3]);
+          ctx.fillStyle = landColor;
+          ctx.fill();
+          ctx.strokeStyle = landStroke;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
-          ctx.setLineDash([]);
         });
 
-        // ── Continent labels ──
-        const contFontSize = isMobile ? 9 : 12;
-        ctx.font = `600 ${contFontSize}px 'Inter', 'Segoe UI', sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = contLabelColor;
-        ctx.letterSpacing = '3px';
-        CONTINENTS.forEach(([lon, lat, name]) => {
-          const [cx, cy] = project(lon, lat);
-          ctx.globalAlpha = 0.55;
-          ctx.fillText(name, cx, cy);
-        });
-        ctx.globalAlpha = 1;
-        ctx.letterSpacing = '0px';
+        // ── City markers ──
+        CITIES.forEach(([lon, lat, name]) => {
+          const [x, y, vis] = project3D(lon, lat);
+          if (!vis) return;
 
-        // ── City markers (Google Maps red pin style) ──
-        CITIES.forEach(([lon, lat, name, size]) => {
-          const [cx, cy] = project(lon, lat);
-          const r = size === 'lg' ? 3.5 : size === 'md' ? 2.5 : 2;
+          // Check if point is near the center of the visible hemisphere for readability
+          const dx = x - centerX, dy = y - centerY;
+          const distFromCenter = Math.sqrt(dx * dx + dy * dy);
+          const alpha = Math.max(0, 1 - distFromCenter / radius);
 
-          // Outer glow ring
+          ctx.globalAlpha = alpha * 0.9;
+
+          // Dot
           ctx.beginPath();
-          ctx.arc(cx, cy, r + 3, 0, Math.PI * 2);
-          ctx.fillStyle = cityRingColor;
+          ctx.arc(x, y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = cityColor;
           ctx.fill();
 
-          // White outline
-          ctx.beginPath();
-          ctx.arc(cx, cy, r + 0.8, 0, Math.PI * 2);
-          ctx.fillStyle = isLight ? '#fff' : '#1a2438';
-          ctx.fill();
-
-          // Red dot
-          ctx.beginPath();
-          ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.fillStyle = cityDotColor;
-          ctx.fill();
-
-          // City label
-          if (!isMobile || size === 'lg') {
-            const fontSize = size === 'lg' ? 10 : 8;
-            ctx.font = `500 ${fontSize}px 'Inter', 'Segoe UI', sans-serif`;
+          // Label (only if reasonably centered)
+          if (alpha > 0.3 && !isMobile) {
+            ctx.font = '500 8px Inter, sans-serif';
+            ctx.fillStyle = cityText;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = cityTextColor;
-            // Shadow for readability
-            ctx.save();
-            ctx.shadowColor = isLight ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)';
-            ctx.shadowBlur = 3;
-            ctx.fillText(name, cx + r + 5, cy);
-            ctx.restore();
+            ctx.fillText(name, x + 5, y);
           }
+
+          ctx.globalAlpha = 1;
         });
 
-        // ── Nepal highlight marker (pulsing) ──
-        const [npX, npY] = project(85.3, 27.7);
-        ctx.beginPath();
-        ctx.arc(npX, npY, 8, 0, Math.PI * 2);
-        ctx.fillStyle = isLight ? 'rgba(79,70,229,0.12)' : 'rgba(99,102,241,0.15)';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(npX, npY, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#6366f1';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(npX, npY, 5, 0, Math.PI * 2);
-        ctx.strokeStyle = '#6366f1';
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.5;
-        ctx.stroke();
-        ctx.globalAlpha = 1;
+        // ── Nepal highlight (pulsing) ──
+        const [npX, npY, npVis] = project3D(85.3, 27.7);
+        if (npVis) {
+          const pulse = Math.sin(Date.now() * 0.003) * 0.3 + 0.7;
 
-        // ── Google Maps–style attribution bar ──
-        const barH = 22;
-        const barY = H - barH;
-        ctx.fillStyle = isLight ? 'rgba(255,255,255,0.75)' : 'rgba(20,30,48,0.75)';
-        ctx.fillRect(0, barY, W, barH);
-        ctx.font = `400 ${isMobile ? 8 : 10}px 'Inter', 'Segoe UI', sans-serif`;
-        ctx.fillStyle = isLight ? '#999' : '#556';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Equirectangular projection  •  Portfolio of Oshim Pathan', 12, barY + barH / 2);
+          ctx.beginPath();
+          ctx.arc(npX, npY, 10 * pulse, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(99,102,241,${0.12 * pulse})`;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(npX, npY, 4, 0, Math.PI * 2);
+          ctx.fillStyle = nepalColor;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(npX, npY, 6, 0, Math.PI * 2);
+          ctx.strokeStyle = nepalColor;
+          ctx.lineWidth = 1.5;
+          ctx.globalAlpha = 0.6 * pulse;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+
+          // Label
+          if (!isMobile) {
+            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.fillStyle = nepalColor;
+            ctx.textAlign = 'left';
+            ctx.fillText('📍 Kathmandu', npX + 10, npY + 1);
+          }
+        }
+
+        ctx.restore(); // Unclip
+
+        // Globe border ring
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = globeEdge;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Instruction hint (fades out)
+        if (Date.now() - loadTime < 8000) {
+          const hintAlpha = Math.max(0, 1 - (Date.now() - loadTime) / 8000);
+          ctx.globalAlpha = hintAlpha * 0.6;
+          ctx.font = '500 12px Inter, sans-serif';
+          ctx.fillStyle = isLight ? '#64748b' : '#64748b';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(isMobile ? 'Touch & drag to rotate' : 'Click & drag to rotate the globe', centerX, centerY + radius + 30);
+          ctx.globalAlpha = 1;
+        }
       }
 
-      // Redraw on theme change
-      const observer = new MutationObserver(() => draw());
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      const loadTime = Date.now();
+
+      // ── Mouse drag interaction ──
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        dragVelX = 0;
+        dragVelY = 0;
+        autoRotateSpeed = 0;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        targetRotLon -= dx * 0.3;
+        targetRotLat += dy * 0.3;
+        targetRotLat = Math.max(-80, Math.min(80, targetRotLat));
+        dragVelX = -dx * 0.3;
+        dragVelY = dy * 0.3;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          // Resume slow auto-rotation after 3 seconds
+          setTimeout(() => {
+            if (!isDragging) autoRotateSpeed = 0.04;
+          }, 3000);
+        }
+      });
+
+      // ── Touch drag interaction ──
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          lastMouseX = e.touches[0].clientX;
+          lastMouseY = e.touches[0].clientY;
+          dragVelX = 0;
+          dragVelY = 0;
+          autoRotateSpeed = 0;
+        }
+      }, { passive: true });
+
+      canvas.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - lastMouseX;
+        const dy = e.touches[0].clientY - lastMouseY;
+        targetRotLon -= dx * 0.3;
+        targetRotLat += dy * 0.3;
+        targetRotLat = Math.max(-80, Math.min(80, targetRotLat));
+        dragVelX = -dx * 0.3;
+        dragVelY = dy * 0.3;
+        lastMouseX = e.touches[0].clientX;
+        lastMouseY = e.touches[0].clientY;
+      }, { passive: true });
+
+      canvas.addEventListener('touchend', () => {
+        isDragging = false;
+        setTimeout(() => {
+          if (!isDragging) autoRotateSpeed = 0.04;
+        }, 3000);
+      }, { passive: true });
+
+      // Visibility API
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+      });
+
+      // Theme change redraw
+      const themeObs = new MutationObserver(() => {});
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
       // Debounced resize
       let rTimer;
@@ -2697,6 +2776,32 @@
       });
 
       resize();
+
+      // ── Animation loop ──
+      function animate() {
+        if (!isVisible) { animId = requestAnimationFrame(animate); return; }
+
+        // Auto-rotation
+        targetRotLon += autoRotateSpeed;
+
+        // Inertia (momentum after releasing drag)
+        if (!isDragging && (Math.abs(dragVelX) > 0.01 || Math.abs(dragVelY) > 0.01)) {
+          targetRotLon += dragVelX;
+          targetRotLat += dragVelY;
+          targetRotLat = Math.max(-80, Math.min(80, targetRotLat));
+          dragVelX *= 0.95;
+          dragVelY *= 0.95;
+        }
+
+        // Smooth easing towards target
+        rotLon += (targetRotLon - rotLon) * 0.1;
+        rotLat += (targetRotLat - rotLat) * 0.1;
+
+        draw();
+        animId = requestAnimationFrame(animate);
+      }
+
+      animate();
     })(); } catch(e) { console.warn('WorldMap init failed:', e); }
 
     // ============================================
