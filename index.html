@@ -1828,13 +1828,21 @@
     // ============================================
     // PRELOADER
     // ============================================
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('preloader');
-      setTimeout(() => {
-        preloader.classList.add('loaded');
-        document.body.classList.add('loaded');
-      }, 1800);
-    });
+    (function() {
+      function dismissPreloader() {
+        const preloader = document.getElementById('preloader');
+        if (preloader && !preloader.classList.contains('loaded')) {
+          preloader.classList.add('loaded');
+          document.body.classList.add('loaded');
+        }
+      }
+      // Primary: fire after DOM + most resources
+      window.addEventListener('load', () => { setTimeout(dismissPreloader, 1200); });
+      // Fallback: fire after DOM parsed (doesn't wait for images/CDN)
+      document.addEventListener('DOMContentLoaded', () => { setTimeout(dismissPreloader, 2500); });
+      // Safety net: force dismiss after 4 seconds no matter what
+      setTimeout(dismissPreloader, 4000);
+    })();
 
     // ============================================
     // 3D GALAXY / UNIVERSE BACKGROUND RENDERER
@@ -5035,7 +5043,7 @@
       let ssActive = false;
       let logoX, logoY, logoDX, logoDY;
       let stars = [];
-      const IDLE_TIMEOUT = 90000; // 90 seconds
+      const IDLE_TIMEOUT = 120000; // 2 minutes
 
       function resetIdle() {
         clearTimeout(idleTimer);
@@ -5108,7 +5116,12 @@
       ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
         document.addEventListener(evt, resetIdle, { passive: true });
       });
-      resetIdle();
+      // Don't start idle timer until preloader is dismissed
+      function startIdleAfterLoad() {
+        if (document.body.classList.contains('loaded')) { resetIdle(); }
+        else { setTimeout(startIdleAfterLoad, 500); }
+      }
+      startIdleAfterLoad();
     })();
 
     // ============================================
