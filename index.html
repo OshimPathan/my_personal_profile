@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=37.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -3115,6 +3115,44 @@
         });
       }, { threshold: 0.1 });
       sectionInners.forEach(s => section3dObserver.observe(s));
+    })();
+
+    // ============================================
+    // BOOK PAGE EFFECTS
+    // ============================================
+    (function initBookPages() {
+      const sections = document.querySelectorAll('.content-section');
+      const sectionNames = {
+        about: 'About',
+        experience: 'Experience',
+        projects: 'Projects',
+        certifications: 'Certifications',
+        education: 'Education',
+        patents: 'Patents',
+        skills: 'Skills',
+        blog: 'Blog',
+        'github-streak': 'GitHub',
+        testimonials: 'Testimonials'
+      };
+
+      // Inject page numbers
+      sections.forEach((section, i) => {
+        const pageNum = document.createElement('div');
+        pageNum.className = 'page-number';
+        const name = sectionNames[section.id] || '';
+        pageNum.innerHTML = `— ${i + 1} · ${name} —`;
+        section.appendChild(pageNum);
+      });
+
+      // Book page-flip-in animation on scroll
+      const bookObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.classList.contains('book-entered')) {
+            entry.target.classList.add('book-enter', 'book-entered');
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+      sections.forEach(s => bookObserver.observe(s));
     })();
 
     // ============================================

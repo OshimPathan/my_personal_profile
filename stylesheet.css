@@ -4588,6 +4588,7 @@ img { max-width: 100%; }
     opacity: 1;
     transform: perspective(1200px) rotateX(0) translateY(0) translateZ(0);
   }
+}
 
 /* ============================================
    TOAST NOTIFICATIONS
@@ -5003,10 +5004,285 @@ img { max-width: 100%; }
 }
 
 /* ============================================
+   BOOK PAGE AESTHETIC
+   ============================================ */
+
+/* CSS Counter for page numbering */
+body {
+  counter-reset: book-page;
+}
+
+.content-section {
+  counter-increment: book-page;
+}
+
+/* Book page wrapper — each section looks like a page */
+.content-section .section-inner {
+  position: relative;
+  background:
+    /* Paper fiber/grain texture */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
+    /* Base paper color — dark parchment */
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.88) 0%,
+      rgba(15, 23, 42, 0.92) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-left: 3px solid rgba(99, 102, 241, 0.25);
+  border-radius: 4px 12px 12px 4px;
+  padding: 60px 56px 80px 56px;
+  box-shadow:
+    /* Page stack shadow — depth illusion */
+    4px 4px 0 -1px rgba(10, 15, 28, 0.6),
+    5px 5px 0 -1px rgba(255, 255, 255, 0.02),
+    8px 8px 0 -2px rgba(10, 15, 28, 0.4),
+    9px 9px 0 -2px rgba(255, 255, 255, 0.015),
+    /* Soft diffuse shadow */
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    /* Inner page glow */
+    inset 0 0 80px rgba(99, 102, 241, 0.015);
+  /* Page-turn transition */
+  transition:
+    transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.7s ease;
+  transform-origin: left center;
+}
+
+/* Book spine — binding stitch line */
+.content-section .section-inner::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 24px;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(99, 102, 241, 0.2) 0px,
+    rgba(99, 102, 241, 0.2) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  z-index: 1;
+}
+
+/* Page curl effect — bottom right corner */
+.content-section .section-inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(
+    225deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(15, 23, 42, 0.95) 45%,
+    rgba(15, 23, 42, 0.98) 50%,
+    transparent 50%
+  );
+  border-radius: 0 0 12px 0;
+  box-shadow:
+    -3px -3px 8px rgba(0, 0, 0, 0.2),
+    -1px -1px 3px rgba(99, 102, 241, 0.08);
+  transition: all 0.4s ease;
+  z-index: 2;
+}
+
+.content-section:hover .section-inner::after {
+  width: 60px;
+  height: 60px;
+  box-shadow:
+    -5px -5px 12px rgba(0, 0, 0, 0.3),
+    -2px -2px 5px rgba(99, 102, 241, 0.12);
+}
+
+/* Page number — bottom center of each page */
+.content-section .section-inner .book-page-num {
+  display: none;
+}
+
+/* CSS-only page number using ::after on a child or positioning trick */
+.content-section {
+  position: relative;
+}
+
+.content-section > .page-number {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  z-index: 11;
+  pointer-events: none;
+}
+
+/* Page edge shadow — right side (stack of pages effect) */
+.content-section .section-inner {
+  background-image:
+    /* Right edge gradient — page stack */
+    linear-gradient(to left, rgba(0,0,0,0.08) 0px, transparent 3px),
+    /* Top edge subtle line */
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 0px, transparent 1px),
+    /* Paper fiber */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.03'/%3E%3C/svg%3E"),
+    /* Base paper */
+    linear-gradient(180deg, rgba(15,23,42,0.88) 0%, rgba(15,23,42,0.92) 50%, rgba(15,23,42,0.88) 100%);
+}
+
+/* Book section entering viewport — page flip in */
+.content-section.book-enter {
+  animation: bookPageFlipIn 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes bookPageFlipIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(-8deg) translateX(-30px);
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0deg) translateX(0);
+  }
+}
+
+/* Page hover — slight lift */
+.content-section:hover .section-inner {
+  box-shadow:
+    4px 4px 0 -1px rgba(10, 15, 28, 0.6),
+    5px 5px 0 -1px rgba(255, 255, 255, 0.02),
+    8px 8px 0 -2px rgba(10, 15, 28, 0.4),
+    9px 9px 0 -2px rgba(255, 255, 255, 0.015),
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    inset 0 0 80px rgba(99, 102, 241, 0.025);
+  transform: translateY(-2px);
+}
+
+/* Decorative bookmark ribbon on first section */
+#about .section-inner::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 40px;
+  width: 24px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--accent) 0%, #818cf8 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  z-index: 3;
+  box-shadow: 2px 4px 12px rgba(99, 102, 241, 0.3);
+  /* Override the stitch line for about section */
+  left: auto;
+  bottom: auto;
+}
+
+/* Re-add stitch for about section */
+#about .section-inner {
+  border-left: 3px solid rgba(99, 102, 241, 0.25);
+}
+
+/* ── Light Theme Book Pages ── */
+[data-theme="light"] .content-section .section-inner {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(
+      180deg,
+      #faf8f3 0%,
+      #f5f0e8 30%,
+      #f8f4ec 70%,
+      #faf8f3 100%
+    );
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-left: 3px solid rgba(79, 70, 229, 0.3);
+  box-shadow:
+    4px 4px 0 -1px #e8e3d8,
+    5px 5px 0 -1px rgba(0, 0, 0, 0.03),
+    8px 8px 0 -2px #ddd8cc,
+    9px 9px 0 -2px rgba(0, 0, 0, 0.02),
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    inset 0 0 80px rgba(139, 92, 42, 0.02);
+}
+
+[data-theme="light"] .content-section .section-inner {
+  background-image:
+    linear-gradient(to left, rgba(0,0,0,0.04) 0px, transparent 3px),
+    linear-gradient(to bottom, rgba(0,0,0,0.02) 0px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #faf8f3 0%, #f5f0e8 30%, #f8f4ec 70%, #faf8f3 100%);
+}
+
+[data-theme="light"] .content-section .section-inner::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(79, 70, 229, 0.15) 0px,
+    rgba(79, 70, 229, 0.15) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+[data-theme="light"] .content-section .section-inner::after {
+  background: linear-gradient(
+    225deg,
+    rgba(79, 70, 229, 0.08) 0%,
+    #f0ebe0 45%,
+    #f5f0e8 50%,
+    transparent 50%
+  );
+  box-shadow:
+    -3px -3px 8px rgba(0, 0, 0, 0.06),
+    -1px -1px 3px rgba(79, 70, 229, 0.05);
+}
+
+[data-theme="light"] .content-section:hover .section-inner {
+  box-shadow:
+    4px 4px 0 -1px #e8e3d8,
+    5px 5px 0 -1px rgba(0, 0, 0, 0.03),
+    8px 8px 0 -2px #ddd8cc,
+    9px 9px 0 -2px rgba(0, 0, 0, 0.02),
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    inset 0 0 80px rgba(139, 92, 42, 0.03);
+}
+
+[data-theme="light"] .content-section > .page-number {
+  color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] #about .section-inner::before {
+  background: linear-gradient(180deg, var(--accent) 0%, #818cf8 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+}
+
+/* ============================================
    GLOBAL RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
   .content-section { padding: 60px 16px; }
+  .content-section .section-inner {
+    padding: 40px 28px 60px 28px;
+    border-radius: 4px 8px 8px 4px;
+  }
+  .content-section .section-inner::before {
+    left: 14px;
+  }
+  .content-section .section-inner::after {
+    width: 36px;
+    height: 36px;
+  }
+  #about .section-inner::before {
+    right: 24px;
+    width: 18px;
+    height: 44px;
+  }
   .section-title { font-size: 1.7rem; }
   .vnav { display: none; }
   .cmd-trigger kbd { display: none; }
@@ -5019,6 +5295,16 @@ img { max-width: 100%; }
 
 @media (max-width: 480px) {
   .content-section { padding: 50px 12px; }
+  .content-section .section-inner {
+    padding: 30px 18px 50px 18px;
+  }
+  .content-section .section-inner::before {
+    left: 10px;
+  }
+  .content-section .section-inner::after {
+    width: 28px;
+    height: 28px;
+  }
   .section-title { font-size: 1.4rem; }
   .section-subtitle { font-size: 0.85rem; }
 }
