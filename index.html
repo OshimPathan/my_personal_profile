@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=35.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=36.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -143,16 +143,42 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
-       VERTICAL DOT NAVIGATION (Right Side)
+       ADVANCED VERTICAL NAVIGATION (Right Side)
        ═══════════════════════════════════════════ -->
-  <nav class="dot-nav" id="dotNav" aria-label="Section navigation">
-    <a href="#hero" class="dot-nav-item active" data-section="hero" aria-label="Hero"><span class="dot-nav-label">Home</span></a>
-    <a href="#about" class="dot-nav-item" data-section="about" aria-label="About"><span class="dot-nav-label">About</span></a>
-    <a href="#experience" class="dot-nav-item" data-section="experience" aria-label="Experience"><span class="dot-nav-label">Experience</span></a>
-    <a href="#projects" class="dot-nav-item" data-section="projects" aria-label="Projects"><span class="dot-nav-label">Projects</span></a>
-    <a href="#patents" class="dot-nav-item" data-section="patents" aria-label="Patents"><span class="dot-nav-label">Patents</span></a>
-    <a href="#skills" class="dot-nav-item" data-section="skills" aria-label="Skills"><span class="dot-nav-label">Skills</span></a>
-    <a href="#contact" class="dot-nav-item" data-section="contact" aria-label="Contact"><span class="dot-nav-label">Contact</span></a>
+  <nav class="vnav" id="vNav" aria-label="Section navigation">
+    <div class="vnav-track">
+      <div class="vnav-progress" id="vNavProgress"></div>
+    </div>
+    <div class="vnav-items">
+      <a href="#hero" class="vnav-item active" data-section="hero" data-num="01">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Home</span>
+      </a>
+      <a href="#about" class="vnav-item" data-section="about" data-num="02">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">About</span>
+      </a>
+      <a href="#experience" class="vnav-item" data-section="experience" data-num="03">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Experience</span>
+      </a>
+      <a href="#projects" class="vnav-item" data-section="projects" data-num="04">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Projects</span>
+      </a>
+      <a href="#patents" class="vnav-item" data-section="patents" data-num="05">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Patents</span>
+      </a>
+      <a href="#skills" class="vnav-item" data-section="skills" data-num="06">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Tech Stack</span>
+      </a>
+      <a href="#contact" class="vnav-item" data-section="contact" data-num="07">
+        <span class="vnav-dot"><span class="vnav-dot-inner"></span></span>
+        <span class="vnav-label">Contact</span>
+      </a>
+    </div>
   </nav>
 
   <!-- Toast Notification Container -->
@@ -2591,25 +2617,17 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.tech-icons-grid').forEach(g => techObserver.observe(g));
 
-    // 3D tilt + radial glow on tech category cards
+    // 3D radial glow tracking on tech category cards (complements 3D card system)
     document.querySelectorAll('.tech-category').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const rotY = ((x - cx) / cx) * 8;
-        const rotX = ((cy - y) / cy) * 8;
-        card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
         // Radial glow follows cursor
         const pctX = ((x / rect.width) * 100).toFixed(0);
         const pctY = ((y / rect.height) * 100).toFixed(0);
         card.style.setProperty('--mouse-x', pctX + '%');
         card.style.setProperty('--mouse-y', pctY + '%');
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
       });
     });
 
@@ -2661,29 +2679,7 @@
     }
     setTimeout(typeRole, 2500);
 
-    // ============================================
-    // TILT EFFECT
-    // ============================================
-    function initTilt() {
-      const cards = document.querySelectorAll('.project-card, .profile-ring-container');
-      cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotateX = ((y - centerY) / centerY) * -5;
-          const rotateY = ((x - centerX) / centerX) * 5;
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        });
-      });
-    }
-    document.addEventListener('DOMContentLoaded', initTilt);
-    initTilt();
+    // (Tilt effect now handled by Advanced 3D Card System below)
 
     // ============================================
     // PROJECTS GRID FILTER
@@ -2951,38 +2947,152 @@
     })();
 
     // ============================================
-    // VERTICAL DOT NAVIGATION
+    // ADVANCED VERTICAL NAVIGATION
     // ============================================
-    (function initDotNav() {
-      const dotNav = document.getElementById('dotNav');
-      const dotItems = dotNav.querySelectorAll('.dot-nav-item');
+    (function initVNav() {
+      const vNav = document.getElementById('vNav');
+      const vNavProgress = document.getElementById('vNavProgress');
+      const vNavItems = vNav.querySelectorAll('.vnav-item');
+      const sectionIds = Array.from(vNavItems).map(i => i.dataset.section);
       const allSections = document.querySelectorAll('.content-section, .hero-section, .footer-section');
 
-      // Show dot nav after scrolling past hero
-      function updateDotNav() {
-        dotNav.classList.toggle('visible', window.scrollY > 300);
+      function updateVNav() {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPct = Math.min((scrollY / docHeight) * 100, 100);
 
+        // Show/hide nav
+        vNav.classList.toggle('visible', scrollY > 300);
+
+        // Update the glowing progress track
+        vNavProgress.style.height = scrollPct + '%';
+
+        // Find current section
         let current = 'hero';
+        let currentIdx = 0;
         allSections.forEach(s => {
-          if (s.getBoundingClientRect().top <= 200) current = s.id;
+          if (s.getBoundingClientRect().top <= 250) {
+            current = s.id;
+          }
         });
-        // Map footer to contact
-        if (current === 'contact') current = 'contact';
+        currentIdx = sectionIds.indexOf(current);
+        if (currentIdx < 0) currentIdx = 0;
 
-        dotItems.forEach(item => {
-          item.classList.toggle('active', item.dataset.section === current);
+        vNavItems.forEach((item, i) => {
+          const isActive = item.dataset.section === current;
+          const isPassed = i < currentIdx;
+          item.classList.toggle('active', isActive);
+          item.classList.toggle('passed', isPassed);
         });
       }
 
-      window.addEventListener('scroll', updateDotNav, { passive: true });
+      window.addEventListener('scroll', updateVNav, { passive: true });
+      updateVNav();
 
-      dotItems.forEach(item => {
+      vNavItems.forEach(item => {
         item.addEventListener('click', (e) => {
           e.preventDefault();
           const target = document.getElementById(item.dataset.section);
           if (target) target.scrollIntoView({ behavior: 'smooth' });
         });
       });
+    })();
+
+    // ============================================
+    // ADVANCED 3D CARD SYSTEM
+    // ============================================
+    (function init3DCards() {
+      // Apply 3D to ALL glass cards + project cards + tech categories
+      const cards = document.querySelectorAll('.glass-card, .project-card, .tech-category, .profile-ring-container');
+
+      cards.forEach(card => {
+        // Add 3D classes
+        card.classList.add('card-3d');
+
+        // Add inner glow layer
+        const glow = document.createElement('div');
+        glow.className = 'card-3d-glow';
+        card.appendChild(glow);
+
+        // Add shine/specular layer
+        const shine = document.createElement('div');
+        shine.className = 'card-3d-shine';
+        card.appendChild(shine);
+
+        // Variables
+        let animFrame;
+        let currentRotX = 0, currentRotY = 0;
+        let targetRotX = 0, targetRotY = 0;
+
+        function lerp(a, b, t) { return a + (b - a) * t; }
+
+        function updateTransform() {
+          currentRotX = lerp(currentRotX, targetRotX, 0.08);
+          currentRotY = lerp(currentRotY, targetRotY, 0.08);
+
+          // Only apply 3D if values are significant
+          if (Math.abs(currentRotX) > 0.01 || Math.abs(currentRotY) > 0.01) {
+            card.style.transform = `perspective(1000px) rotateX(${currentRotX}deg) rotateY(${currentRotY}deg) scale3d(1.02, 1.02, 1.02)`;
+            animFrame = requestAnimationFrame(updateTransform);
+          } else {
+            card.style.transform = '';
+            cancelAnimationFrame(animFrame);
+          }
+        }
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+
+          // Smooth tilt (max ±12 degrees)
+          targetRotX = ((cy - y) / cy) * 10;
+          targetRotY = ((x - cx) / cx) * 10;
+
+          // Move glow with cursor
+          const pctX = ((x / rect.width) * 100).toFixed(1);
+          const pctY = ((y / rect.height) * 100).toFixed(1);
+          card.style.setProperty('--glow-x', pctX + '%');
+          card.style.setProperty('--glow-y', pctY + '%');
+
+          // Dynamic specular shine angle
+          const angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
+          card.style.setProperty('--shine-angle', (angle + 90) + 'deg');
+
+          // Edge lighting intensity
+          card.style.setProperty('--edge-opacity', '0.3');
+
+          // Dynamic shadow based on tilt
+          const shadowX = ((x - cx) / cx) * 15;
+          const shadowY = ((y - cy) / cy) * 15;
+          card.style.boxShadow = `${shadowX}px ${shadowY}px 40px rgba(99, 102, 241, 0.08), 0 8px 32px rgba(0, 0, 0, 0.15)`;
+
+          cancelAnimationFrame(animFrame);
+          animFrame = requestAnimationFrame(updateTransform);
+        });
+
+        card.addEventListener('mouseleave', () => {
+          targetRotX = 0;
+          targetRotY = 0;
+          card.style.setProperty('--edge-opacity', '0');
+          card.style.boxShadow = '';
+          cancelAnimationFrame(animFrame);
+          animFrame = requestAnimationFrame(updateTransform);
+        });
+      });
+
+      // 3D parallax on section titles (tilt text on scroll)
+      const sectionInners = document.querySelectorAll('.section-inner');
+      const section3dObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.closest('.content-section')?.classList.add('section-3d', 'in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+      sectionInners.forEach(s => section3dObserver.observe(s));
     })();
 
     // ============================================
