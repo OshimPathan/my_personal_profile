@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.2">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=39.3">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -271,6 +271,69 @@
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════
+       🌈 CURSOR TRAIL PICKER
+       ═══════════════════════════════════════════ -->
+  <div class="trail-picker" id="trailPicker">
+    <button class="trail-picker-toggle" id="trailToggle" title="Cursor Trail Effects (T)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l1.09 3.26L16.36 6l-2.63 2.18L14.82 12 12 9.92 9.18 12l1.09-3.82L7.64 6l3.27-.74z"/><path d="M5 17l1.5-3.5L10 15l-1.5 3.5z" opacity=".5"/><path d="M17 18l1-2.5 2.5 1.5-1 2.5z" opacity=".3"/></svg>
+    </button>
+    <div class="trail-panel" id="trailPanel">
+      <div class="trail-panel-title">Cursor Trail</div>
+      <div class="trail-modes">
+        <button class="trail-mode active" data-trail="none" title="None"><span>⊘</span><small>None</small></button>
+        <button class="trail-mode" data-trail="sparkle" title="Sparkle"><span>✨</span><small>Sparkle</small></button>
+        <button class="trail-mode" data-trail="rainbow" title="Rainbow"><span>🌈</span><small>Rainbow</small></button>
+        <button class="trail-mode" data-trail="neon" title="Neon"><span>💜</span><small>Neon</small></button>
+        <button class="trail-mode" data-trail="fire" title="Fire"><span>🔥</span><small>Fire</small></button>
+        <button class="trail-mode" data-trail="galaxy" title="Galaxy"><span>🌌</span><small>Galaxy</small></button>
+      </div>
+    </div>
+  </div>
+  <canvas id="trailCanvas" style="position:fixed;inset:0;z-index:9989;pointer-events:none;"></canvas>
+
+  <!-- ═══════════════════════════════════════════
+       📊 AUDIO VISUALIZER BAR
+       ═══════════════════════════════════════════ -->
+  <canvas id="audioVisualizerCanvas" style="position:fixed;bottom:0;left:0;width:100%;height:60px;z-index:9985;pointer-events:none;opacity:0;transition:opacity 0.5s;"></canvas>
+
+  <!-- ═══════════════════════════════════════════
+       🧬 VISITOR FINGERPRINT ART
+       ═══════════════════════════════════════════ -->
+  <div class="fingerprint-art" id="fingerprintArt">
+    <button class="fingerprint-toggle" id="fingerprintToggle" title="Your Unique Art (F)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"/></svg>
+    </button>
+    <div class="fingerprint-panel" id="fingerprintPanel">
+      <div class="fingerprint-panel-title">Your Unique Art</div>
+      <canvas id="fingerprintCanvas" width="200" height="200"></canvas>
+      <div class="fingerprint-hash" id="fingerprintHash"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       ⏱️ IDLE SCREENSAVER
+       ═══════════════════════════════════════════ -->
+  <div class="screensaver-overlay" id="screensaverOverlay">
+    <canvas id="screensaverCanvas"></canvas>
+    <div class="screensaver-logo">&lt;OP /&gt;</div>
+    <div class="screensaver-hint">Move mouse or press any key to exit</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       🎮 BREAKOUT GAME OVERLAY
+       ═══════════════════════════════════════════ -->
+  <div class="breakout-overlay" id="breakoutOverlay">
+    <div class="breakout-container">
+      <div class="breakout-header">
+        <span class="breakout-title">🎮 Breakout — <span id="breakoutScore">0</span> pts</span>
+        <button class="breakout-close" id="breakoutClose">&times;</button>
+      </div>
+      <canvas id="breakoutCanvas" width="480" height="320"></canvas>
+      <div class="breakout-instructions">← → Arrow keys to move | Space to launch</div>
+    </div>
+  </div>
+
   <!-- Keyboard Shortcuts Modal -->
   <div class="shortcuts-overlay" id="shortcutsOverlay">
     <div class="shortcuts-modal glass-card">
@@ -290,6 +353,8 @@
         <div class="shortcut-item"><kbd>S</kbd><span class="shortcut-desc">Spotlight Mode</span></div>
         <div class="shortcut-item"><kbd>M</kbd><span class="shortcut-desc">Ambient Sound</span></div>
         <div class="shortcut-item"><kbd>C</kbd><span class="shortcut-desc">Color Picker</span></div>
+        <div class="shortcut-item"><kbd>T</kbd><span class="shortcut-desc">Cursor Trail</span></div>
+        <div class="shortcut-item"><kbd>F</kbd><span class="shortcut-desc">Fingerprint Art</span></div>
       </div>
     </div>
   </div>
@@ -392,6 +457,7 @@
             </span>
           </h1>
         </div>
+        <p class="hero-geo-greeting" id="geoGreeting"></p>
         <p class="hero-description">Software Engineer from Nepal specializing in AI-powered healthcare systems, cloud infrastructure, and full-stack development. VIT Vellore '26.</p>
         <div class="hero-cta-group">
           <a href="#projects" class="btn btn-primary magnetic">
@@ -3845,6 +3911,7 @@
   <span class="term-accent">sudo hire</span> — 😉
   <span class="term-accent">cat goals</span> — Future plans
   <span class="term-accent">neofetch</span>  — System info
+  <span class="term-accent">play</span>      — 🎮 Hidden mini-game!
   <span class="term-accent">clear</span>     — Clear terminal
   <span class="term-accent">exit</span>      — Close terminal`,
 
@@ -3932,6 +3999,10 @@
   <span class="term-accent">GPU:</span>       3D Galaxy Renderer`;
         },
 
+        play: () => {
+          setTimeout(() => { document.getElementById('breakoutOverlay').classList.add('active'); document.getElementById('easterOverlay').classList.remove('active'); if (window._startBreakout) window._startBreakout(); }, 300);
+          return `<span class="term-success">🎮 Launching Breakout...</span>\n  Get ready to smash some bricks!`;
+        },
         clear: () => 'CLEAR',
         exit: () => 'EXIT',
       };
@@ -4230,6 +4301,9 @@
           gainNode = audioCtx.createGain();
           gainNode.gain.value = parseInt(volumeSlider.value) / 100;
           gainNode.connect(audioCtx.destination);
+          // Expose for audio visualizer
+          window._ambientAudioCtx = audioCtx;
+          window._ambientGainNode = gainNode;
         }
         return audioCtx;
       }
@@ -4604,6 +4678,607 @@
       }
       updateTimeTint();
       setInterval(updateTimeTint, 60000 * 5); // check every 5 min
+    })();
+
+    // ============================================
+    // 🌈 CURSOR TRAIL EFFECTS
+    // ============================================
+    (function() {
+      const canvas = document.getElementById('trailCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H;
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+
+      let trailMode = 'none';
+      let particles = [];
+      let mouseX = 0, mouseY = 0;
+
+      // Trail panel toggle
+      const toggleBtn = document.getElementById('trailToggle');
+      const panel = document.getElementById('trailPanel');
+      if (toggleBtn && panel) {
+        toggleBtn.addEventListener('click', () => panel.classList.toggle('open'));
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.trail-picker')) panel.classList.remove('open');
+        });
+      }
+
+      // Trail mode buttons
+      document.querySelectorAll('.trail-mode').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.trail-mode').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          trailMode = btn.dataset.trail;
+          particles = [];
+        });
+      });
+
+      // Keyboard shortcut T
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 't' && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          if (panel) panel.classList.toggle('open');
+        }
+      });
+
+      document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+      function spawnTrailParticle() {
+        if (trailMode === 'none') return;
+        const p = { x: mouseX, y: mouseY, life: 1, decay: 0.015 + Math.random() * 0.01, size: 2 + Math.random() * 4 };
+        switch (trailMode) {
+          case 'sparkle':
+            p.vx = (Math.random() - 0.5) * 3; p.vy = (Math.random() - 0.5) * 3;
+            p.color = `hsla(${50 + Math.random() * 20}, 100%, ${70 + Math.random() * 20}%, `;
+            p.shape = 'star'; break;
+          case 'rainbow':
+            p.vx = (Math.random() - 0.5) * 2; p.vy = Math.random() * 2 + 0.5;
+            p.hue = (Date.now() / 5) % 360;
+            p.color = `hsla(${p.hue}, 90%, 60%, `;
+            p.shape = 'circle'; break;
+          case 'neon':
+            p.vx = (Math.random() - 0.5) * 1.5; p.vy = (Math.random() - 0.5) * 1.5;
+            p.color = `hsla(${280 + Math.random() * 40}, 100%, 70%, `;
+            p.shape = 'glow'; p.size = 3 + Math.random() * 6; break;
+          case 'fire':
+            p.vx = (Math.random() - 0.5) * 2; p.vy = -(Math.random() * 3 + 1);
+            const fireHue = Math.random() * 40;
+            p.color = `hsla(${fireHue}, 100%, ${50 + Math.random() * 30}%, `;
+            p.shape = 'circle'; break;
+          case 'galaxy':
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 2;
+            p.vx = Math.cos(angle) * speed; p.vy = Math.sin(angle) * speed;
+            p.color = `hsla(${220 + Math.random() * 60}, 80%, ${60 + Math.random() * 30}%, `;
+            p.shape = 'star'; p.size = 1 + Math.random() * 3; break;
+        }
+        particles.push(p);
+      }
+
+      function drawStar(cx, cy, size) {
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+          const a = (i * 4 * Math.PI / 5) - Math.PI / 2;
+          const r = i === 0 ? size : size;
+          ctx[i === 0 ? 'moveTo' : 'lineTo'](cx + Math.cos(a) * size, cy + Math.sin(a) * size);
+          const a2 = a + 2 * Math.PI / 5;
+          ctx.lineTo(cx + Math.cos(a2) * size * 0.4, cy + Math.sin(a2) * size * 0.4);
+        }
+        ctx.closePath(); ctx.fill();
+      }
+
+      function animateTrail() {
+        ctx.clearRect(0, 0, W, H);
+        if (trailMode !== 'none') {
+          for (let i = 0; i < 2; i++) spawnTrailParticle();
+        }
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+          if (p.life <= 0) { particles.splice(i, 1); continue; }
+          const alpha = p.life;
+          if (p.shape === 'glow') {
+            ctx.shadowBlur = 15; ctx.shadowColor = p.color + '0.8)';
+            ctx.fillStyle = p.color + alpha + ')';
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2); ctx.fill();
+            ctx.shadowBlur = 0;
+          } else if (p.shape === 'star') {
+            ctx.fillStyle = p.color + alpha + ')';
+            drawStar(p.x, p.y, p.size * alpha);
+          } else {
+            ctx.fillStyle = p.color + alpha + ')';
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+        if (particles.length > 300) particles.splice(0, particles.length - 300);
+        requestAnimationFrame(animateTrail);
+      }
+      if (window.innerWidth > 768) animateTrail();
+    })();
+
+    // ============================================
+    // 💻 CONSOLE DEVELOPER EASTER EGGS
+    // ============================================
+    (function() {
+      const asciiArt = `
+%c╔══════════════════════════════════════════╗
+║          < O P / >   P O R T F O L I O   ║
+╠══════════════════════════════════════════╣
+║  Oshim Pathan — Software Engineer        ║
+║  AI • Cloud • Full-Stack • Patents       ║
+║                                          ║
+║  🔍 Curious dev? Try these in console:   ║
+║     hire()  about()  skills()  secret()  ║
+╚══════════════════════════════════════════╝`;
+
+      console.log(asciiArt, 'color: #818cf8; font-family: monospace; font-size: 12px; line-height: 1.4;');
+      console.log('%c👋 Hey developer! Thanks for inspecting.', 'color: #34d399; font-size: 14px; font-weight: bold;');
+      console.log('%c💡 Type hire(), about(), skills(), or secret() for surprises.', 'color: #fbbf24; font-size: 11px;');
+
+      window.hire = function() {
+        console.log('%c✅ HIRING SEQUENCE INITIATED', 'color: #10b981; font-size: 16px; font-weight: bold;');
+        console.log('%c📧 work.oshimkhan@gmail.com\n🔗 linkedin.com/in/oshim7786\n🐙 github.com/OshimPathan', 'color: #a5b4fc; font-size: 12px;');
+        return '🎉 Let\'s build something amazing together!';
+      };
+      window.about = function() {
+        console.log('%cOshim Pathan', 'color: #818cf8; font-size: 18px; font-weight: bold;');
+        console.log('%cSoftware Engineer | AI Enthusiast | Startup Founder\n📍 Nepal → VIT Vellore \'26 | CGPA: 8.78\n📜 2 Patents Filed | 🚀 Founder @ ShareSathi', 'color: #e2e8f0; font-size: 11px;');
+        return '👆 Check the details above!';
+      };
+      window.skills = function() {
+        console.table([
+          { Category: 'Languages', Skills: 'TypeScript, Python, Java, C++, Dart' },
+          { Category: 'Frontend', Skills: 'React, Next.js, Flutter, Tailwind' },
+          { Category: 'Backend', Skills: 'Node.js, FastAPI, Express, Django' },
+          { Category: 'Cloud', Skills: 'AWS, GCP, Azure, Docker, K8s' },
+          { Category: 'AI/ML', Skills: 'TensorFlow, PyTorch, LangChain, OpenAI' },
+          { Category: 'Databases', Skills: 'PostgreSQL, MongoDB, Redis, Supabase' }
+        ]);
+        return '📊 Skills table printed above!';
+      };
+      window.secret = function() {
+        document.body.style.transition = 'filter 1s';
+        document.body.style.filter = 'hue-rotate(180deg)';
+        setTimeout(() => { document.body.style.filter = ''; }, 3000);
+        console.log('%c🌈 WHOA! You found the secret!', 'color: #f472b6; font-size: 16px; font-weight: bold;');
+        return '🎨 Enjoy the temporary color shift!';
+      };
+    })();
+
+    // ============================================
+    // 📊 REAL-TIME AUDIO VISUALIZER
+    // ============================================
+    (function() {
+      const visCanvas = document.getElementById('audioVisualizerCanvas');
+      if (!visCanvas) return;
+      const visCtx = visCanvas.getContext('2d');
+      let analyser = null;
+      let dataArray = null;
+      let visActive = false;
+      let visRAF = null;
+
+      // Hook into the ambient sound system — watch for audioContext/analyser
+      const originalAmbientToggle = document.getElementById('ambientToggle');
+      if (originalAmbientToggle) {
+        const observer = new MutationObserver(() => {
+          if (originalAmbientToggle.classList.contains('playing')) {
+            // Try to hook analyser
+            setTimeout(hookAnalyser, 300);
+          } else {
+            visCanvas.style.opacity = '0';
+            visActive = false;
+          }
+        });
+        observer.observe(originalAmbientToggle, { attributes: true, attributeFilter: ['class'] });
+      }
+
+      function hookAnalyser() {
+        // The ambient sound system should expose its audioContext
+        if (window._ambientAudioCtx && !analyser) {
+          analyser = window._ambientAudioCtx.createAnalyser();
+          analyser.fftSize = 128;
+          dataArray = new Uint8Array(analyser.frequencyBinCount);
+          if (window._ambientGainNode) {
+            window._ambientGainNode.connect(analyser);
+          }
+        }
+        if (analyser) {
+          visActive = true;
+          visCanvas.style.opacity = '1';
+          if (!visRAF) drawVisualizer();
+        }
+      }
+
+      function drawVisualizer() {
+        if (!visActive || !analyser) { visRAF = null; return; }
+        visRAF = requestAnimationFrame(drawVisualizer);
+        const W = visCanvas.width = visCanvas.offsetWidth;
+        const H = visCanvas.height = 60;
+        analyser.getByteFrequencyData(dataArray);
+        visCtx.clearRect(0, 0, W, H);
+        const barW = (W / dataArray.length) * 1.5;
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+        dataArray.forEach((val, i) => {
+          const barH = (val / 255) * H * 0.8;
+          const x = i * (barW + 2);
+          const hue = (i / dataArray.length) * 120 + 200;
+          visCtx.fillStyle = isLight
+            ? `hsla(${hue}, 60%, 50%, 0.6)`
+            : `hsla(${hue}, 80%, 60%, 0.7)`;
+          visCtx.fillRect(x, H - barH, barW, barH);
+        });
+      }
+    })();
+
+    // ============================================
+    // 🧬 VISITOR FINGERPRINT GENERATIVE ART
+    // ============================================
+    (function() {
+      const fpCanvas = document.getElementById('fingerprintCanvas');
+      const fpHash = document.getElementById('fingerprintHash');
+      const fpToggle = document.getElementById('fingerprintToggle');
+      const fpPanel = document.getElementById('fingerprintPanel');
+      if (!fpCanvas || !fpToggle || !fpPanel) return;
+      const ctx = fpCanvas.getContext('2d');
+
+      fpToggle.addEventListener('click', () => fpPanel.classList.toggle('open'));
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.fingerprint-art')) fpPanel.classList.remove('open');
+      });
+
+      // Keyboard shortcut F
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          fpPanel.classList.toggle('open');
+        }
+      });
+
+      // Generate fingerprint hash from browser properties
+      function generateHash() {
+        const data = [
+          navigator.userAgent, navigator.language, navigator.hardwareConcurrency,
+          screen.width, screen.height, screen.colorDepth,
+          new Date().getTimezoneOffset(), navigator.platform,
+          window.devicePixelRatio, navigator.maxTouchPoints
+        ].join('|');
+        let hash = 0;
+        for (let i = 0; i < data.length; i++) {
+          const chr = data.charCodeAt(i);
+          hash = ((hash << 5) - hash) + chr;
+          hash |= 0;
+        }
+        return Math.abs(hash);
+      }
+
+      function seededRandom(seed) {
+        let s = seed;
+        return function() {
+          s = (s * 16807 + 0) % 2147483647;
+          return (s - 1) / 2147483646;
+        };
+      }
+
+      const hash = generateHash();
+      const rand = seededRandom(hash);
+      if (fpHash) fpHash.textContent = '#' + hash.toString(16).toUpperCase().padStart(8, '0');
+
+      // Draw unique generative art
+      const W = 200, H = 200;
+      ctx.fillStyle = `hsl(${rand() * 360}, 15%, ${rand() > 0.5 ? 8 : 92}%)`;
+      ctx.fillRect(0, 0, W, H);
+
+      // Layer 1: Geometric shapes
+      const shapeCount = 5 + Math.floor(rand() * 8);
+      for (let i = 0; i < shapeCount; i++) {
+        const hue = (rand() * 360) | 0;
+        ctx.fillStyle = `hsla(${hue}, ${60 + rand() * 30}%, ${50 + rand() * 20}%, ${0.15 + rand() * 0.3})`;
+        ctx.strokeStyle = `hsla(${hue}, 70%, 60%, ${0.2 + rand() * 0.3})`;
+        ctx.lineWidth = 0.5 + rand() * 2;
+        const cx = rand() * W, cy = rand() * H, r = 15 + rand() * 60;
+        const type = (rand() * 3) | 0;
+        ctx.beginPath();
+        if (type === 0) {
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        } else if (type === 1) {
+          ctx.rect(cx - r / 2, cy - r / 2, r, r);
+        } else {
+          const sides = 3 + Math.floor(rand() * 5);
+          for (let j = 0; j < sides; j++) {
+            const a = (j / sides) * Math.PI * 2 - Math.PI / 2;
+            ctx[j === 0 ? 'moveTo' : 'lineTo'](cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+          }
+          ctx.closePath();
+        }
+        ctx.fill(); ctx.stroke();
+      }
+
+      // Layer 2: Flowing curves
+      const curveCount = 3 + Math.floor(rand() * 4);
+      for (let i = 0; i < curveCount; i++) {
+        ctx.beginPath();
+        const hue = (rand() * 360) | 0;
+        ctx.strokeStyle = `hsla(${hue}, 70%, 60%, ${0.3 + rand() * 0.4})`;
+        ctx.lineWidth = 1 + rand() * 3;
+        let x = rand() * W, y = rand() * H;
+        ctx.moveTo(x, y);
+        for (let j = 0; j < 5; j++) {
+          const cpx1 = rand() * W, cpy1 = rand() * H;
+          const cpx2 = rand() * W, cpy2 = rand() * H;
+          x = rand() * W; y = rand() * H;
+          ctx.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Layer 3: Dot scatter
+      const dotCount = 20 + Math.floor(rand() * 40);
+      for (let i = 0; i < dotCount; i++) {
+        ctx.fillStyle = `hsla(${rand() * 360}, 80%, 70%, ${0.3 + rand() * 0.5})`;
+        ctx.beginPath();
+        ctx.arc(rand() * W, rand() * H, 1 + rand() * 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    })();
+
+    // ============================================
+    // ⏱️ IDLE SCREENSAVER
+    // ============================================
+    (function() {
+      const overlay = document.getElementById('screensaverOverlay');
+      const ssCanvas = document.getElementById('screensaverCanvas');
+      if (!overlay || !ssCanvas) return;
+      const ctx = ssCanvas.getContext('2d');
+      let idleTimer = null;
+      let ssActive = false;
+      let logoX, logoY, logoDX, logoDY;
+      let stars = [];
+      const IDLE_TIMEOUT = 90000; // 90 seconds
+
+      function resetIdle() {
+        clearTimeout(idleTimer);
+        if (ssActive) exitScreensaver();
+        idleTimer = setTimeout(enterScreensaver, IDLE_TIMEOUT);
+      }
+
+      function enterScreensaver() {
+        if (ssActive) return;
+        ssActive = true;
+        overlay.classList.add('active');
+        ssCanvas.width = window.innerWidth;
+        ssCanvas.height = window.innerHeight;
+        logoX = ssCanvas.width / 2;
+        logoY = ssCanvas.height / 2;
+        logoDX = 1.5 + Math.random();
+        logoDY = 1.2 + Math.random();
+        stars = [];
+        for (let i = 0; i < 100; i++) {
+          stars.push({
+            x: Math.random() * ssCanvas.width,
+            y: Math.random() * ssCanvas.height,
+            size: 0.5 + Math.random() * 2,
+            speed: 0.2 + Math.random() * 0.8,
+            hue: 220 + Math.random() * 40,
+            twinkle: Math.random() * Math.PI * 2
+          });
+        }
+        animateScreensaver();
+      }
+
+      function exitScreensaver() {
+        ssActive = false;
+        overlay.classList.remove('active');
+      }
+
+      function animateScreensaver() {
+        if (!ssActive) return;
+        const W = ssCanvas.width, H = ssCanvas.height;
+        ctx.fillStyle = 'rgba(2, 6, 23, 0.15)';
+        ctx.fillRect(0, 0, W, H);
+
+        // Stars
+        stars.forEach(s => {
+          s.y += s.speed;
+          s.twinkle += 0.03;
+          if (s.y > H) { s.y = 0; s.x = Math.random() * W; }
+          const alpha = 0.4 + Math.sin(s.twinkle) * 0.4;
+          ctx.fillStyle = `hsla(${s.hue}, 70%, 80%, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Bouncing logo position
+        const logo = overlay.querySelector('.screensaver-logo');
+        if (logo) {
+          logoX += logoDX; logoY += logoDY;
+          if (logoX < 50 || logoX > W - 100) logoDX *= -1;
+          if (logoY < 30 || logoY > H - 60) logoDY *= -1;
+          logo.style.left = logoX + 'px';
+          logo.style.top = logoY + 'px';
+          const hue = (Date.now() / 30) % 360;
+          logo.style.color = `hsl(${hue}, 80%, 70%)`;
+        }
+
+        requestAnimationFrame(animateScreensaver);
+      }
+
+      ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, resetIdle, { passive: true });
+      });
+      resetIdle();
+    })();
+
+    // ============================================
+    // 🎮 BREAKOUT MINI-GAME
+    // ============================================
+    (function() {
+      const overlay = document.getElementById('breakoutOverlay');
+      const canvas = document.getElementById('breakoutCanvas');
+      const closeBtn = document.getElementById('breakoutClose');
+      const scoreEl = document.getElementById('breakoutScore');
+      if (!overlay || !canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = 480, H = 320;
+
+      let ball, paddle, bricks, score, gameRunning, launched;
+      const ROWS = 5, COLS = 8, BRICK_W = 54, BRICK_H = 18, BRICK_PAD = 4, BRICK_TOP = 40;
+
+      function initGame() {
+        score = 0; launched = false; gameRunning = true;
+        if (scoreEl) scoreEl.textContent = '0';
+        paddle = { x: W / 2 - 40, y: H - 25, w: 80, h: 10 };
+        ball = { x: W / 2, y: H - 40, r: 5, dx: 3, dy: -3 };
+        bricks = [];
+        const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#6366f1'];
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            bricks.push({
+              x: c * (BRICK_W + BRICK_PAD) + 16,
+              y: r * (BRICK_H + BRICK_PAD) + BRICK_TOP,
+              w: BRICK_W, h: BRICK_H,
+              alive: true, color: colors[r]
+            });
+          }
+        }
+      }
+
+      function drawGame() {
+        if (!gameRunning) return;
+        ctx.clearRect(0, 0, W, H);
+
+        // Bricks
+        bricks.forEach(b => {
+          if (!b.alive) return;
+          ctx.fillStyle = b.color; ctx.beginPath();
+          ctx.roundRect(b.x, b.y, b.w, b.h, 3); ctx.fill();
+        });
+
+        // Paddle
+        ctx.fillStyle = '#818cf8'; ctx.beginPath();
+        ctx.roundRect(paddle.x, paddle.y, paddle.w, paddle.h, 5); ctx.fill();
+
+        // Ball
+        ctx.fillStyle = '#f1f5f9'; ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 8; ctx.shadowColor = '#818cf8';
+        ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if (!launched) {
+          ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '14px system-ui';
+          ctx.textAlign = 'center'; ctx.fillText('Press SPACE to launch', W / 2, H / 2 + 40);
+          ball.x = paddle.x + paddle.w / 2;
+        }
+
+        if (launched) {
+          ball.x += ball.dx; ball.y += ball.dy;
+          // Wall collisions
+          if (ball.x < ball.r || ball.x > W - ball.r) ball.dx *= -1;
+          if (ball.y < ball.r) ball.dy *= -1;
+          // Floor = lose
+          if (ball.y > H + 10) { initGame(); return; }
+          // Paddle collision
+          if (ball.y + ball.r >= paddle.y && ball.y - ball.r <= paddle.y + paddle.h &&
+              ball.x >= paddle.x && ball.x <= paddle.x + paddle.w) {
+            ball.dy = -Math.abs(ball.dy);
+            ball.dx += (ball.x - (paddle.x + paddle.w / 2)) * 0.1;
+          }
+          // Brick collisions
+          bricks.forEach(b => {
+            if (!b.alive) return;
+            if (ball.x + ball.r > b.x && ball.x - ball.r < b.x + b.w &&
+                ball.y + ball.r > b.y && ball.y - ball.r < b.y + b.h) {
+              b.alive = false; ball.dy *= -1; score += 10;
+              if (scoreEl) scoreEl.textContent = score;
+            }
+          });
+          // Win check
+          if (bricks.every(b => !b.alive)) {
+            ctx.fillStyle = '#22c55e'; ctx.font = 'bold 28px system-ui';
+            ctx.textAlign = 'center'; ctx.fillText('🎉 YOU WIN!', W / 2, H / 2);
+            gameRunning = false; return;
+          }
+        }
+
+        requestAnimationFrame(drawGame);
+      }
+
+      // Controls
+      const keys = {};
+      document.addEventListener('keydown', (e) => {
+        keys[e.key] = true;
+        if (e.key === ' ' && overlay.classList.contains('active') && !launched) {
+          launched = true; e.preventDefault();
+        }
+      });
+      document.addEventListener('keyup', (e) => { keys[e.key] = false; });
+
+      function updatePaddle() {
+        if (!overlay.classList.contains('active') || !gameRunning) return;
+        if (keys['ArrowLeft'] || keys['a']) paddle.x = Math.max(0, paddle.x - 6);
+        if (keys['ArrowRight'] || keys['d']) paddle.x = Math.min(W - paddle.w, paddle.x + 6);
+        requestAnimationFrame(updatePaddle);
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          overlay.classList.remove('active');
+          gameRunning = false;
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          overlay.classList.remove('active');
+          gameRunning = false;
+        }
+      });
+
+      window._startBreakout = function() {
+        initGame();
+        updatePaddle();
+        drawGame();
+      };
+    })();
+
+    // ============================================
+    // 🌍 GEOLOCATION-BASED GREETING
+    // ============================================
+    (function() {
+      const el = document.getElementById('geoGreeting');
+      if (!el) return;
+      const hour = new Date().getHours();
+      let greeting, emoji;
+      if (hour >= 5 && hour < 12) { greeting = 'Good morning'; emoji = '☀️'; }
+      else if (hour >= 12 && hour < 17) { greeting = 'Good afternoon'; emoji = '🌤️'; }
+      else if (hour >= 17 && hour < 21) { greeting = 'Good evening'; emoji = '🌅'; }
+      else { greeting = 'Hello, night owl'; emoji = '🌙'; }
+
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const city = tz.split('/').pop().replace(/_/g, ' ');
+        el.textContent = `${emoji} ${greeting} from ${city}!`;
+      } catch (e) {
+        el.textContent = `${emoji} ${greeting}! Welcome to my portfolio.`;
+      }
+      el.style.opacity = '0'; el.style.transform = 'translateY(8px)';
+      setTimeout(() => { el.style.transition = 'all 0.8s ease'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 500);
+    })();
+
+    // ============================================
+    // 📱 HAPTIC FEEDBACK (Vibration API)
+    // ============================================
+    (function() {
+      if (!navigator.vibrate) return;
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('button, .btn, .cta-btn, .filter-btn, .proj-link, .nav-item, .accent-swatch, .trail-mode, .ambient-track');
+        if (target) navigator.vibrate(15);
+      });
+      document.addEventListener('change', (e) => {
+        if (e.target.matches('input[type="range"]')) navigator.vibrate(8);
+      });
     })();
 
     // ============================================
