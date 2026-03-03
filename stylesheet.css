@@ -270,7 +270,7 @@ img { max-width: 100%; }
   image-rendering: auto;
 }
 
-/* World Map Background Canvas */
+/* World Map Background Canvas — Google Maps style */
 #worldMapCanvas {
   position: absolute;
   inset: 0;
@@ -278,6 +278,12 @@ img { max-width: 100%; }
   height: 100%;
   z-index: 2;
   pointer-events: none;
+  opacity: 0.35;
+  border-radius: 0;
+}
+
+[data-theme="light"] #worldMapCanvas {
+  opacity: 0.30;
 }
 
 /* --- Nebula color clouds (CSS overlays on top of canvas) --- */
