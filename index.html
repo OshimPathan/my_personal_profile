@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.1">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -114,6 +114,7 @@
   <!-- 3D Galaxy Universe Background (visible behind content sections) -->
   <div class="mesh-gradient-bg" aria-hidden="true">
     <canvas id="galaxyCanvas"></canvas>
+    <canvas id="worldMapCanvas"></canvas>
     <div class="galaxy-nebula nebula-1"></div>
     <div class="galaxy-nebula nebula-2"></div>
     <div class="galaxy-nebula nebula-3"></div>
@@ -2098,6 +2099,251 @@
       }
 
       requestAnimationFrame(draw);
+    })();
+
+    // ============================================
+    // WORLD MAP BACKGROUND
+    // ============================================
+    (function initWorldMap() {
+      const canvas = document.getElementById('worldMapCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
+      const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+      let W, H;
+
+      // ── Region outlines [lon, lat] — simplified but recognizable ──
+      const REGIONS = [
+        // ── NORTH AMERICA ──
+        [[-168,65],[-155,71],[-140,70],[-130,72],[-115,72],[-95,73],[-82,70],[-68,63],[-58,52],[-55,47],[-60,46],[-67,44],[-70,42],[-74,40],[-76,36],[-81,31],[-82,25],[-84,18],[-88,16],[-92,15],[-97,16],[-105,20],[-110,24],[-117,32],[-122,37],[-125,49],[-128,52],[-134,57],[-148,60],[-152,57],[-165,57],[-170,62]],
+        // Greenland
+        [[-52,60],[-44,60],[-28,66],[-20,72],[-18,78],[-22,82],[-40,83],[-50,82],[-55,78],[-55,75],[-48,66]],
+        // Iceland
+        [[-24,64],[-22,65],[-14,66],[-13,64],[-18,63],[-23,64]],
+
+        // ── EUROPE ──
+        // Iberian Peninsula
+        [[-10,36],[-5,36],[0,38],[4,43],[0,46],[-3,47],[-9,43],[-10,40]],
+        // Western/Central Europe + Balkans
+        [[0,46],[3,43],[6,44],[5,48],[2,51],[4,52],[8,54],[12,55],[14,54],[10,47],[14,43],[16,41],[13,38],[16,38],[18,40],[22,40],[26,41],[28,42],[28,44],[24,46],[22,48],[18,48],[15,51],[14,54],[20,55],[22,57],[20,60],[24,60],[24,64],[22,68],[15,70],[10,63],[7,58],[5,54],[2,52],[0,50],[-2,47]],
+        // UK & Ireland
+        [[-10,51],[-6,52],[-5,55],[-3,57],[-5,58],[-7,58],[-8,55],[-10,52]],
+        [[0,51],[2,53],[1,55],[0,57],[-2,58],[-4,57],[-5,54],[-3,51],[0,51]],
+        // Scandinavia
+        [[5,58],[8,58],[12,60],[14,64],[16,66],[20,69],[27,71],[30,70],[30,66],[28,64],[24,61],[20,56],[16,56],[12,55],[10,58]],
+
+        // ── RUSSIA / NORTHERN ASIA ──
+        [[28,55],[32,56],[35,60],[40,62],[50,66],[60,68],[70,70],[80,72],[90,74],[100,72],[110,72],[120,70],[130,62],[135,58],[138,52],[140,48],[142,44],[148,46],[152,55],[157,58],[162,62],[170,65],[180,66],[180,72],[170,72],[160,70],[150,68],[130,72],[100,76],[80,74],[70,72],[60,70],[50,68],[42,66],[36,62],[30,60],[28,55]],
+
+        // ── AFRICA ──
+        [[-18,15],[-17,22],[-15,28],[-8,32],[-5,36],[0,36],[10,37],[15,32],[25,32],[30,31],[33,30],[35,22],[42,12],[51,12],[51,8],[47,5],[42,0],[40,-6],[38,-12],[36,-18],[33,-26],[29,-34],[21,-35],[18,-32],[15,-27],[12,-17],[9,-5],[7,4],[5,5],[1,6],[-5,5],[-8,5],[-12,8],[-16,12],[-18,14]],
+        // Madagascar
+        [[44,-12],[50,-16],[50,-24],[47,-26],[44,-24],[43,-18],[44,-12]],
+
+        // ── MIDDLE EAST ──
+        [[35,32],[36,34],[37,37],[40,38],[44,38],[48,38],[50,37],[52,36],[54,30],[56,27],[56,24],[55,17],[52,13],[49,12],[45,13],[43,15],[42,14],[40,14],[38,16],[36,22],[35,28],[33,30]],
+
+        // ── SOUTH ASIA ──
+        // India + Sri Lanka
+        [[68,24],[72,22],[76,16],[78,10],[80,8],[80,12],[83,16],[86,22],[88,24],[90,22],[92,20],[93,24],[93,27],[90,28],[88,28],[85,28],[80,30],[76,30],[72,28],[68,24]],
+        [[80,7],[81,6],[82,7],[81,10],[80,9]],
+
+        // ── EAST ASIA ──
+        // China
+        [[73,40],[80,42],[87,48],[90,50],[95,52],[105,54],[110,52],[120,52],[122,46],[124,40],[122,30],[118,24],[112,22],[108,22],[106,22],[100,22],[98,22],[93,28],[88,28],[87,36],[80,36],[76,34],[73,40]],
+        // Korean Peninsula
+        [[125,34],[127,36],[129,38],[128,42],[126,39],[125,37]],
+        // Japan
+        [[130,31],[132,34],[135,35],[137,37],[140,40],[142,43],[145,45],[143,43],[140,38],[137,35],[134,33],[130,31]],
+        // Taiwan
+        [[120,22],[122,24],[121,25],[120,24]],
+
+        // ── SOUTHEAST ASIA ──
+        [[96,28],[100,22],[100,16],[101,8],[102,2],[104,1],[106,2],[106,10],[108,16],[108,22],[106,16],[104,10],[103,8],[100,12],[100,18],[98,22]],
+        // Philippines
+        [[118,8],[120,10],[122,14],[124,18],[122,18],[120,14],[118,10]],
+        // Indonesia (simplified)
+        [[95,-1],[105,-2],[106,-6],[110,-7],[115,-8],[120,-8],[125,-5],[128,-3],[130,-2],[135,-5],[140,-6],[142,-8],[141,-10],[135,-8],[130,-5],[127,-6],[122,-8],[117,-8],[112,-7],[106,-7],[105,-5],[100,0]],
+        // Papua New Guinea
+        [[141,-3],[145,-5],[148,-6],[150,-6],[152,-4],[155,-5],[155,-8],[150,-10],[147,-10],[142,-8],[141,-6]],
+
+        // ── SOUTH AMERICA ──
+        [[-78,10],[-75,12],[-73,12],[-68,11],[-63,11],[-55,6],[-51,4],[-50,0],[-44,-2],[-35,-5],[-35,-10],[-38,-15],[-40,-22],[-48,-28],[-54,-34],[-57,-38],[-65,-42],[-69,-46],[-73,-51],[-75,-53],[-71,-55],[-68,-55],[-65,-52],[-65,-46],[-71,-40],[-73,-35],[-71,-28],[-70,-17],[-75,-14],[-77,-5],[-80,0],[-80,5],[-77,9]],
+
+        // ── OCEANIA ──
+        // Australia
+        [[115,-12],[120,-12],[130,-12],[137,-12],[142,-10],[145,-14],[150,-22],[153,-26],[153,-30],[151,-34],[148,-38],[145,-39],[140,-38],[136,-35],[130,-32],[128,-30],[122,-28],[118,-24],[114,-22],[113,-25],[115,-30],[117,-34],[120,-35],[122,-34],[118,-30],[115,-26],[113,-22],[114,-18],[115,-14]],
+        // New Zealand
+        [[166,-35],[168,-37],[172,-40],[175,-42],[178,-44],[178,-46],[176,-46],[174,-42],[170,-38],[167,-36]],
+
+        // ── CENTRAL AMERICA + CARIBBEAN ──
+        [[-84,22],[-82,22],[-78,20],[-75,20],[-77,22],[-82,23]],
+      ];
+
+      // ── Graticule lines (meridians & parallels) ──
+      const MERIDIANS = [-150,-120,-90,-60,-30,0,30,60,90,120,150,180];
+      const PARALLELS = [-60,-30,0,30,60];
+
+      // ── Notable city positions [lon, lat, name] ──
+      const CITIES = [
+        [-74,40.7],[-122,37.8],[-3.4,51.5],[2.3,48.9],[37.6,55.8],[139.7,35.7],
+        [116.4,39.9],[77.2,28.6],[85.3,27.7],[151.2,-33.9],[-43.2,-22.9],
+        [28.9,41],[31.2,30],[36.8,-1.3],[18.4,-33.9],[55.3,25.3],[121.5,31.2],
+        [100.5,13.8],[106.8,-6.2],[126.9,37.6],[114.2,22.3],[103.8,1.4],
+        [-99.1,19.4],[-58.4,-34.6],[-77,38.9],[-87.6,41.9],[-73.9,40.7],
+      ];
+
+      function resize() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W * DPR;
+        canvas.height = H * DPR;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        draw();
+      }
+
+      // Equirectangular projection — lon/lat to canvas x/y
+      // Center the map with some padding
+      function project(lon, lat) {
+        const mapW = W * 0.88;
+        const mapH = mapW * 0.5;
+        const offX = (W - mapW) / 2;
+        const offY = (H - mapH) / 2;
+        const x = offX + ((lon + 180) / 360) * mapW;
+        const y = offY + ((90 - lat) / 180) * mapH;
+        return [x, y];
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const accentColor = isLight ? '79, 70, 229' : '99, 102, 241';
+        const gridColor = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.04)`;
+        const landFill = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.07)`;
+        const landStroke = isLight ? `rgba(${accentColor}, 0.15)` : `rgba(${accentColor}, 0.18)`;
+        const dotColor = isLight ? `rgba(${accentColor}, 0.35)` : `rgba(${accentColor}, 0.45)`;
+
+        // ── Draw graticule grid ──
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = gridColor;
+        ctx.setLineDash([4, 8]);
+        MERIDIANS.forEach(lon => {
+          ctx.beginPath();
+          const [x1, y1] = project(lon, 85);
+          const [x2, y2] = project(lon, -85);
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        });
+        PARALLELS.forEach(lat => {
+          ctx.beginPath();
+          const [x1, y1] = project(-180, lat);
+          const [x2, y2] = project(180, lat);
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        });
+        ctx.setLineDash([]);
+
+        // ── Draw equator with accent ──
+        ctx.beginPath();
+        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.1)` : `rgba(${accentColor}, 0.08)`;
+        ctx.lineWidth = 1;
+        const [eqX1, eqY1] = project(-180, 0);
+        const [eqX2, eqY2] = project(180, 0);
+        ctx.moveTo(eqX1, eqY1);
+        ctx.lineTo(eqX2, eqY2);
+        ctx.stroke();
+
+        // ── Draw filled regions ──
+        REGIONS.forEach(region => {
+          ctx.beginPath();
+          region.forEach(([lon, lat], i) => {
+            const [x, y] = project(lon, lat);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.closePath();
+          ctx.fillStyle = landFill;
+          ctx.fill();
+          ctx.strokeStyle = landStroke;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        });
+
+        // ── Dot grid over land areas ──
+        const step = isMobile ? 8 : 5;
+        for (let lon = -175; lon <= 175; lon += step) {
+          for (let lat = -80; lat <= 80; lat += step) {
+            const [px, py] = project(lon, lat);
+            if (isLand(lon, lat)) {
+              ctx.beginPath();
+              ctx.arc(px, py, isMobile ? 0.6 : 0.8, 0, Math.PI * 2);
+              ctx.fillStyle = dotColor;
+              ctx.fill();
+            }
+          }
+        }
+
+        // ── City dots (pulsing via CSS or just static highlights) ──
+        CITIES.forEach(([lon, lat]) => {
+          const [cx, cy] = project(lon, lat);
+          // Outer glow
+          ctx.beginPath();
+          ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${accentColor}, 0.15)`;
+          ctx.fill();
+          // Inner dot
+          ctx.beginPath();
+          ctx.arc(cx, cy, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${accentColor}, 0.6)`;
+          ctx.fill();
+        });
+
+        // ── Outer frame: subtle map border ──
+        const [fX1, fY1] = project(-180, 85);
+        const [fX2, fY2] = project(180, -85);
+        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.06)` : `rgba(${accentColor}, 0.05)`;
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(fX1, fY1, fX2 - fX1, fY2 - fY1);
+      }
+
+      // Simple land detection — point-in-polygon test for each region
+      function isLand(lon, lat) {
+        for (const region of REGIONS) {
+          if (pointInPolygon(lon, lat, region)) return true;
+        }
+        return false;
+      }
+
+      function pointInPolygon(x, y, polygon) {
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+          const xi = polygon[i][0], yi = polygon[i][1];
+          const xj = polygon[j][0], yj = polygon[j][1];
+          const intersect = ((yi > y) !== (yj > y)) &&
+            (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      }
+
+      // Redraw on theme change
+      const observer = new MutationObserver(() => draw());
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+      // Debounced resize
+      let rTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(rTimer);
+        rTimer = setTimeout(resize, 200);
+      });
+
+      resize();
     })();
 
     // ============================================
