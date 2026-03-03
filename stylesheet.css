@@ -2633,6 +2633,10 @@ img { max-width: 100%; }
   margin-bottom: 32px;
 }
 
+.gh-svg-icon {
+  vertical-align: middle;
+}
+
 .gh-streak-stat {
   flex: 1;
   text-align: center;
@@ -2699,9 +2703,6 @@ img { max-width: 100%; }
   margin-bottom: 20px;
   overflow-x: auto;
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(99,102,241,0.3) transparent;
   padding-bottom: 4px;
 }
 
@@ -2720,6 +2721,7 @@ img { max-width: 100%; }
   display: flex;
   padding-left: 36px;
   margin-bottom: 4px;
+  min-width: -webkit-fill-available;
   min-width: fit-content;
 }
 
@@ -2734,6 +2736,7 @@ img { max-width: 100%; }
 .gh-heatmap-grid {
   display: flex;
   gap: 4px;
+  min-width: -webkit-fill-available;
   min-width: fit-content;
 }
 
@@ -4010,8 +4013,8 @@ img { max-width: 100%; }
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
   justify-content: center;
@@ -4088,8 +4091,6 @@ img { max-width: 100%; }
   overflow-y: auto;
   max-height: 340px;
   padding: 6px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(99,102,241,0.3) transparent;
 }
 
 .cmd-results::-webkit-scrollbar { width: 4px; }
@@ -4287,8 +4288,8 @@ img { max-width: 100%; }
   align-items: center;
   gap: 10px;
   background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 12px;
   padding: 12px 18px;
@@ -4334,8 +4335,8 @@ img { max-width: 100%; }
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   z-index: 10001;
   display: flex;
   align-items: center;
@@ -4422,8 +4423,8 @@ img { max-width: 100%; }
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   z-index: 10002;
   display: flex;
   align-items: center;
@@ -4502,8 +4503,6 @@ img { max-width: 100%; }
   font-size: 0.78rem;
   line-height: 1.7;
   color: #a3e635;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(99,102,241,0.3) transparent;
 }
 
 .term-line {
