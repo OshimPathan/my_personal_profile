@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=41.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=41.1">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -87,19 +87,51 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- NUCLEAR FIX: Content must ALWAYS be visible. No more hiding. -->
+  <!-- FIX: Ensure page content is visible. Overlays stay hidden. -->
   <style>
-    /* Kill ALL content-hiding mechanisms */
-    body > * { opacity: 1 !important; }
+    /* Make content sections visible — but NOT overlays */
+    body > header,
+    body > section,
+    body > footer,
+    body > .scroll-progress,
+    body > .mesh-gradient-bg,
+    body > .vnav,
+    body > .back-to-top,
+    body > #backToTop,
+    body > .skip-to-content { opacity: 1 !important; }
+
+    /* Reveal elements visible by default */
     .reveal { opacity: 1 !important; transform: none !important; }
+
     /* Preloader: auto-hide at 2.5s via CSS */
     .preloader {
       animation: killPreloader 0.5s ease 2.5s forwards !important;
     }
     @keyframes killPreloader {
-      to { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important; }
+      to { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
     }
-    /* Screensaver: NEVER show on page load */
+
+    /* ALL overlays: hidden by default, only JS .active/.open shows them */
+    .screensaver-overlay,
+    .breakout-overlay,
+    .shortcuts-overlay,
+    .easter-terminal-overlay,
+    .cmd-palette-overlay,
+    .spotlight-overlay {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    /* Only show overlays when explicitly activated by user */
+    .screensaver-overlay.active,
+    .breakout-overlay.active,
+    .shortcuts-overlay.open,
+    .easter-terminal-overlay.open,
+    .cmd-palette-overlay.open,
+    .spotlight-overlay.active {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    /* Screensaver: completely disabled */
     .screensaver-overlay { display: none !important; }
   </style>
 </head>
