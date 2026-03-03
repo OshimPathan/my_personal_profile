@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.2">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=38.3">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -2221,11 +2221,18 @@
         ctx.clearRect(0, 0, W, H);
 
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        const accentColor = isLight ? '79, 70, 229' : '99, 102, 241';
-        const gridColor = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.08)`;
-        const landFill = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.14)`;
-        const landStroke = isLight ? `rgba(${accentColor}, 0.3)` : `rgba(${accentColor}, 0.35)`;
-        const dotColor = isLight ? `rgba(${accentColor}, 0.5)` : `rgba(${accentColor}, 0.6)`;
+
+        // ── Direct draw colors — NO CSS opacity on canvas ──
+        // Dark: bright indigo outlines on near-black bg
+        // Light: deep violet outlines on white bg
+        const landFill   = isLight ? 'rgba(79,70,229,0.08)'  : 'rgba(99,102,241,0.12)';
+        const landStroke  = isLight ? 'rgba(79,70,229,0.22)'  : 'rgba(130,140,255,0.28)';
+        const gridColor   = isLight ? 'rgba(79,70,229,0.06)'  : 'rgba(130,140,255,0.06)';
+        const dotColor    = isLight ? 'rgba(79,70,229,0.18)'  : 'rgba(130,140,255,0.25)';
+        const cityGlow    = isLight ? 'rgba(79,70,229,0.15)'  : 'rgba(130,140,255,0.2)';
+        const cityDot     = isLight ? 'rgba(79,70,229,0.5)'   : 'rgba(160,170,255,0.7)';
+        const eqColor     = isLight ? 'rgba(79,70,229,0.1)'   : 'rgba(130,140,255,0.1)';
+        const frameColor  = isLight ? 'rgba(79,70,229,0.08)'  : 'rgba(130,140,255,0.08)';
 
         // ── Draw graticule grid ──
         ctx.lineWidth = 0.5;
@@ -2251,7 +2258,7 @@
 
         // ── Draw equator with accent ──
         ctx.beginPath();
-        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.2)` : `rgba(${accentColor}, 0.15)`;
+        ctx.strokeStyle = eqColor;
         ctx.lineWidth = 1;
         const [eqX1, eqY1] = project(-180, 0);
         const [eqX2, eqY2] = project(180, 0);
@@ -2271,7 +2278,7 @@
           ctx.fillStyle = landFill;
           ctx.fill();
           ctx.strokeStyle = landStroke;
-          ctx.lineWidth = 0.6;
+          ctx.lineWidth = 1;
           ctx.stroke();
         });
 
@@ -2295,19 +2302,19 @@
           // Outer glow
           ctx.beginPath();
           ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${accentColor}, 0.2)`;
+          ctx.fillStyle = cityGlow;
           ctx.fill();
           // Inner dot
           ctx.beginPath();
           ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${accentColor}, 0.8)`;
+          ctx.fillStyle = cityDot;
           ctx.fill();
         });
 
         // ── Outer frame: subtle map border ──
         const [fX1, fY1] = project(-180, 85);
         const [fX2, fY2] = project(180, -85);
-        ctx.strokeStyle = isLight ? `rgba(${accentColor}, 0.12)` : `rgba(${accentColor}, 0.1)`;
+        ctx.strokeStyle = frameColor;
         ctx.lineWidth = 0.8;
         ctx.strokeRect(fX1, fY1, fX2 - fX1, fY2 - fY1);
       }

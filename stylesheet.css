@@ -276,10 +276,8 @@ img { max-width: 100%; }
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.35;
   z-index: 2;
   pointer-events: none;
-  transition: opacity 0.6s ease;
 }
 
 /* --- Nebula color clouds (CSS overlays on top of canvas) --- */
@@ -373,7 +371,7 @@ img { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .galaxy-nebula { animation: none !important; opacity: 0.3 !important; }
   #galaxyCanvas { display: none; }
-  #worldMapCanvas { opacity: 0.08 !important; }
+  #worldMapCanvas { display: none; }
 }
 
 /* ============================================
@@ -3730,7 +3728,7 @@ img { max-width: 100%; }
 [data-theme="light"] body { cursor: none; }
 [data-theme="light"] .mesh-gradient-bg { background: #f0f4ff; }
 [data-theme="light"] #galaxyCanvas { opacity: 0.06; filter: invert(1) brightness(2); }
-[data-theme="light"] #worldMapCanvas { opacity: 0.25; }
+/* world map redraws itself on theme change — no CSS opacity needed */
 [data-theme="light"] .nebula-1 { background: radial-gradient(ellipse, rgba(79,70,229,0.06) 0%, transparent 70%); }
 [data-theme="light"] .nebula-2 { background: radial-gradient(ellipse, rgba(124,58,237,0.05) 0%, transparent 70%); }
 [data-theme="light"] .nebula-3 { background: radial-gradient(ellipse, rgba(8,145,178,0.04) 0%, transparent 70%); }
