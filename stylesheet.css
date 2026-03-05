@@ -6674,6 +6674,136 @@ body {
 }
 
 /* ============================================
+   FEATURE: PAGE-LEAVE TRANSITION
+   ============================================ */
+.page-leave-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  display: flex;
+}
+.page-leave-strip {
+  flex: 1;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.page-leave-overlay.active .page-leave-strip {
+  transform: scaleY(1);
+}
+.page-leave-strip:nth-child(1) { transition-delay: 0s; }
+.page-leave-strip:nth-child(2) { transition-delay: 0.06s; }
+.page-leave-strip:nth-child(3) { transition-delay: 0.12s; }
+.page-leave-strip:nth-child(4) { transition-delay: 0.18s; }
+.page-leave-strip:nth-child(5) { transition-delay: 0.24s; }
+
+/* ============================================
+   FEATURE: COPY-EMAIL TOAST
+   ============================================ */
+.copy-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.copy-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   FEATURE: SCROLL-TRIGGERED TIMELINE
+   ============================================ */
+.timeline {
+  --tl-progress: 0;
+}
+.timeline::before {
+  background: linear-gradient(
+    180deg,
+    var(--accent) calc(var(--tl-progress) * 100%),
+    rgba(99, 102, 241, 0.12) calc(var(--tl-progress) * 100%)
+  ) !important;
+}
+.timeline-dot {
+  transition: box-shadow 0.3s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+.timeline-dot.tl-visible {
+  animation: tlPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes tlPop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================
+   FEATURE: BLUR-UP IMAGE LOADING
+   ============================================ */
+.blur-up {
+  filter: blur(12px);
+  transition: filter 0.6s ease;
+}
+.blur-up.loaded {
+  filter: blur(0);
+}
+
+/* ============================================
+   FEATURE: CONFETTI CANVAS
+   ============================================ */
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   FEATURE: HORIZONTAL SCROLL GALLERY
+   ============================================ */
+.cert-hscroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 16px 4px 24px;
+  cursor: grab;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.cert-hscroll:active {
+  cursor: grabbing;
+}
+.cert-hscroll::-webkit-scrollbar {
+  height: 6px;
+}
+.cert-hscroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cert-hscroll::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+.cert-hscroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ============================================
    PARALLAX SCROLL SECTIONS
    ============================================ */
 .content-section {
