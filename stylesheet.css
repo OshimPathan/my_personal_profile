@@ -273,25 +273,20 @@ img { max-width: 100%; }
   image-rendering: auto;
 }
 
-/* World Map — Interactive 3D Globe */
+/* World Map — Flat Political Map Background */
 #worldMapCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 2;
-  pointer-events: auto;
-  cursor: grab;
-  opacity: 0.45;
+  pointer-events: none;
+  opacity: 0.32;
   border-radius: 0;
 }
 
-#worldMapCanvas:active {
-  cursor: grabbing;
-}
-
 [data-theme="light"] #worldMapCanvas {
-  opacity: 0.35;
+  opacity: 0.22;
 }
 
 /* --- Nebula color clouds (CSS overlays on top of canvas) --- */
