@@ -266,6 +266,9 @@
   <!-- Confetti canvas -->
   <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
+  <!-- Film grain texture overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
   <!-- 3D Galaxy Universe Background (visible behind content sections) -->
   <div class="mesh-gradient-bg" aria-hidden="true">
     <canvas id="galaxyCanvas"></canvas>
@@ -825,6 +828,7 @@
         </div>
       </div>
     </div>
+    <div class="section-wave"><svg viewBox="0 0 1200 48" preserveAspectRatio="none"><path d="M0,24 C200,48 400,0 600,24 C800,48 1000,0 1200,24 L1200,48 L0,48 Z"/></svg></div>
   </section>
 
   <!-- ═══════════════════════════════════════════
@@ -896,6 +900,7 @@
         </div>
       </div>
     </div>
+    <div class="section-wave"><svg viewBox="0 0 1200 48" preserveAspectRatio="none"><path d="M0,24 C200,0 400,48 600,24 C800,0 1000,48 1200,24 L1200,48 L0,48 Z"/></svg></div>
   </section>
 
   <!-- ═══════════════════════════════════════════
@@ -1932,6 +1937,7 @@
 
   <!-- Back to Top Button -->
   <button id="backToTop" aria-label="Back to Top">
+    <svg class="btt-progress-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" id="bttRingCircle"/></svg>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M18 15l-6-6-6 6" />
@@ -6122,6 +6128,187 @@
           burst(rect.left + rect.width / 2, rect.top + rect.height / 2);
         });
       });
+    })();
+
+    // ============================================
+    // FEATURE: THEME RIPPLE TRANSITION
+    // ============================================
+    (function initThemeRipple() {
+      const toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function(e) {
+        const rect = toggle.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        // Calculate needed radius to cover full viewport
+        const maxDist = Math.max(
+          Math.hypot(x, y),
+          Math.hypot(window.innerWidth - x, y),
+          Math.hypot(x, window.innerHeight - y),
+          Math.hypot(window.innerWidth - x, window.innerHeight - y)
+        );
+        const ripple = document.createElement('div');
+        ripple.className = 'theme-ripple';
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ripple.style.background = isDark ? 'rgba(248,250,252,0.08)' : 'rgba(15,23,42,0.06)';
+        const diameter = maxDist * 2;
+        ripple.style.width = diameter + 'px';
+        ripple.style.height = diameter + 'px';
+        ripple.style.left = (x - maxDist) + 'px';
+        ripple.style.top = (y - maxDist) + 'px';
+        document.body.appendChild(ripple);
+        requestAnimationFrame(() => ripple.classList.add('expanding'));
+        setTimeout(() => ripple.remove(), 900);
+      });
+    })();
+
+    // ============================================
+    // FEATURE: SCROLL TEXT HIGHLIGHT
+    // ============================================
+    (function initScrollHighlight() {
+      const aboutText = document.querySelector('.about-text');
+      if (!aboutText) return;
+      const paragraphs = aboutText.querySelectorAll('p');
+      paragraphs.forEach(p => {
+        const html = p.innerHTML;
+        // Wrap each word outside of HTML tags
+        const wrapped = html.replace(/(<[^>]+>)|(\S+)/g, (match, tag, word) => {
+          if (tag) return tag;
+          return '<span class="highlight-word">' + word + '</span>';
+        });
+        p.innerHTML = wrapped;
+      });
+      const words = aboutText.querySelectorAll('.highlight-word');
+      function updateHighlight() {
+        const viewCenter = window.innerHeight * 0.6;
+        words.forEach(w => {
+          const rect = w.getBoundingClientRect();
+          const wordCenter = rect.top + rect.height / 2;
+          w.classList.toggle('lit', wordCenter < viewCenter);
+        });
+      }
+      window.addEventListener('scroll', updateHighlight, { passive: true });
+      updateHighlight();
+    })();
+
+    // ============================================
+    // FEATURE: BACK-TO-TOP PROGRESS RING
+    // ============================================
+    (function initBttProgressRing() {
+      const circle = document.getElementById('bttRingCircle');
+      if (!circle) return;
+      const circumference = 2 * Math.PI * 28; // r=28
+      circle.style.strokeDasharray = circumference;
+      function updateRing() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+        const offset = circumference - (progress * circumference);
+        circle.style.strokeDashoffset = offset;
+      }
+      window.addEventListener('scroll', updateRing, { passive: true });
+      updateRing();
+    })();
+
+    // ============================================
+    // FEATURE: STAGGERED GRID ENTRANCE
+    // ============================================
+    (function initStaggeredGrid() {
+      const cards = document.querySelectorAll('.project-card');
+      if (!cards.length) return;
+      cards.forEach(c => c.classList.add('stagger-in'));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const siblings = Array.from(card.parentElement.children);
+            const idx = siblings.indexOf(card);
+            setTimeout(() => card.classList.add('stagger-visible'), idx * 120);
+            obs.unobserve(card);
+          }
+        });
+      }, { threshold: 0.1 });
+      cards.forEach(c => obs.observe(c));
+    })();
+
+    // ============================================
+    // FEATURE: SCROLL-DRIVEN SKILL BARS
+    // ============================================
+    (function initSkillBars() {
+      const proficiencyMap = {
+        'Languages': 92,
+        'Frontend': 90,
+        'Backend & Database': 88,
+        'AI / ML': 85,
+        'Cloud & DevOps': 82
+      };
+      const categories = document.querySelectorAll('.tech-category');
+      categories.forEach(cat => {
+        const name = cat.getAttribute('data-category-name') || '';
+        const pct = proficiencyMap[name] || 85;
+        const barEl = document.createElement('div');
+        barEl.className = 'tech-proficiency-bar';
+        barEl.innerHTML = '<div class="tech-proficiency-fill" style="--proficiency: ' + pct + '%"></div>';
+        cat.appendChild(barEl);
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('tc-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      categories.forEach(c => obs.observe(c));
+    })();
+
+    // ============================================
+    // FEATURE: SMOOTH NUMBER MORPHING (HERO STATS)
+    // ============================================
+    (function initNumberMorph() {
+      const statNumbers = document.querySelectorAll('.hero-stat-number');
+      statNumbers.forEach(el => {
+        const text = el.textContent.trim();
+        el.innerHTML = '';
+        [...text].forEach(char => {
+          if (/\d/.test(char)) {
+            const digit = parseInt(char);
+            const wrapper = document.createElement('span');
+            wrapper.className = 'morph-digit';
+            const inner = document.createElement('span');
+            inner.className = 'morph-digit-inner';
+            for (let i = 0; i <= digit; i++) {
+              const s = document.createElement('span');
+              s.textContent = i;
+              inner.appendChild(s);
+            }
+            wrapper.appendChild(inner);
+            el.appendChild(wrapper);
+          } else {
+            const s = document.createElement('span');
+            s.textContent = char;
+            s.style.display = 'inline-block';
+            el.appendChild(s);
+          }
+        });
+      });
+      // Animate on intersection
+      const statEls = document.querySelectorAll('.hero-stats');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const digits = entry.target.querySelectorAll('.morph-digit-inner');
+            digits.forEach((inner, i) => {
+              const count = inner.children.length - 1;
+              setTimeout(() => {
+                inner.style.transform = 'translateY(-' + (count * 1.1) + 'em)';
+              }, i * 80);
+            });
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      statEls.forEach(s => obs.observe(s));
     })();
 
     // Expose DB for debugging

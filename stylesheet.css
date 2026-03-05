@@ -6810,3 +6810,166 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+/* ============================================
+   FEATURE: THEME RIPPLE TRANSITION
+   ============================================ */
+.theme-ripple {
+  position: fixed;
+  border-radius: 50%;
+  z-index: 99997;
+  pointer-events: none;
+  transform: scale(0);
+  transition: none;
+}
+.theme-ripple.expanding {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+}
+
+/* ============================================
+   FEATURE: SCROLL TEXT HIGHLIGHT
+   ============================================ */
+.about-text .highlight-word {
+  transition: color 0.3s ease, opacity 0.3s ease;
+  opacity: 0.35;
+  color: var(--text-secondary);
+}
+.about-text .highlight-word.lit {
+  opacity: 1;
+  color: var(--text-primary);
+}
+
+/* ============================================
+   FEATURE: SVG WAVE SECTION DIVIDERS
+   ============================================ */
+.section-wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.section-wave svg {
+  display: block;
+  width: calc(100% + 2px);
+  height: 48px;
+}
+.section-wave svg path {
+  fill: var(--bg-dark);
+  opacity: 0.08;
+}
+.section-wave-top {
+  top: -1px;
+  bottom: auto;
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   FEATURE: BACK-TO-TOP PROGRESS RING
+   ============================================ */
+#backToTop {
+  position: relative;
+}
+.btt-progress-ring {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.btt-progress-ring circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.15s ease;
+}
+
+/* ============================================
+   FEATURE: FILM GRAIN TEXTURE OVERLAY
+   ============================================ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+[data-theme="light"] .grain-overlay {
+  opacity: 0.025;
+}
+
+/* ============================================
+   FEATURE: STAGGERED GRID ENTRANCE
+   ============================================ */
+.project-card.stagger-in {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-card.stagger-in.stagger-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ============================================
+   FEATURE: SCROLL-DRIVEN SKILL BARS
+   ============================================ */
+.tech-category {
+  position: relative;
+}
+.tech-proficiency-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+.tech-proficiency-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tech-category.tc-visible .tech-proficiency-fill {
+  width: var(--proficiency, 85%);
+}
+
+/* ============================================
+   FEATURE: SMOOTH NUMBER MORPHING (HERO STATS)
+   ============================================ */
+.hero-stat-number {
+  display: inline-flex;
+  overflow: hidden;
+}
+.morph-digit {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 1.1em;
+}
+.morph-digit-inner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.morph-digit-inner span {
+  height: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
