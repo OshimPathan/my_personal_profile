@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=43.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=44.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -605,7 +605,7 @@
           </div>
         </div>
         <h2 class="hero-big-name">
-          <span class="gradient-text glitch" data-text="Oshim Pathan">Oshim Pathan</span>
+          <span class="gradient-text gradient-shimmer glitch" data-text="Oshim Pathan">Oshim Pathan</span>
         </h2>
         <div class="dynamic-title-wrapper">
           <h1 class="hero-title">
@@ -617,6 +617,17 @@
         </div>
         <p class="hero-geo-greeting" id="geoGreeting"></p>
         <p class="hero-description">Software Engineer from Nepal specializing in AI-powered healthcare systems, cloud infrastructure, and full-stack development. VIT Vellore '26.</p>
+
+        <!-- Code Showcase -->
+        <div class="code-showcase" id="codeShowcase">
+          <div class="code-line"><span class="code-keyword">const</span> <span class="code-func">oshim</span> <span class="code-bracket">=</span> <span class="code-bracket">{</span></div>
+          <div class="code-line">&nbsp;&nbsp;<span class="code-prop">role</span>: <span class="code-string">'Full-Stack Engineer'</span>,</div>
+          <div class="code-line">&nbsp;&nbsp;<span class="code-prop">stack</span>: [<span class="code-string">'React'</span>, <span class="code-string">'FastAPI'</span>, <span class="code-string">'AI/ML'</span>],</div>
+          <div class="code-line">&nbsp;&nbsp;<span class="code-prop">passion</span>: <span class="code-string">'Healthcare x AI'</span>,</div>
+          <div class="code-line">&nbsp;&nbsp;<span class="code-prop">status</span>: <span class="code-string">'Open to work'</span> <span class="code-comment">// Let's connect!</span></div>
+          <div class="code-line"><span class="code-bracket">}</span>;</div>
+        </div>
+
         <div class="hero-cta-group">
           <a href="#projects" class="btn btn-primary magnetic">
             <span>View Projects</span>
@@ -6309,6 +6320,124 @@
         });
       }, { threshold: 0.5 });
       statEls.forEach(s => obs.observe(s));
+    })();
+
+    // ============================================
+    // FEATURE: PARALLAX DEPTH LAYERS
+    // ============================================
+    (function initParallaxDepth() {
+      const heroLeft = document.querySelector('.hero-col-left');
+      const heroRight = document.querySelector('.hero-col-right');
+      if (!heroLeft || !heroRight) return;
+      // Only on desktop
+      if (window.matchMedia('(hover: hover)').matches) {
+        document.addEventListener('mousemove', e => {
+          const cx = (e.clientX / window.innerWidth - 0.5) * 2;
+          const cy = (e.clientY / window.innerHeight - 0.5) * 2;
+          heroLeft.style.transform = `translate(${cx * -8}px, ${cy * -5}px)`;
+          heroRight.style.transform = `translate(${cx * 12}px, ${cy * 8}px)`;
+        });
+      }
+    })();
+
+    // ============================================
+    // FEATURE: ELASTIC OVERSCROLL BOUNCE
+    // ============================================
+    (function initElasticOverscroll() {
+      const body = document.body;
+      body.classList.add('elastic-overscroll');
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const st = window.scrollY;
+          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+          if (st <= 0) {
+            body.classList.add('bounce-top');
+            setTimeout(() => body.classList.remove('bounce-top'), 500);
+          } else if (st >= maxScroll - 2) {
+            body.classList.add('bounce-bottom');
+            setTimeout(() => body.classList.remove('bounce-bottom'), 500);
+          }
+          ticking = false;
+        });
+      }, { passive: true });
+    })();
+
+    // ============================================
+    // FEATURE: TYPING CODE SHOWCASE
+    // ============================================
+    (function initCodeShowcase() {
+      const showcase = document.getElementById('codeShowcase');
+      if (!showcase) return;
+      const lines = showcase.querySelectorAll('.code-line');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            lines.forEach((line, i) => {
+              setTimeout(() => line.classList.add('typed'), i * 300);
+            });
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      obs.observe(showcase);
+    })();
+
+    // ============================================
+    // FEATURE: ENHANCED GLASS HOVER DEPTH
+    // ============================================
+    (function initGlassDepth() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('hover-depth'));
+        card.addEventListener('mouseleave', () => card.classList.remove('hover-depth'));
+      });
+    })();
+
+    // ============================================
+    // FEATURE: ANIMATED SECTION NUMBER RIPPLE
+    // ============================================
+    (function initSectionNumRipple() {
+      document.querySelectorAll('.section-num').forEach(num => {
+        const ripple = document.createElement('span');
+        ripple.className = 'section-num-ripple';
+        num.style.position = 'relative';
+        num.appendChild(ripple);
+      });
+    })();
+
+    // ============================================
+    // FEATURE: PROJECT CARD LIVE PREVIEW
+    // ============================================
+    (function initProjectPreviews() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      document.querySelectorAll('.proj-link').forEach(link => {
+        const href = link.href;
+        if (!href || link.textContent.trim().toLowerCase() !== 'demo') return;
+        // Only for demo links
+        link.classList.add('proj-link-preview');
+        const tooltip = document.createElement('div');
+        tooltip.className = 'preview-tooltip';
+        tooltip.innerHTML = '<div class="preview-tooltip-label">Live Preview</div>';
+        link.appendChild(tooltip);
+        let loadedIframe = false;
+        link.addEventListener('mouseenter', () => {
+          if (!loadedIframe) {
+            const iframe = document.createElement('iframe');
+            iframe.src = href;
+            iframe.setAttribute('loading', 'lazy');
+            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+            tooltip.insertBefore(iframe, tooltip.firstChild);
+            loadedIframe = true;
+          }
+          tooltip.classList.add('visible');
+        });
+        link.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+        });
+      });
     })();
 
     // Expose DB for debugging
