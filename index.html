@@ -137,6 +137,10 @@
 </head>
 
 <body>
+  <!-- Custom Animated Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
   <!-- Skip to main content (accessibility) -->
   <a href="#hero" class="skip-to-content">Skip to main content</a>
 
@@ -589,7 +593,7 @@
           <h1 class="hero-title">
             <span class="static-text">I build </span>
             <span class="dynamic-text-container">
-              <span id="typed-role" class="dynamic-role">AI Systems</span><span class="cursor">|</span>
+              <span class="terminal-prefix">&gt;</span><span id="typed-role" class="dynamic-role">AI Systems</span><span class="cursor">|</span>
             </span>
           </h1>
         </div>
@@ -754,6 +758,10 @@
        ABOUT SECTION
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="about">
+    <div class="section-gradient-mesh" aria-hidden="true">
+      <div class="gradient-orb gradient-orb-1"></div>
+      <div class="gradient-orb gradient-orb-2"></div>
+    </div>
     <div class="section-inner">
       <h2 class="section-title reveal"><span class="section-num">01</span>About Me</h2>
       <div class="about-grid reveal reveal-left">
@@ -879,6 +887,10 @@
        PROJECTS SECTION (Blog-Style Grid)
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="projects">
+    <div class="section-gradient-mesh" aria-hidden="true">
+      <div class="gradient-orb gradient-orb-2"></div>
+      <div class="gradient-orb gradient-orb-3"></div>
+    </div>
     <div class="section-inner">
       <h2 class="section-title reveal"><span class="section-num">03</span>Projects</h2>
       <p class="section-subtitle reveal reveal-right">
@@ -1308,6 +1320,10 @@
        TECH STACK SECTION (Icon Grid)
        ═══════════════════════════════════════════ -->
   <section class="content-section" id="skills">
+    <div class="section-gradient-mesh" aria-hidden="true">
+      <div class="gradient-orb gradient-orb-1"></div>
+      <div class="gradient-orb gradient-orb-3"></div>
+    </div>
     <div class="section-inner">
       <h2 class="section-title reveal"><span class="section-num">07</span>Tech Stack</h2>
       <p class="section-subtitle reveal">Technologies I use to build production-grade systems.</p>
@@ -3481,32 +3497,8 @@
     }
 
     // ============================================
-    // COUNTER ANIMATION (Stats bar)
+    // COUNTER ANIMATION — replaced by Odometer system (see below)
     // ============================================
-    const counters = document.querySelectorAll('.counter');
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-          entry.target.dataset.animated = 'true';
-          const target = parseFloat(entry.target.dataset.count);
-          const isDecimal = entry.target.dataset.decimal === 'true';
-          const duration = 2000;
-          const startTime = performance.now();
-
-          function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = 1 - Math.pow(1 - progress, 4);
-            let current = target * ease;
-            entry.target.textContent = isDecimal ? current.toFixed(2) : Math.floor(current);
-            if (progress < 1) requestAnimationFrame(update);
-            else entry.target.textContent = isDecimal ? target.toFixed(2) : target;
-          }
-          requestAnimationFrame(update);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach(c => counterObserver.observe(c));
 
     // ============================================
     // BACK TO TOP BUTTON
@@ -5555,6 +5547,189 @@
     // DYNAMIC COPYRIGHT YEAR
     // ============================================
     document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+
+    // ============================================
+    // CUSTOM ANIMATED CURSOR
+    // ============================================
+    (function initCustomCursor() {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (isTouchDevice) return;
+
+      const cursor = document.getElementById('customCursor');
+      const ring = document.getElementById('cursorRing');
+      if (!cursor || !ring) return;
+
+      let mouseX = 0, mouseY = 0;
+      let ringX = 0, ringY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+      });
+
+      // Smooth ring follow
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      // Hover state for interactive elements
+      const hoverTargets = 'a, button, .btn, .nav-item, .filter-btn, .proj-link, .hero-social-link, .tech-icon-item, .highlight-card, .glass-card, .project-card, input, .accent-swatch';
+
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(hoverTargets)) {
+          cursor.classList.add('hovering');
+          ring.classList.add('hovering');
+        }
+      });
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(hoverTargets)) {
+          cursor.classList.remove('hovering');
+          ring.classList.remove('hovering');
+        }
+      });
+
+      // Click state
+      document.addEventListener('mousedown', () => {
+        cursor.classList.add('clicking');
+        ring.classList.add('clicking');
+      });
+      document.addEventListener('mouseup', () => {
+        cursor.classList.remove('clicking');
+        ring.classList.remove('clicking');
+      });
+
+      // Hide when leaving window
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+        ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+        ring.style.opacity = '1';
+      });
+    })();
+
+    // ============================================
+    // ENHANCED MAGNETIC BUTTON EFFECT
+    // ============================================
+    (function initMagneticButtons() {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (isTouchDevice) return;
+
+      document.querySelectorAll('.magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0, 0)';
+        });
+      });
+    })();
+
+    // ============================================
+    // ODOMETER-STYLE STAT COUNTERS
+    // ============================================
+    (function initOdometerCounters() {
+      // Override the existing counter animation with odometer style
+      const counters = document.querySelectorAll('.counter');
+      
+      function createOdometerDigits(el, targetStr) {
+        el.innerHTML = '';
+        el.style.display = 'inline-flex';
+        
+        targetStr.split('').forEach((char, i) => {
+          if (char === '.' || char === ',') {
+            const sep = document.createElement('span');
+            sep.textContent = char;
+            sep.style.display = 'inline-block';
+            el.appendChild(sep);
+            return;
+          }
+          
+          const digit = document.createElement('span');
+          digit.className = 'odometer-digit';
+          
+          const inner = document.createElement('span');
+          inner.className = 'odometer-digit-inner';
+          
+          // Create digits 0-9 in column
+          for (let j = 0; j <= 9; j++) {
+            const num = document.createElement('span');
+            num.textContent = j;
+            inner.appendChild(num);
+          }
+          
+          digit.appendChild(inner);
+          el.appendChild(digit);
+          
+          // Animate to target digit with stagger
+          const targetDigit = parseInt(char);
+          setTimeout(() => {
+            inner.style.transform = `translateY(-${targetDigit * 1.2}em)`;
+          }, 100 + i * 120);
+        });
+      }
+
+      const odoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.odoAnimated) {
+            entry.target.dataset.odoAnimated = 'true';
+            const target = parseFloat(entry.target.dataset.count);
+            const isDecimal = entry.target.dataset.decimal === 'true';
+            const targetStr = isDecimal ? target.toFixed(2) : String(Math.floor(target));
+            
+            createOdometerDigits(entry.target, targetStr);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      counters.forEach(c => odoObserver.observe(c));
+    })();
+
+    // ============================================
+    // SPLIT-TEXT SECTION TITLES
+    // ============================================
+    (function initSplitText() {
+      document.querySelectorAll('.section-title').forEach(title => {
+        // Get text nodes only (skip the section-num span)
+        const children = Array.from(title.childNodes);
+        const newContent = [];
+        
+        children.forEach(child => {
+          if (child.nodeType === 1) {
+            // Element node (like span.section-num) — keep as is
+            newContent.push(child.outerHTML);
+          } else if (child.nodeType === 3) {
+            // Text node — split into chars
+            const text = child.textContent;
+            const chars = text.split('').map((char, i) => {
+              if (char === ' ') return ' ';
+              return `<span class="split-char" style="transition-delay: ${i * 0.03}s">${char}</span>`;
+            }).join('');
+            newContent.push(chars);
+          }
+        });
+        
+        title.innerHTML = newContent.join('');
+      });
+    })();
+
+    // ============================================
+    // TECH ICON FLOAT INDEX (for staggered breathe)
+    // ============================================
+    document.querySelectorAll('.tech-icon-item').forEach((icon, i) => {
+      icon.style.setProperty('--i', i % 8);
+    });
   </script>
 
   <!-- Particles.js -->
