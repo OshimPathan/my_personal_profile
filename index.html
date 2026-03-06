@@ -31,7 +31,7 @@
   <meta name="keywords"
     content="Oshim Pathan, VIT Vellore, software engineer, full-stack developer, AI, cloud, Nepal, MAANG" />
 
-  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=44.0">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=45.0">
   <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
   <link rel="icon" type="image/png" href="images/favicon/android-chrome-192x192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
@@ -344,21 +344,6 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- ═══════════════════════════════════════════
-       VOICE NAVIGATION (Web Speech API)
-       ═══════════════════════════════════════════ -->
-  <button class="voice-nav-btn" id="voiceNavBtn" title="Voice Navigation (say 'go to projects', 'toggle theme', etc.)">
-    <svg class="voice-icon-idle" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-    <svg class="voice-icon-active" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
-    <span class="voice-pulse" aria-hidden="true"></span>
-  </button>
-  <div class="voice-feedback" id="voiceFeedback">
-    <div class="voice-feedback-inner">
-      <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-      <p class="voice-transcript" id="voiceTranscript">Listening...</p>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
        ACCENT COLOR CUSTOMIZER
        ═══════════════════════════════════════════ -->
   <div class="accent-picker" id="accentPicker">
@@ -394,42 +379,6 @@
   </button>
 
   <!-- ═══════════════════════════════════════════
-       AMBIENT SOUND SYSTEM
-       ═══════════════════════════════════════════ -->
-  <div class="ambient-sound" id="ambientSound">
-    <button class="ambient-toggle" id="ambientToggle" title="Toggle Ambient Sound">
-      <svg class="ambient-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-      <svg class="ambient-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-    </button>
-    <div class="ambient-panel" id="ambientPanel">
-      <div class="ambient-panel-title">Ambient Sounds</div>
-      <div class="ambient-tracks">
-        <button class="ambient-track active" data-track="rain" title="Rain">
-          <span class="ambient-track-icon">🌧️</span>
-          <span>Rain</span>
-        </button>
-        <button class="ambient-track" data-track="keyboard" title="Keyboard">
-          <span class="ambient-track-icon">⌨️</span>
-          <span>Typing</span>
-        </button>
-        <button class="ambient-track" data-track="lofi" title="Lo-fi">
-          <span class="ambient-track-icon">🎵</span>
-          <span>Lo-fi</span>
-        </button>
-        <button class="ambient-track" data-track="nature" title="Nature">
-          <span class="ambient-track-icon">🌿</span>
-          <span>Nature</span>
-        </button>
-      </div>
-      <div class="ambient-volume-row">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
-        <input type="range" id="ambientVolume" min="0" max="100" value="30" class="ambient-slider">
-        <span id="ambientVolVal">30%</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
        🌈 CURSOR TRAIL PICKER
        ═══════════════════════════════════════════ -->
   <div class="trail-picker" id="trailPicker">
@@ -449,11 +398,6 @@
     </div>
   </div>
   <canvas id="trailCanvas" style="position:fixed;inset:0;z-index:9989;pointer-events:none;"></canvas>
-
-  <!-- ═══════════════════════════════════════════
-       📊 AUDIO VISUALIZER BAR
-       ═══════════════════════════════════════════ -->
-  <canvas id="audioVisualizerCanvas" style="position:fixed;bottom:0;left:0;width:100%;height:60px;z-index:9985;pointer-events:none;opacity:0;transition:opacity 0.5s;"></canvas>
 
   <!-- ═══════════════════════════════════════════
        🧬 VISITOR FINGERPRINT ART
@@ -507,9 +451,7 @@
         <div class="shortcut-item"><kbd>G</kbd><span class="shortcut-desc">Go to GitHub</span></div>
         <div class="shortcut-item"><kbd>H</kbd><span class="shortcut-desc">Go Home</span></div>
         <div class="shortcut-item"><kbd>Esc</kbd><span class="shortcut-desc">Close Modals</span></div>
-        <div class="shortcut-item"><kbd>V</kbd><span class="shortcut-desc">Voice Navigation</span></div>
         <div class="shortcut-item"><kbd>S</kbd><span class="shortcut-desc">Spotlight Mode</span></div>
-        <div class="shortcut-item"><kbd>M</kbd><span class="shortcut-desc">Ambient Sound</span></div>
         <div class="shortcut-item"><kbd>C</kbd><span class="shortcut-desc">Color Picker</span></div>
         <div class="shortcut-item"><kbd>T</kbd><span class="shortcut-desc">Cursor Trail</span></div>
         <div class="shortcut-item"><kbd>F</kbd><span class="shortcut-desc">Fingerprint Art</span></div>
@@ -4320,122 +4262,7 @@
     })();
 
     // ============================================
-    // 🎤 VOICE NAVIGATION (Web Speech API)
-    // ============================================
-    (function() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        const btn = document.getElementById('voiceNavBtn');
-        if (btn) btn.style.display = 'none';
-        return;
-      }
-
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
-
-      const voiceBtn = document.getElementById('voiceNavBtn');
-      const feedback = document.getElementById('voiceFeedback');
-      const transcript = document.getElementById('voiceTranscript');
-      let isListening = false;
-
-      const voiceCommands = {
-        'home':       () => { document.getElementById('hero')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Home'; },
-        'about':      () => { document.getElementById('about')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to About'; },
-        'projects':   () => { document.getElementById('projects')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Projects'; },
-        'skills':     () => { document.getElementById('techstack')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Skills'; },
-        'tech':       () => { document.getElementById('techstack')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Tech Stack'; },
-        'experience': () => { document.getElementById('experience')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Experience'; },
-        'patents':    () => { document.getElementById('patents')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Patents'; },
-        'contact':    () => { document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); return 'Navigating to Contact'; },
-        'theme':      () => { document.getElementById('themeToggle')?.click(); return 'Theme toggled'; },
-        'dark':       () => { if (document.documentElement.getAttribute('data-theme')!=='dark') document.getElementById('themeToggle')?.click(); return 'Dark mode'; },
-        'light':      () => { if (document.documentElement.getAttribute('data-theme')!=='light') document.getElementById('themeToggle')?.click(); return 'Light mode'; },
-        'github':     () => { window.open('https://github.com/OshimPathan','_blank'); return 'Opening GitHub'; },
-        'linkedin':   () => { window.open('https://linkedin.com/in/oshim7786','_blank'); return 'Opening LinkedIn'; },
-        'resume':     () => { window.open('data/Update_Resume(7).pdf','_blank'); return 'Opening Resume'; },
-        'top':        () => { window.scrollTo({top:0,behavior:'smooth'}); return 'Scrolling to top'; },
-        'bottom':     () => { window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); return 'Scrolling to bottom'; },
-        'command':    () => { document.getElementById('cmdTrigger')?.click(); return 'Opening Command Palette'; },
-        'spotlight':  () => { document.getElementById('spotlightToggle')?.click(); return 'Spotlight toggled'; },
-        'sound':      () => { document.getElementById('ambientToggle')?.click(); return 'Sound toggled'; },
-        'music':      () => { document.getElementById('ambientToggle')?.click(); return 'Sound toggled'; },
-      };
-
-      function startListening() {
-        isListening = true;
-        voiceBtn.classList.add('listening');
-        feedback.classList.add('active');
-        transcript.textContent = 'Listening...';
-        recognition.start();
-      }
-
-      function stopListening() {
-        isListening = false;
-        voiceBtn.classList.remove('listening');
-        recognition.stop();
-        setTimeout(() => feedback.classList.remove('active'), 800);
-      }
-
-      voiceBtn.addEventListener('click', () => {
-        if (isListening) stopListening();
-        else startListening();
-      });
-
-      recognition.onresult = (event) => {
-        let finalText = '';
-        let interimText = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const t = event.results[i][0].transcript;
-          if (event.results[i].isFinal) finalText += t;
-          else interimText += t;
-        }
-        transcript.textContent = finalText || interimText || 'Listening...';
-
-        if (finalText) {
-          const words = finalText.toLowerCase().trim().split(/\s+/);
-          let matched = false;
-          // Try multi-word then single-word matching
-          const full = words.join(' ');
-          for (const [key, fn] of Object.entries(voiceCommands)) {
-            if (full.includes(key)) {
-              const msg = fn();
-              transcript.textContent = '✓ ' + msg;
-              if (typeof showToast === 'function') showToast('🎤', msg);
-              matched = true;
-              break;
-            }
-          }
-          if (!matched) {
-            transcript.textContent = '✗ Command not recognized';
-          }
-          setTimeout(stopListening, 1200);
-        }
-      };
-
-      recognition.onerror = (e) => {
-        transcript.textContent = 'Error: ' + e.error;
-        setTimeout(stopListening, 1500);
-      };
-
-      recognition.onend = () => {
-        if (isListening) stopListening();
-      };
-
-      // Keyboard shortcut: V
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'v' && !e.ctrlKey && !e.metaKey && !e.altKey &&
-            !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) {
-          e.preventDefault();
-          if (isListening) stopListening();
-          else startListening();
-        }
-      });
-    })();
-
-    // ============================================
-    // 🎨 ACCENT COLOR CUSTOMIZER
+    //  ACCENT COLOR CUSTOMIZER
     // ============================================
     (function() {
       const toggle = document.getElementById('accentToggle');
@@ -4565,250 +4392,7 @@
     })();
 
     // ============================================
-    // 🎵 AMBIENT SOUND SYSTEM
-    // ============================================
-    (function() {
-      const toggleBtn = document.getElementById('ambientToggle');
-      const panel = document.getElementById('ambientPanel');
-      const volumeSlider = document.getElementById('ambientVolume');
-      const volumeVal = document.getElementById('ambientVolVal');
-      const tracks = document.querySelectorAll('.ambient-track');
-      let audioCtx = null;
-      let isPlaying = false;
-      let currentSource = null;
-      let gainNode = null;
-      let noiseInterval = null;
-
-      // Procedural audio generators (no external files needed!)
-      function createAudioContext() {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          gainNode = audioCtx.createGain();
-          gainNode.gain.value = parseInt(volumeSlider.value) / 100;
-          gainNode.connect(audioCtx.destination);
-          // Expose for audio visualizer
-          window._ambientAudioCtx = audioCtx;
-          window._ambientGainNode = gainNode;
-        }
-        return audioCtx;
-      }
-
-      function stopCurrent() {
-        if (currentSource) {
-          try { currentSource.stop(); } catch(e) {}
-          currentSource = null;
-        }
-        if (noiseInterval) {
-          clearInterval(noiseInterval);
-          noiseInterval = null;
-        }
-      }
-
-      // Rain: filtered white noise with rhythmic modulation
-      function playRain() {
-        const ctx = createAudioContext();
-        stopCurrent();
-        const bufferSize = 2 * ctx.sampleRate;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-        const source = ctx.createBufferSource();
-        source.buffer = buffer;
-        source.loop = true;
-
-        const lpf = ctx.createBiquadFilter();
-        lpf.type = 'lowpass';
-        lpf.frequency.value = 800;
-        lpf.Q.value = 0.7;
-
-        const hpf = ctx.createBiquadFilter();
-        hpf.type = 'highpass';
-        hpf.frequency.value = 200;
-
-        source.connect(lpf);
-        lpf.connect(hpf);
-        hpf.connect(gainNode);
-        source.start();
-        currentSource = source;
-
-        // Add rain drop accents
-        noiseInterval = setInterval(() => {
-          if (!isPlaying) return;
-          const osc = ctx.createOscillator();
-          const dropGain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = 2000 + Math.random() * 4000;
-          dropGain.gain.setValueAtTime(0.02, ctx.currentTime);
-          dropGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-          osc.connect(dropGain);
-          dropGain.connect(gainNode);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.1);
-        }, 200 + Math.random() * 400);
-      }
-
-      // Keyboard typing: rhythmic clicks
-      function playKeyboard() {
-        const ctx = createAudioContext();
-        stopCurrent();
-        // Create a silent source to keep context alive
-        const silence = ctx.createBufferSource();
-        const silBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
-        silence.buffer = silBuf;
-        silence.loop = true;
-        silence.connect(gainNode);
-        silence.start();
-        currentSource = silence;
-
-        noiseInterval = setInterval(() => {
-          if (!isPlaying) return;
-          const osc = ctx.createOscillator();
-          const clickGain = ctx.createGain();
-          osc.type = 'square';
-          osc.frequency.value = 800 + Math.random() * 1200;
-          clickGain.gain.setValueAtTime(0.08, ctx.currentTime);
-          clickGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
-          osc.connect(clickGain);
-          clickGain.connect(gainNode);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.03);
-        }, 60 + Math.random() * 120);
-      }
-
-      // Lo-fi: mellow oscillators with filter sweep
-      function playLofi() {
-        const ctx = createAudioContext();
-        stopCurrent();
-
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
-        osc1.type = 'sine';
-        osc2.type = 'triangle';
-        osc1.frequency.value = 220;
-        osc2.frequency.value = 330;
-
-        const lpf = ctx.createBiquadFilter();
-        lpf.type = 'lowpass';
-        lpf.frequency.value = 600;
-        lpf.Q.value = 5;
-
-        const lofiGain = ctx.createGain();
-        lofiGain.gain.value = 0.15;
-
-        osc1.connect(lofiGain);
-        osc2.connect(lofiGain);
-        lofiGain.connect(lpf);
-        lpf.connect(gainNode);
-        osc1.start();
-        osc2.start();
-        currentSource = osc1;
-
-        // Sweep the filter
-        let dir = 1;
-        noiseInterval = setInterval(() => {
-          lpf.frequency.value += dir * 20;
-          if (lpf.frequency.value > 1200) dir = -1;
-          if (lpf.frequency.value < 300) dir = 1;
-        }, 100);
-      }
-
-      // Nature: layered filtered noise with bird chirps
-      function playNature() {
-        const ctx = createAudioContext();
-        stopCurrent();
-        const bufferSize = 2 * ctx.sampleRate;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-        const source = ctx.createBufferSource();
-        source.buffer = buffer;
-        source.loop = true;
-
-        const lpf = ctx.createBiquadFilter();
-        lpf.type = 'lowpass';
-        lpf.frequency.value = 400;
-        lpf.Q.value = 0.5;
-
-        source.connect(lpf);
-        lpf.connect(gainNode);
-        source.start();
-        currentSource = source;
-
-        // Bird chirps
-        noiseInterval = setInterval(() => {
-          if (!isPlaying) return;
-          const osc = ctx.createOscillator();
-          const chirpGain = ctx.createGain();
-          osc.type = 'sine';
-          const baseFreq = 2000 + Math.random() * 3000;
-          osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-          osc.frequency.linearRampToValueAtTime(baseFreq + 500, ctx.currentTime + 0.05);
-          osc.frequency.linearRampToValueAtTime(baseFreq - 200, ctx.currentTime + 0.1);
-          chirpGain.gain.setValueAtTime(0.04, ctx.currentTime);
-          chirpGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-          osc.connect(chirpGain);
-          chirpGain.connect(gainNode);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.15);
-        }, 1000 + Math.random() * 3000);
-      }
-
-      const generators = { rain: playRain, keyboard: playKeyboard, lofi: playLofi, nature: playNature };
-      let currentTrack = 'rain';
-
-      function play() {
-        isPlaying = true;
-        toggleBtn.classList.add('playing');
-        generators[currentTrack]();
-      }
-
-      function stop() {
-        isPlaying = false;
-        toggleBtn.classList.remove('playing');
-        stopCurrent();
-      }
-
-      toggleBtn.addEventListener('click', () => {
-        panel.classList.toggle('open');
-      });
-
-      tracks.forEach(t => {
-        t.addEventListener('click', () => {
-          tracks.forEach(tr => tr.classList.remove('active'));
-          t.classList.add('active');
-          currentTrack = t.dataset.track;
-          if (isPlaying) { stopCurrent(); generators[currentTrack](); }
-          else play();
-        });
-      });
-
-      volumeSlider.addEventListener('input', () => {
-        const v = parseInt(volumeSlider.value) / 100;
-        volumeVal.textContent = volumeSlider.value + '%';
-        if (gainNode) gainNode.gain.value = v;
-      });
-
-      // Close panel on outside click
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.ambient-sound')) {
-          panel.classList.remove('open');
-        }
-      });
-
-      // Keyboard shortcut: M
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'm' && !e.ctrlKey && !e.metaKey && !e.altKey &&
-            !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) {
-          if (isPlaying) stop();
-          else play();
-        }
-      });
-    })();
-
-    // ============================================
-    // 🌈 SCROLL-BASED GRADIENT SHIFT
+    //  SCROLL-BASED GRADIENT SHIFT
     // ============================================
     (function() {
       const body = document.body;
@@ -5130,72 +4714,6 @@
         console.log('%c🌈 WHOA! You found the secret!', 'color: #f472b6; font-size: 16px; font-weight: bold;');
         return '🎨 Enjoy the temporary color shift!';
       };
-    })();
-
-    // ============================================
-    // 📊 REAL-TIME AUDIO VISUALIZER
-    // ============================================
-    (function() {
-      const visCanvas = document.getElementById('audioVisualizerCanvas');
-      if (!visCanvas) return;
-      const visCtx = visCanvas.getContext('2d');
-      let analyser = null;
-      let dataArray = null;
-      let visActive = false;
-      let visRAF = null;
-
-      // Hook into the ambient sound system — watch for audioContext/analyser
-      const originalAmbientToggle = document.getElementById('ambientToggle');
-      if (originalAmbientToggle) {
-        const observer = new MutationObserver(() => {
-          if (originalAmbientToggle.classList.contains('playing')) {
-            // Try to hook analyser
-            setTimeout(hookAnalyser, 300);
-          } else {
-            visCanvas.style.opacity = '0';
-            visActive = false;
-          }
-        });
-        observer.observe(originalAmbientToggle, { attributes: true, attributeFilter: ['class'] });
-      }
-
-      function hookAnalyser() {
-        // The ambient sound system should expose its audioContext
-        if (window._ambientAudioCtx && !analyser) {
-          analyser = window._ambientAudioCtx.createAnalyser();
-          analyser.fftSize = 128;
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
-          if (window._ambientGainNode) {
-            window._ambientGainNode.connect(analyser);
-          }
-        }
-        if (analyser) {
-          visActive = true;
-          visCanvas.style.opacity = '1';
-          if (!visRAF) drawVisualizer();
-        }
-      }
-
-      function drawVisualizer() {
-        if (!visActive || !analyser) { visRAF = null; return; }
-        visRAF = requestAnimationFrame(drawVisualizer);
-        const W = visCanvas.width = visCanvas.offsetWidth;
-        const H = visCanvas.height = 60;
-        analyser.getByteFrequencyData(dataArray);
-        visCtx.clearRect(0, 0, W, H);
-        const barW = (W / dataArray.length) * 1.5;
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-
-        dataArray.forEach((val, i) => {
-          const barH = (val / 255) * H * 0.8;
-          const x = i * (barW + 2);
-          const hue = (i / dataArray.length) * 120 + 200;
-          visCtx.fillStyle = isLight
-            ? `hsla(${hue}, 60%, 50%, 0.6)`
-            : `hsla(${hue}, 80%, 60%, 0.7)`;
-          visCtx.fillRect(x, H - barH, barW, barH);
-        });
-      }
     })();
 
     // ============================================

@@ -5425,135 +5425,7 @@ body {
 }
 
 /* ============================================
-   🎤 VOICE NAVIGATION
-   ============================================ */
-.voice-nav-btn {
-  position: fixed;
-  bottom: 92px;
-  right: 25px;
-  z-index: 9998;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.voice-nav-btn:hover {
-  background: rgba(99, 102, 241, 0.15);
-  border-color: rgba(99, 102, 241, 0.3);
-  color: #a5b4fc;
-  transform: scale(1.08);
-}
-
-.voice-nav-btn .voice-icon-active { display: none; }
-.voice-nav-btn.listening .voice-icon-idle { display: none; }
-.voice-nav-btn.listening .voice-icon-active { display: block; color: #ef4444; }
-
-.voice-nav-btn.listening {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
-  animation: voicePulse 1.5s infinite;
-}
-
-.voice-pulse {
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid rgba(239, 68, 68, 0.4);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.voice-nav-btn.listening .voice-pulse {
-  animation: voiceRingPulse 1.5s infinite;
-}
-
-@keyframes voicePulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
-  50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
-}
-
-@keyframes voiceRingPulse {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-.voice-feedback {
-  position: fixed;
-  bottom: 92px;
-  right: 82px;
-  z-index: 9999;
-  opacity: 0;
-  transform: translateY(10px) scale(0.95);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-}
-
-.voice-feedback.active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.voice-feedback-inner {
-  background: rgba(15, 23, 42, 0.85);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 16px 20px;
-  min-width: 200px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.voice-wave {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  height: 24px;
-  margin-bottom: 8px;
-}
-
-.voice-wave span {
-  width: 3px;
-  height: 8px;
-  background: #ef4444;
-  border-radius: 2px;
-  animation: voiceWave 0.8s ease-in-out infinite;
-}
-
-.voice-wave span:nth-child(1) { animation-delay: 0s; }
-.voice-wave span:nth-child(2) { animation-delay: 0.1s; }
-.voice-wave span:nth-child(3) { animation-delay: 0.2s; }
-.voice-wave span:nth-child(4) { animation-delay: 0.3s; }
-.voice-wave span:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes voiceWave {
-  0%, 100% { height: 8px; }
-  50% { height: 20px; }
-}
-
-.voice-transcript {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
-  font-family: var(--font-mono);
-}
-
-/* ============================================
-   🎨 ACCENT COLOR CUSTOMIZER
+    ACCENT COLOR CUSTOMIZER
    ============================================ */
 .accent-picker {
   position: fixed;
@@ -5760,180 +5632,26 @@ body {
 }
 
 /* ============================================
-   🎵 AMBIENT SOUND SYSTEM
-   ============================================ */
-.ambient-sound {
-  position: fixed;
-  bottom: 92px;
-  left: 25px;
-  z-index: 9998;
-}
-
-.ambient-toggle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-}
-
-.ambient-toggle:hover {
-  background: rgba(16, 185, 129, 0.15);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #34d399;
-  transform: scale(1.08);
-}
-
-.ambient-toggle .ambient-icon-on { display: none; }
-.ambient-toggle.playing .ambient-icon-off { display: none; }
-.ambient-toggle.playing .ambient-icon-on { display: block; color: #34d399; }
-
-.ambient-toggle.playing {
-  background: rgba(16, 185, 129, 0.15);
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-}
-
-.ambient-panel {
-  position: absolute;
-  bottom: 56px;
-  left: 0;
-  background: rgba(15, 23, 42, 0.9);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 18px;
-  width: 220px;
-  opacity: 0;
-  transform: translateY(10px) scale(0.95);
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
-
-.ambient-panel.open {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.ambient-panel-title {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 14px;
-}
-
-.ambient-tracks {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.ambient-track {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 8px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.68rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.ambient-track:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.ambient-track.active {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #34d399;
-}
-
-.ambient-track-icon {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.ambient-volume-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.ambient-volume-row span {
-  font-size: 0.68rem;
-  min-width: 28px;
-}
-
-.ambient-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  outline: none;
-}
-
-.ambient-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #34d399;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-}
-
-/* ============================================
    LIGHT THEME — NEW FEATURE OVERRIDES
    ============================================ */
-[data-theme="light"] .voice-nav-btn,
 [data-theme="light"] .accent-picker-toggle,
-[data-theme="light"] .spotlight-toggle,
-[data-theme="light"] .ambient-toggle {
+[data-theme="light"] .spotlight-toggle {
   background: rgba(255, 255, 255, 0.8);
   border-color: rgba(0, 0, 0, 0.1);
   color: #475569;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-[data-theme="light"] .voice-nav-btn:hover { color: var(--accent); background: rgba(79,70,229,0.06); }
 [data-theme="light"] .accent-picker-toggle:hover { color: var(--accent); }
 [data-theme="light"] .spotlight-toggle:hover { color: #d97706; }
-[data-theme="light"] .ambient-toggle:hover { color: #059669; }
 
-[data-theme="light"] .voice-feedback-inner,
-[data-theme="light"] .accent-panel,
-[data-theme="light"] .ambient-panel {
+[data-theme="light"] .accent-panel {
   background: rgba(255, 255, 255, 0.92);
   border-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-[data-theme="light"] .accent-panel-title,
-[data-theme="light"] .ambient-panel-title {
+[data-theme="light"] .accent-panel-title {
   color: #64748b;
 }
 
@@ -5950,26 +5668,6 @@ body {
   color: #64748b;
 }
 
-[data-theme="light"] .voice-transcript {
-  color: #1e293b;
-}
-
-[data-theme="light"] .ambient-track {
-  border-color: rgba(0, 0, 0, 0.06);
-  color: #64748b;
-}
-
-[data-theme="light"] .ambient-track.active {
-  background: rgba(16, 185, 129, 0.08);
-  color: #059669;
-}
-
-[data-theme="light"] .ambient-volume-row { color: #94a3b8; }
-
-[data-theme="light"] .ambient-slider {
-  background: rgba(0, 0, 0, 0.08);
-}
-
 [data-theme="light"] .spotlight-overlay {
   background: radial-gradient(
     circle 180px at var(--spot-x, 50%) var(--spot-y, 50%),
@@ -5982,14 +5680,10 @@ body {
    MOBILE RESPONSIVE — NEW FEATURES
    ============================================ */
 @media (max-width: 768px) {
-  .voice-nav-btn { width: 40px; height: 40px; bottom: 78px; right: 16px; }
   .spotlight-toggle { width: 36px; height: 36px; bottom: 128px; right: 16px; }
   .accent-picker { bottom: 128px; left: 16px; }
   .accent-picker-toggle { width: 36px; height: 36px; }
-  .ambient-sound { bottom: 78px; left: 16px; }
-  .ambient-toggle { width: 40px; height: 40px; }
-  .accent-panel, .ambient-panel { width: 190px; }
-  .voice-feedback { bottom: 130px; right: 16px; }
+  .accent-panel { width: 190px; }
 }
 
 /* ============================================
@@ -7156,4 +6850,86 @@ html {
   text-align: center;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+}
+
+/* ============================================
+   COMPREHENSIVE LIGHT MODE FIXES
+   ============================================ */
+
+/* Terminal prefix — darken green for light bg */
+[data-theme="light"] .terminal-prefix {
+  color: #15803d;
+}
+
+/* Code showcase syntax colors — darker/higher-contrast for light bg */
+[data-theme="light"] .code-keyword { color: #7c3aed; }
+[data-theme="light"] .code-string { color: #059669; }
+[data-theme="light"] .code-comment { color: #94a3b8; }
+[data-theme="light"] .code-func { color: #2563eb; }
+[data-theme="light"] .code-prop { color: #db2777; }
+[data-theme="light"] .code-bracket { color: #64748b; }
+
+/* Highlight word — ensure readable on light */
+[data-theme="light"] .about-text .highlight-word {
+  opacity: 0.4;
+  color: #334155;
+}
+[data-theme="light"] .about-text .highlight-word.lit {
+  opacity: 1;
+  color: #0f172a;
+}
+
+/* Tech proficiency bar — make track visible on white */
+[data-theme="light"] .tech-proficiency-bar {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+/* Section wave divider — increase opacity for light mode */
+[data-theme="light"] .section-wave svg path {
+  fill: #e2e8f0;
+  opacity: 0.5;
+}
+
+/* Preview tooltip — soften shadows for light mode */
+[data-theme="light"] .preview-tooltip {
+  border-color: rgba(79, 70, 229, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] .preview-tooltip-label {
+  background: rgba(255, 255, 255, 0.85);
+  color: #475569;
+}
+
+/* Copy toast — soften shadow for light */
+[data-theme="light"] .copy-toast {
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+}
+
+/* Grain overlay — reduce for light mode */
+[data-theme="light"] .grain-overlay {
+  opacity: 0.015;
+  mix-blend-mode: multiply;
+}
+
+/* Section number ripple — adapt for light */
+[data-theme="light"] .section-num-ripple {
+  border-color: var(--accent);
+}
+
+/* Gradient shimmer — use darker gradient for light bg */
+[data-theme="light"] .gradient-shimmer {
+  background: linear-gradient(90deg, var(--accent), #0891b2, #7c3aed, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Shortcuts modal — ensure visibility in light mode */
+[data-theme="light"] .shortcuts-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Back to top button — light mode */
+[data-theme="light"] #backToTop {
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
