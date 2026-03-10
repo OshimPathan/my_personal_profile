@@ -103,6 +103,15 @@
     /* Reveal elements visible by default */
     .reveal { opacity: 1 !important; transform: none !important; }
 
+    /* Safety: ensure tech icons and project cards are visible even if JS observers fail */
+    .tech-icon-item { opacity: 1 !important; transform: none !important; }
+    .tech-icon-item.tech-visible { opacity: 1 !important; transform: none !important; }
+    .project-card.stagger-in { opacity: 1 !important; transform: none !important; }
+    .project-card.stagger-in.stagger-visible { opacity: 1 !important; transform: none !important; }
+
+    /* Ensure about text words are always readable */
+    .about-text .highlight-word { opacity: 0.7 !important; }
+
     /* Preloader: auto-hide at 2.5s via CSS */
     .preloader {
       animation: killPreloader 0.5s ease 2.5s forwards !important;
@@ -129,8 +138,9 @@
 </head>
 
 <body>
-  <!-- Custom Animated Cursor -->
+  <!-- Custom Cursor (single system) -->
   <div class="custom-cursor" id="customCursor"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- Skip to main content (accessibility) -->
@@ -239,9 +249,7 @@
     })();
   </script>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <!-- Cursor elements moved above (single set) -->
 
   <!-- Page-leave transition overlay -->
   <div class="page-leave-overlay" id="pageLeaveOverlay" aria-hidden="true">
@@ -1853,15 +1861,15 @@
       const isLowEnd = isMobile && (navigator.hardwareConcurrency || 4) <= 4;
       const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
-      // Quality tiers
+      // Quality tiers — reduced counts for performance
       const Q = {
-        stars:       isLowEnd ? 400 : isMobile ? 700 : 1400,
-        spiralStars: isLowEnd ? 200 : isMobile ? 350 : 800,
-        dustClouds:  isLowEnd ? 8 : isMobile ? 15 : 30,
-        constellations: isLowEnd ? 0 : isMobile ? 4 : 8,
+        stars:       isLowEnd ? 250 : isMobile ? 400 : 700,
+        spiralStars: isLowEnd ? 100 : isMobile ? 200 : 400,
+        dustClouds:  isLowEnd ? 4 : isMobile ? 8 : 15,
+        constellations: isLowEnd ? 0 : isMobile ? 3 : 5,
         enableGlow:  !isLowEnd,
         enableDust:  true,
-        shooterInterval: isLowEnd ? 6 : 3,
+        shooterInterval: isLowEnd ? 8 : 4,
         parallaxStrength: isMobile ? 8 : 20,
       };
 
@@ -1896,9 +1904,21 @@
 
       // Visibility API — pause when tab hidden
       document.addEventListener('visibilitychange', () => {
-        isVisible = !document.hidden;
+        isVisible = !document.hidden && isHeroVisible;
         if (isVisible) lastTime = performance.now();
       });
+
+      // IntersectionObserver — pause galaxy when hero section is scrolled off screen
+      let isHeroVisible = true;
+      const heroSection = document.getElementById('hero');
+      if (heroSection) {
+        const galaxyObserver = new IntersectionObserver((entries) => {
+          isHeroVisible = entries[0].isIntersecting;
+          isVisible = !document.hidden && isHeroVisible;
+          if (isVisible) lastTime = performance.now();
+        }, { threshold: 0.05 });
+        galaxyObserver.observe(heroSection);
+      }
 
       // --- Star field with 3D depth layers ---
       const STAR_COUNT = Q.stars;
@@ -2649,13 +2669,12 @@
 
       resize();
 
-      // ── Animation loop ──
-      function animate() {
-        if (!isVisible) { requestAnimationFrame(animate); return; }
-        draw();
-        requestAnimationFrame(animate);
-      }
-      animate();
+      // ── Optimized animation — use setInterval instead of rAF for a slow pulse ──
+      // The only animated element is the Nepal pulse dot — no need for 60fps
+      draw(); // initial render
+      setInterval(() => {
+        if (isVisible) draw();
+      }, 100); // 10fps is plenty for the pulse animation
 
     })(); } catch(e) { console.warn('WorldMap init failed:', e); }
 
@@ -3039,61 +3058,8 @@
     fetchGitHubStreak();
     setInterval(fetchGitHubStreak, 600000);
 
-    // ============================================
-    // CUSTOM CURSOR
-    // ============================================
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorRing = document.getElementById('cursorRing');
-    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.left = mouseX + 'px';
-      cursorDot.style.top = mouseY + 'px';
-    });
-
-    function animateCursorRing() {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
-      cursorRing.style.left = ringX + 'px';
-      cursorRing.style.top = ringY + 'px';
-      requestAnimationFrame(animateCursorRing);
-    }
-    animateCursorRing();
-
-    // Cursor hover effects
-    document.querySelectorAll('a, button, .magnetic, .project-card, .glass-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursorRing.classList.add('cursor-hover');
-        cursorDot.classList.add('cursor-hover');
-      });
-      el.addEventListener('mouseleave', () => {
-        cursorRing.classList.remove('cursor-hover');
-        cursorDot.classList.remove('cursor-hover');
-      });
-    });
-
-    // Hide cursor on mobile
-    if ('ontouchstart' in window) {
-      cursorDot.style.display = 'none';
-      cursorRing.style.display = 'none';
-    }
-
-    // ============================================
-    // MAGNETIC BUTTON EFFECT
-    // ============================================
-    document.querySelectorAll('.magnetic').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate(0, 0)';
-      });
-    });
+    // CUSTOM CURSOR — removed duplicate system (kept enhanced version below)
+    // MAGNETIC BUTTON — removed duplicate (kept enhanced version below)
 
     // ============================================
     // NAVBAR SCROLL EFFECT & ACTIVE SECTION
@@ -3124,24 +3090,30 @@
       if (active) moveIndicator(active);
     });
 
+    let navScrollTicking = false;
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      scrollProgress.style.width = scrollPercent + '%';
+      if (navScrollTicking) return;
+      navScrollTicking = true;
+      requestAnimationFrame(() => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollProgress.style.width = scrollPercent + '%';
 
-      let current = 'hero';
-      sections.forEach(s => {
-        if (s.getBoundingClientRect().top <= 160) current = s.id;
+        let current = 'hero';
+        sections.forEach(s => {
+          if (s.getBoundingClientRect().top <= 160) current = s.id;
+        });
+        navItems.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+        });
+        const active = document.querySelector('.nav-item.active');
+        if (active) moveIndicator(active);
+        navScrollTicking = false;
       });
-      navItems.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-      });
-      const active = document.querySelector('.nav-item.active');
-      if (active) moveIndicator(active);
-    });
+    }, { passive: true });
 
     requestAnimationFrame(() => {
       const active = document.querySelector('.nav-item.active');
@@ -3400,9 +3372,15 @@
     // BACK TO TOP BUTTON
     // ============================================
     const backToTopBtn = document.getElementById('backToTop');
+    let bttTicking = false;
     window.addEventListener('scroll', () => {
-      backToTopBtn.classList.toggle('visible', window.scrollY > 500);
-    });
+      if (bttTicking) return;
+      bttTicking = true;
+      requestAnimationFrame(() => {
+        backToTopBtn.classList.toggle('visible', window.scrollY > 500);
+        bttTicking = false;
+      });
+    }, { passive: true });
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -3822,16 +3800,23 @@
       };
 
       let currentSection = 'hero';
+      // Cache sections once instead of querySelectorAll on every scroll
+      const allSec = document.querySelectorAll('.content-section, .hero-section, .footer-section');
+      let titleScrollTicking = false;
       window.addEventListener('scroll', () => {
-        const allSec = document.querySelectorAll('.content-section, .hero-section, .footer-section');
-        let active = 'hero';
-        allSec.forEach(s => {
-          if (s.getBoundingClientRect().top <= 200) active = s.id;
+        if (titleScrollTicking) return;
+        titleScrollTicking = true;
+        requestAnimationFrame(() => {
+          let active = 'hero';
+          allSec.forEach(s => {
+            if (s.getBoundingClientRect().top <= 200) active = s.id;
+          });
+          if (active !== currentSection) {
+            currentSection = active;
+            document.title = sectionTitles[active] || baseTitle;
+          }
+          titleScrollTicking = false;
         });
-        if (active !== currentSection) {
-          currentSection = active;
-          document.title = sectionTitles[active] || baseTitle;
-        }
       }, { passive: true });
 
       // Visibility changes
@@ -4148,121 +4133,7 @@
       }, { passive: true });
     })();
 
-    // ============================================
-    // ✨ INTERACTIVE GRAVITY PARTICLES
-    // ============================================
-    (function() {
-      const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768;
-      if (isMobile) return; // Skip on mobile for performance
-
-      const canvas = document.createElement('canvas');
-      canvas.id = 'gravityParticles';
-      canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.6;';
-      document.body.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-
-      let W, H;
-      let mouseX = -1000, mouseY = -1000;
-      const PARTICLE_COUNT = 50;
-      const particles = [];
-
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * (W || window.innerWidth);
-          this.y = Math.random() * (H || window.innerHeight);
-          this.vx = (Math.random() - 0.5) * 0.5;
-          this.vy = (Math.random() - 0.5) * 0.5;
-          this.r = 1.5 + Math.random() * 2;
-          this.alpha = 0.3 + Math.random() * 0.4;
-          this.hue = Math.random() > 0.5 ? 240 : 180; // indigo or cyan tint
-        }
-      }
-
-      function init() {
-        W = window.innerWidth;
-        H = window.innerHeight;
-        const DPR = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = W * DPR;
-        canvas.height = H * DPR;
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        if (particles.length === 0) {
-          for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
-        }
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, W, H);
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-
-        particles.forEach(p => {
-          // Gravity toward mouse
-          const dx = mouseX - p.x;
-          const dy = mouseY - p.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 250 && dist > 10) {
-            const force = 0.5 / dist;
-            p.vx += dx * force;
-            p.vy += dy * force;
-          }
-
-          // Damping
-          p.vx *= 0.98;
-          p.vy *= 0.98;
-
-          p.x += p.vx;
-          p.y += p.vy;
-
-          // Wrap edges
-          if (p.x < -10) p.x = W + 10;
-          if (p.x > W + 10) p.x = -10;
-          if (p.y < -10) p.y = H + 10;
-          if (p.y > H + 10) p.y = -10;
-
-          const color = isLight
-            ? `hsla(${p.hue}, 60%, 45%, ${p.alpha * 0.5})`
-            : `hsla(${p.hue}, 70%, 70%, ${p.alpha})`;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = color;
-          ctx.fill();
-        });
-
-        // Draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 120) {
-              const alpha = (1 - dist / 120) * (isLight ? 0.08 : 0.15);
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = isLight
-                ? `rgba(79,70,229,${alpha})`
-                : `rgba(130,140,255,${alpha})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-
-        requestAnimationFrame(animate);
-      }
-
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      window.addEventListener('resize', init);
-      init();
-      animate();
-    })();
+    // GRAVITY PARTICLES REMOVED — was running N² (1,225) distance checks per frame at 60fps
 
     // ============================================
     // ⏰ TIME-AWARE DYNAMIC THEME TINTING
@@ -4557,36 +4428,7 @@
     });
   </script>
 
-  <!-- Particles.js -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script>
-    if (window.particlesJS) {
-      particlesJS("particles-js", {
-        "particles": {
-          "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-          "color": { "value": "#6366f1" },
-          "shape": { "type": "circle" },
-          "opacity": { "value": 0.35, "random": true },
-          "size": { "value": 2.5, "random": true },
-          "line_linked": { "enable": true, "distance": 150, "color": "#6366f1", "opacity": 0.25, "width": 1 },
-          "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
-        },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {
-            "onhover": { "enable": true, "mode": "grab" },
-            "onclick": { "enable": true, "mode": "push" },
-            "resize": true
-          },
-          "modes": {
-            "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
-            "push": { "particles_nb": 4 }
-          }
-        },
-        "retina_detect": true
-      });
-    }
-  </script>
+  <!-- Particles.js REMOVED — redundant with galaxy canvas, was adding an extra rAF loop + 80 particles -->
 
   <!-- Firebase SDKs -->
   <script type="module">
@@ -4669,48 +4511,9 @@
     // Initialize
     initVisitorCounter();
 
-    // ============================================
-    // FEATURE 1: SMOOTH PAGE-LEAVE TRANSITION
-    // ============================================
-    (function initPageLeave() {
-      const overlay = document.getElementById('pageLeaveOverlay');
-      if (!overlay) return;
-      document.querySelectorAll('a[target="_blank"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-          const href = this.href;
-          e.preventDefault();
-          overlay.classList.add('active');
-          setTimeout(() => {
-            window.open(href, '_blank', 'noopener,noreferrer');
-            setTimeout(() => overlay.classList.remove('active'), 400);
-          }, 500);
-        });
-      });
-    })();
+    // PAGE-LEAVE TRANSITION — REMOVED (was blocking external links with 500ms delay via e.preventDefault)
 
-    // ============================================
-    // FEATURE 2: TAB ATTENTION GRABBER
-    // ============================================
-    (function initTabAttention() {
-      const originalTitle = document.title;
-      let blinkInterval = null;
-      const messages = ["Come back! 👋", "Miss you! 💜", "Still here ⏳"];
-      let msgIdx = 0;
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          msgIdx = 0;
-          document.title = messages[0];
-          blinkInterval = setInterval(() => {
-            msgIdx = (msgIdx + 1) % messages.length;
-            document.title = messages[msgIdx];
-          }, 2000);
-        } else {
-          clearInterval(blinkInterval);
-          blinkInterval = null;
-          document.title = originalTitle;
-        }
-      });
-    })();
+    // TAB ATTENTION GRABBER — REMOVED (conflicted with Dynamic Page Title above)
 
     // ============================================
     // FEATURE 3: COPY EMAIL TO CLIPBOARD
