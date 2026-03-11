@@ -47,7 +47,6 @@
         <a href="mailto:work.oshimkhan@gmail.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
       </div>
       <div class="nav-right-group">
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
         <ul class="nav-links" id="navLinks">
           <li><a href="#about" class="active" data-i18n="nav_about">About</a></li>
           <li><a href="#news" data-i18n="nav_news">News</a></li>
@@ -55,19 +54,20 @@
           <li><a href="#projects" data-i18n="nav_proj">Projects</a></li>
           <li><a href="#publications" data-i18n="nav_pub">Publications</a></li>
           <li><a href="data/Update_Resume(7).pdf" target="_blank" rel="noopener noreferrer">CV</a></li>
-          <li>
-            <div class="lang-switcher" id="langSwitcher">
-              <button class="lang-btn" id="langBtn" aria-label="Switch language"><i class="bi bi-translate"></i> <span id="langLabel">EN</span></button>
-              <div class="lang-dropdown" id="langDropdown">
-                <button data-lang="en" class="lang-opt active">🇬🇧 English</button>
-                <button data-lang="de" class="lang-opt">🇩🇪 Deutsch</button>
-                <button data-lang="ne" class="lang-opt">🇳🇵 नेपाली</button>
-                <button data-lang="hi" class="lang-opt">🇮🇳 हिन्दी</button>
-              </div>
-            </div>
-          </li>
-          <li><button class="theme-btn" id="themeToggle" aria-label="Toggle theme"><i class="bi bi-brightness-high-fill icon-sun"></i><i class="bi bi-moon-fill icon-moon"></i></button></li>
         </ul>
+        <div class="nav-controls">
+          <div class="lang-switcher" id="langSwitcher">
+            <button class="lang-btn" id="langBtn" aria-label="Switch language"><i class="bi bi-translate"></i> <span id="langLabel">EN</span></button>
+            <div class="lang-dropdown" id="langDropdown">
+              <button data-lang="en" class="lang-opt active">🇬🇧 English</button>
+              <button data-lang="de" class="lang-opt">🇩🇪 Deutsch</button>
+              <button data-lang="ne" class="lang-opt">🇳🇵 नेपाली</button>
+              <button data-lang="hi" class="lang-opt">🇮🇳 हिन्दी</button>
+            </div>
+          </div>
+          <button class="theme-btn" id="themeToggle" aria-label="Toggle theme"><i class="bi bi-brightness-high-fill icon-sun"></i><i class="bi bi-moon-fill icon-moon"></i></button>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation"><i class="bi bi-list"></i></button>
+        </div>
       </div>
     </div>
   </nav>
